@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
 export default function Navbar() {
@@ -13,7 +12,7 @@ export default function Navbar() {
       setScrolled(scrollPosition > 10);
       
       // Update active section based on scroll position
-      const sections = ['home', 'about', 'experience', 'projects', 'contact'];
+      const sections = ['home', 'about', 'projects', 'experience', 'contact'];
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
@@ -31,41 +30,51 @@ export default function Navbar() {
   }, []);
 
   const navItems = [
-    { name: 'Home', href: '/' },
-    { name: 'About', href: '/about' },
-    { name: 'Experience', href: '/experience' },
-    { name: 'Projects', href: '/projects' },
-    { name: 'Contact', href: '/contact' },
+    { name: 'Home', id: 'home' },
+    { name: 'About', id: 'about' },
+    { name: 'Projects', id: 'projects' },
+    { name: 'Experience', id: 'experience' },
+    { name: 'Contact', id: 'contact' },
   ];
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      window.scrollTo({
+        top: element.offsetTop - 80, // Offset for the navbar
+        behavior: 'smooth'
+      });
+    }
+  };
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 px-4 py-4 transition-all duration-300 ${
       scrolled ? 'backdrop-filter backdrop-blur-md bg-[var(--background)]/80 shadow-lg' : ''
     }`}>
       <div className="max-w-6xl mx-auto flex items-center justify-between">
-        <Link 
-          href="/" 
+        <button 
+          onClick={() => scrollToSection('home')}
           className="font-bold text-xl"
         >
           <span className="gradient-text">Kyrstin Kauchak</span>
-        </Link>
+        </button>
         
         <div className="hidden md:flex space-x-1">
           {navItems.map((item) => (
-            <Link
+            <button
               key={item.name}
-              href={item.href}
+              onClick={() => scrollToSection(item.id)}
               className={`px-4 py-2 rounded-md transition-all relative ${
-                activeSection === item.href.replace('/', '') || (item.href === '/' && activeSection === 'home')
+                activeSection === item.id 
                   ? 'text-[var(--accent)]'
                   : 'text-[var(--text)] hover:text-[var(--primary)]'
               }`}
             >
               {item.name}
-              {(activeSection === item.href.replace('/', '') || (item.href === '/' && activeSection === 'home')) && (
+              {activeSection === item.id && (
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[var(--accent)] rounded-full"></span>
               )}
-            </Link>
+            </button>
           ))}
         </div>
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 
 const Projects = () => {
@@ -9,7 +8,7 @@ const Projects = () => {
       title: 'Data Analytics Dashboard',
       description: 'A comprehensive dashboard for visualizing business metrics and KPIs with interactive charts and filters.',
       technologies: ['React', 'TypeScript', 'D3.js', 'Node.js', 'Express'],
-      image: '/projects/data-dashboard.jpg', // Placeholder - you'll need to add actual images
+      color: 'from-[var(--primary)]/20 to-[var(--secondary)]/20',
       link: 'https://github.com/CoffeeCat0214/data-dashboard'
     },
     {
@@ -17,7 +16,7 @@ const Projects = () => {
       title: 'E-Commerce Platform',
       description: 'A full-stack e-commerce solution with product catalog, shopping cart, payment processing, and user authentication.',
       technologies: ['Next.js', 'MongoDB', 'Stripe API', 'Tailwind CSS', 'Auth0'],
-      image: '/projects/ecommerce.jpg', // Placeholder
+      color: 'from-[var(--secondary)]/20 to-[var(--accent)]/20',
       link: 'https://github.com/CoffeeCat0214/ecommerce-platform'
     },
     {
@@ -25,7 +24,7 @@ const Projects = () => {
       title: 'Machine Learning Pipeline',
       description: 'An end-to-end ML pipeline for data processing, model training, evaluation, and deployment with automated workflows.',
       technologies: ['Python', 'TensorFlow', 'AWS Lambda', 'Docker', 'Kubernetes'],
-      image: '/projects/ml-pipeline.jpg', // Placeholder
+      color: 'from-[var(--accent)]/20 to-[var(--primary)]/20',
       link: 'https://github.com/CoffeeCat0214/ml-pipeline'
     },
     {
@@ -33,7 +32,7 @@ const Projects = () => {
       title: 'Personal Finance Tracker',
       description: 'A web application that helps users manage expenses, track investments, and set financial goals with visualization tools.',
       technologies: ['React', 'Firebase', 'Chart.js', 'Material UI', 'PWA'],
-      image: '/projects/finance-tracker.jpg', // Placeholder
+      color: 'from-[var(--secondary)]/20 to-[var(--primary)]/20',
       link: 'https://github.com/CoffeeCat0214/finance-tracker'
     }
   ];
@@ -51,8 +50,7 @@ const Projects = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {projects.map((project) => (
             <div key={project.id} className="glass-card overflow-hidden futuristic-border">
-              <div className="h-48 bg-[var(--primary)]/10 relative">
-                {/* Placeholder for project images */}
+              <div className={`h-48 bg-gradient-to-br ${project.color} relative`}>
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span className="text-2xl opacity-70">{project.title}</span>
                 </div>

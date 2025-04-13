@@ -21,6 +21,16 @@ export default function Hero() {
     return () => clearInterval(typingInterval);
   }, []);
 
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      window.scrollTo({
+        top: element.offsetTop - 80,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <section id="home" className="min-h-screen flex flex-col justify-center items-center px-4 pt-16">
       <div className="max-w-4xl w-full glass-card p-8 md:p-12 futuristic-border">
@@ -42,12 +52,15 @@ export default function Hero() {
             </p>
             
             <div className="flex flex-wrap gap-4">
-              <Link href="/contact" className="btn-primary">
+              <button onClick={() => scrollToSection('contact')} className="btn-primary">
                 Contact Me
-              </Link>
-              <Link href="/projects" className="px-6 py-2 border border-[var(--accent)] text-[var(--accent)] font-semibold rounded-md transition-all hover:bg-[var(--accent)]/10">
+              </button>
+              <button 
+                onClick={() => scrollToSection('projects')} 
+                className="px-6 py-2 border border-[var(--accent)] text-[var(--accent)] font-semibold rounded-md transition-all hover:bg-[var(--accent)]/10"
+              >
                 View My Work
-              </Link>
+              </button>
             </div>
           </div>
           
