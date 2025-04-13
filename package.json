@@ -9,7 +9,7 @@
     "lint": "next lint",
     "export": "next build",
     "export:no-lint": "ESLINT_SKIP=true next build",
-    "deploy:s3": "npm run export:no-lint && aws s3 sync out/ s3://YOUR-BUCKET-NAME --delete"
+    "deploy:s3": "npm run export:no-lint && aws s3 sync out/ s3://kyrstin-portfolio-2024 --delete"
   },
   "dependencies": {
     "react": "^19.0.0",

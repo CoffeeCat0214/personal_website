@@ -5,6 +5,10 @@ const nextConfig: NextConfig = {
   // The following line ensures assets work correctly with S3 hosting
   assetPrefix: '/',
   distDir: 'out',
+  // Configure images to work with static export
+  images: {
+    unoptimized: true,
+  },
   // Disable ESLint during build
   eslint: {
     ignoreDuringBuilds: true,

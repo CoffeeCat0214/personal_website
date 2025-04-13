@@ -1,10 +1,23 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 
-export default function Hero() {
+interface CatImageProps {
+  src: string;
+  alt: string;
+  caption?: string;
+}
+
+interface HeroProps {
+  catImage?: CatImageProps;
+}
+
+export default function Hero({ catImage }: HeroProps) {
   const [typedText, setTypedText] = useState('');
+  const [typedBuddyText, setTypedBuddyText] = useState('');
   const fullText = 'Software Engineer | Data Professional | Agile Leader';
+  const buddyTitleText = 'Meet my coding buddy!';
   
   useEffect(() => {
     let index = 0;
@@ -14,21 +27,24 @@ export default function Hero() {
         index++;
       } else {
         clearInterval(typingInterval);
+        
+        // Start typing buddy text after main text is complete
+        let buddyIndex = 0;
+        const buddyTypingInterval = setInterval(() => {
+          if (buddyIndex <= buddyTitleText.length) {
+            setTypedBuddyText(buddyTitleText.slice(0, buddyIndex));
+            buddyIndex++;
+          } else {
+            clearInterval(buddyTypingInterval);
+          }
+        }, 100);
+        
+        return () => clearInterval(buddyTypingInterval);
       }
     }, 75);
 
     return () => clearInterval(typingInterval);
   }, []);
-
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      window.scrollTo({
-        top: element.offsetTop - 80,
-        behavior: 'smooth'
-      });
-    }
-  };
 
   return (
     <section id="home" className="min-h-screen flex flex-col justify-center items-center px-4 pt-16">
@@ -51,26 +67,39 @@ export default function Hero() {
             </p>
             
             <div className="flex flex-wrap gap-4">
-              <button onClick={() => scrollToSection('contact')} className="btn-primary">
+              <a href="#contact" className="btn-primary">
                 Contact Me
-              </button>
-              <button 
-                onClick={() => scrollToSection('projects')} 
+              </a>
+              <a 
+                href="#projects" 
                 className="px-6 py-2 border border-[var(--accent)] text-[var(--accent)] font-semibold rounded-md transition-all hover:bg-[var(--accent)]/10"
               >
                 View My Work
-              </button>
+              </a>
             </div>
           </div>
           
-          <div className="flex-1 flex justify-center">
+          <div className="flex-1 flex justify-center flex-col items-center">
             <div className="w-64 h-64 rounded-full overflow-hidden border-4 border-[var(--primary)] shadow-lg shadow-[var(--primary)]/20 relative">
-              {/* Replace with your actual image */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/50 via-[var(--secondary)]/30 to-[var(--accent)]/40 mix-blend-overlay" />
-              <div className="w-full h-full bg-gradient-to-br from-[var(--primary)]/20 to-[var(--accent)]/20 flex items-center justify-center">
-                <span className="text-6xl">KK</span>
-              </div>
+              {/* Cat profile image */}
+              <Image 
+                src={catImage?.src || "/cat-profile.png"} 
+                alt={catImage?.alt || "Cat Profile"} 
+                width={256} 
+                height={256} 
+                className="object-cover"
+                priority
+              />
+              {/* Overlay gradient effect */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/30 via-transparent to-[var(--accent)]/30 mix-blend-overlay" />
             </div>
+            {catImage?.src && (
+              <div className="mt-3 text-center">
+                <h2 className="text-lg font-medium">
+                  <span className="gradient-text">{typedBuddyText}</span><span className="animate-pulse">|</span>
+                </h2>
+              </div>
+            )}
           </div>
         </div>
         
@@ -87,7 +116,7 @@ export default function Hero() {
               <circle cx="4" cy="4" r="2"></circle>
             </svg>
           </a>
-          <a href="mailto:your-email@example.com" className="text-[var(--text)]/70 hover:text-[var(--accent)] transition-colors">
+          <a href="mailto:kauchakmk@gmail.com" className="text-[var(--text)]/70 hover:text-[var(--accent)] transition-colors">
             <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
               <polyline points="22,6 12,13 2,6"></polyline>

@@ -37,33 +37,23 @@ export default function Navbar() {
     { name: 'Contact', id: 'contact' },
   ];
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      window.scrollTo({
-        top: element.offsetTop - 80, // Offset for the navbar
-        behavior: 'smooth'
-      });
-    }
-  };
-
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 px-4 py-4 transition-all duration-300 ${
       scrolled ? 'backdrop-filter backdrop-blur-md bg-[var(--background)]/80 shadow-lg' : ''
     }`}>
       <div className="max-w-6xl mx-auto flex items-center justify-between">
-        <button 
-          onClick={() => scrollToSection('home')}
+        <a 
+          href="#home"
           className="font-bold text-xl"
         >
           <span className="gradient-text">Kyrstin Kauchak</span>
-        </button>
+        </a>
         
         <div className="hidden md:flex space-x-1">
           {navItems.map((item) => (
-            <button
+            <a
               key={item.name}
-              onClick={() => scrollToSection(item.id)}
+              href={`#${item.id}`}
               className={`px-4 py-2 rounded-md transition-all relative ${
                 activeSection === item.id 
                   ? 'text-[var(--accent)]'
@@ -74,7 +64,7 @@ export default function Navbar() {
               {activeSection === item.id && (
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[var(--accent)] rounded-full"></span>
               )}
-            </button>
+            </a>
           ))}
         </div>
 

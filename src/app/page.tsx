@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Hero from '../components/Hero';
 import About from '../components/About';
 import Projects from '../components/Projects';
@@ -5,8 +6,11 @@ import Projects from '../components/Projects';
 
 export default function Home() {
   return (
-    <main className="min-h-screen">
-      <Hero />
+    <>
+      <Hero catImage={{
+        src: "/images/cat-profile.png",
+        alt: "My coding buddy"
+      }} />
       <About />
       <Projects />
       {/* Experience and Contact sections will be added here */}
@@ -17,23 +21,9 @@ export default function Home() {
             <div className="space-y-8">
               <div className="border-l-2 border-[var(--primary)] pl-6 relative">
                 <div className="absolute w-4 h-4 bg-[var(--primary)] rounded-full -left-[9px] top-0"></div>
-                <h3 className="text-xl font-semibold">Senior Software Engineer</h3>
-                <p className="text-[var(--secondary)] mb-2">TechCorp Inc. | 2021 - Present</p>
+                <h3 className="text-xl font-semibold">Software Engineer II</h3>
+                <p className="text-[var(--secondary)] mb-2">Data Engineering | 2022- Present</p>
                 <p className="text-[var(--text)]/80">Led the development of microservices architecture, improving system reliability by 40%. Mentored junior developers and implemented CI/CD pipelines.</p>
-              </div>
-              
-              <div className="border-l-2 border-[var(--primary)] pl-6 relative">
-                <div className="absolute w-4 h-4 bg-[var(--primary)] rounded-full -left-[9px] top-0"></div>
-                <h3 className="text-xl font-semibold">Software Developer</h3>
-                <p className="text-[var(--secondary)] mb-2">DataSolutions Co. | 2018 - 2021</p>
-                <p className="text-[var(--text)]/80">Built data processing pipelines and analytics dashboards. Optimized database queries resulting in 30% faster reporting.</p>
-              </div>
-              
-              <div className="border-l-2 border-[var(--primary)] pl-6 relative">
-                <div className="absolute w-4 h-4 bg-[var(--primary)] rounded-full -left-[9px] top-0"></div>
-                <h3 className="text-xl font-semibold">Junior Developer</h3>
-                <p className="text-[var(--secondary)] mb-2">WebStudio Agency | 2016 - 2018</p>
-                <p className="text-[var(--text)]/80">Developed responsive websites and web applications for various clients. Worked with React, Node.js, and PostgreSQL.</p>
               </div>
             </div>
           </div>
@@ -58,8 +48,8 @@ export default function Home() {
                       <polyline points="22,6 12,13 2,6"></polyline>
                     </svg>
                   </div>
-                  <a href="mailto:kyrstin@example.com" className="text-[var(--text)] hover:text-[var(--primary)]">
-                    kyrstin@example.com
+                  <a href="mailto:kauchakmk@gmail.com" className="text-[var(--text)] hover:text-[var(--primary)]">
+                    kauchakmk@gmail.com
                   </a>
                 </div>
                 
@@ -95,13 +85,13 @@ export default function Home() {
                       <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
                     </svg>
                   </div>
-                  <span className="text-[var(--text)]">San Francisco, CA</span>
+                  <span className="text-[var(--text)]">New York, New York</span>
                 </div>
               </div>
               
               <div className="text-center">
                 <a 
-                  href="mailto:kyrstin@example.com" 
+                  href="mailto:kauchakmk@gmail.com" 
                   className="btn-primary inline-block"
                 >
                   Send Message
@@ -111,6 +101,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-    </main>
+    </>
   );
 }

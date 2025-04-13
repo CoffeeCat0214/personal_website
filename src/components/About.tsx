@@ -7,22 +7,12 @@ const About = () => {
         <h2 className="text-3xl font-bold mb-8 gradient-text">About Me</h2>
         
         <div className="glass-card p-8 mb-10">
-          <p className="mb-6 text-lg">
-            I am a passionate software professional with a diverse background in engineering, 
-            data analysis, and agile methodologies. With a strong foundation in both technical 
-            and leadership skills, I excel at bridging the gap between complex technical concepts 
-            and business needs.
-          </p>
-          <p className="mb-6 text-lg">
-            My experience spans across full-stack development, data engineering, and project 
-            management, allowing me to approach problems with a holistic perspective. I'm 
-            dedicated to creating efficient, scalable solutions that drive business value while 
-            maintaining high standards of code quality.
-          </p>
           <p className="text-lg">
-            When I'm not coding, I enjoy expanding my knowledge through continuous learning, 
-            participating in tech communities, and exploring new technologies that push the 
-            boundaries of what's possible.
+            Backend Software Engineer with 3+ years of experience designing scalable, data-driven systems in cloud-native environments (AWS). 
+            Proven track record building distributed Spark-based ETL pipelines and performant APIs used across high-traffic adtech platforms. 
+            Proficient in Java, Scala, and Python, with a focus on system efficiency, observability, and iterative, test-driven development. 
+            Skilled at working across the stack—from infrastructure to application logic—and passionate about building resilient microservices 
+            and ML-adjacent data systems that connect people with meaningful outcomes.
           </p>
         </div>
         
@@ -30,9 +20,9 @@ const About = () => {
           <div className="glass-card p-6 futuristic-border">
             <h3 className="text-xl font-semibold mb-4">Skills</h3>
             <div className="flex flex-wrap gap-2">
-              {['JavaScript', 'TypeScript', 'React', 'Node.js', 'Python', 'SQL', 
-                'AWS', 'Docker', 'Data Analysis', 'Agile Methodologies', 
-                'Project Management', 'CI/CD'].map((skill) => (
+              {['Java', 'Scala', 'Python', 'AWS', 'Spark', 'ETL', 
+                'Microservices', 'API Design', 'Test-Driven Development', 
+                'Cloud-Native', 'Data Systems', 'Observability'].map((skill) => (
                 <span 
                   key={skill} 
                   className="px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/30"
@@ -45,13 +35,13 @@ const About = () => {
           
           <div className="glass-card p-6 futuristic-border">
             <h3 className="text-xl font-semibold mb-4">Education</h3>
-            <div className="mb-4">
-              <h4 className="font-medium">Master's in Computer Science</h4>
-              <p className="text-sm opacity-80">University of Utah, 2018-2020</p>
-            </div>
             <div>
-              <h4 className="font-medium">Bachelor's in Business Administration</h4>
-              <p className="text-sm opacity-80">University of Phoenix, 2014-2018</p>
+              <h4 className="font-medium">Bachelor of Science in Software Engineering</h4>
+              <p className="text-sm opacity-80">Miami University, Oxford, OH | 2019-2022</p>
+              <ul className="mt-2 text-sm opacity-80 list-disc list-inside">
+                <li>Cumulative GPA: 4.00/4.00</li>
+                <li>Latin Honors: Summa Cum Laude</li>
+              </ul>
             </div>
           </div>
         </div>

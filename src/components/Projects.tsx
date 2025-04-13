@@ -1,39 +1,24 @@
+'use client';
+
 import React from 'react';
-import Link from 'next/link';
 
 const Projects = () => {
   const projects = [
     {
       id: 1,
-      title: 'Data Analytics Dashboard',
-      description: 'A comprehensive dashboard for visualizing business metrics and KPIs with interactive charts and filters.',
-      technologies: ['React', 'TypeScript', 'D3.js', 'Node.js', 'Express'],
+      title: 'CodeHuskAI',
+      description: 'An AI-driven code refactoring agent that analyzes repositories, enforces best practices, and suggests automated improvements without introducing breaking changes. Inspired by AI-driven learning and evaluation tools.',
+      technologies: ['Python', 'Machine Learning', 'NLP', 'Git Integration', 'CI/CD'],
       color: 'from-[var(--primary)]/20 to-[var(--secondary)]/20',
-      link: 'https://github.com/CoffeeCat0214/data-dashboard'
+      link: 'https://github.com/CoffeeCat0214/CodeHuskAI'
     },
     {
       id: 2,
-      title: 'E-Commerce Platform',
-      description: 'A full-stack e-commerce solution with product catalog, shopping cart, payment processing, and user authentication.',
-      technologies: ['Next.js', 'MongoDB', 'Stripe API', 'Tailwind CSS', 'Auth0'],
+      title: 'CremeAI',
+      description: 'Inspired by my cat, Crème Brûlée, CremeAI is an intelligent Discord chatbot powered by OpenAI. Built on a serverless AWS Lambda architecture, it leverages OpenAI\'s language models for natural interactions, integrates DynamoDB caching for fast responses, and implements rate limiting for fair usage.',
+      technologies: ['AWS Lambda', 'DynamoDB', 'OpenAI API', 'Discord API', 'CloudWatch'],
       color: 'from-[var(--secondary)]/20 to-[var(--accent)]/20',
-      link: 'https://github.com/CoffeeCat0214/ecommerce-platform'
-    },
-    {
-      id: 3,
-      title: 'Machine Learning Pipeline',
-      description: 'An end-to-end ML pipeline for data processing, model training, evaluation, and deployment with automated workflows.',
-      technologies: ['Python', 'TensorFlow', 'AWS Lambda', 'Docker', 'Kubernetes'],
-      color: 'from-[var(--accent)]/20 to-[var(--primary)]/20',
-      link: 'https://github.com/CoffeeCat0214/ml-pipeline'
-    },
-    {
-      id: 4,
-      title: 'Personal Finance Tracker',
-      description: 'A web application that helps users manage expenses, track investments, and set financial goals with visualization tools.',
-      technologies: ['React', 'Firebase', 'Chart.js', 'Material UI', 'PWA'],
-      color: 'from-[var(--secondary)]/20 to-[var(--primary)]/20',
-      link: 'https://github.com/CoffeeCat0214/finance-tracker'
+      link: 'https://github.com/CoffeeCat0214/CremeAI'
     }
   ];
 
@@ -44,7 +29,7 @@ const Projects = () => {
         
         <p className="mb-12 text-lg max-w-3xl">
           Here are some of the projects I've worked on, showcasing my skills in software development,
-          data engineering, and creative problem-solving.
+          AI integration, and cloud architecture.
         </p>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -70,29 +55,20 @@ const Projects = () => {
                     </span>
                   ))}
                 </div>
-                
-                <Link 
-                  href={project.link} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-block px-4 py-2 border border-[var(--primary)] text-[var(--primary)] rounded-md hover:bg-[var(--primary)]/10 transition-colors"
-                >
-                  View Project
-                </Link>
               </div>
             </div>
           ))}
         </div>
         
         <div className="mt-12 text-center">
-          <Link 
+          <a 
             href="https://github.com/CoffeeCat0214" 
             target="_blank" 
             rel="noopener noreferrer"
             className="inline-block px-6 py-3 bg-[var(--primary)] text-white rounded-md hover:bg-[var(--primary)]/90 transition-colors"
           >
             See More on GitHub
-          </Link>
+          </a>
         </div>
       </div>
     </section>
