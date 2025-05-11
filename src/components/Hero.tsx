@@ -55,14 +55,15 @@ export default function Hero({ catImage }: HeroProps) {
               Hi, I'm <span className="gradient-text">Kyrstin Kauchak</span>
             </h1>
             
-            <div className="h-8 mb-6">
-              <p className="text-xl text-[var(--secondary)] opacity-80">
+            <div className="h-12 mb-8">
+              <p className="text-xl md:text-2xl text-[var(--secondary)] opacity-80 tracking-wide">
                 {typedText}<span className="animate-pulse">|</span>
               </p>
             </div>
             
-            <p className="text-lg mb-8 text-[var(--text)]/80 leading-relaxed">
+            <p className="text-lg mb-10 text-[var(--text)]/80 leading-relaxed md:leading-loose">
               A passionate software professional with expertise in creating innovative solutions that drive business value.
+              <br className="hidden md:block" />
               I combine technical skills with strategic thinking to deliver impactful results.
             </p>
             

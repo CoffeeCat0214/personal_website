@@ -9,7 +9,8 @@
     "lint": "next lint",
     "export": "next build",
     "export:no-lint": "ESLINT_SKIP=true next build",
-    "deploy:s3": "npm run export:no-lint && aws s3 sync out/ s3://kyrstin-portfolio-2024 --delete"
+    "deploy:s3": "npm run export:no-lint && aws s3 sync out/ s3://kyrstin-portfolio-2024 --delete",
+    "deploy:gh-pages": "rm -rf out && npm run export:no-lint && cd out && touch .nojekyll && git init && git add . && git commit -m \"Deploy to GitHub Pages\" && git branch -M gh-pages && git push -f origin gh-pages"
   },
   "dependencies": {
     "react": "^19.0.0",
