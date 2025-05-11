@@ -49,6 +49,8 @@
     border: 1px solid var(--accent);
     border-radius: inherit;
     clip-path: polygon(0 0, 100% 0, 100% 70%, 70% 100%, 0 100%);
+    pointer-events: none;
+    z-index: 0;
   }
 }
 
