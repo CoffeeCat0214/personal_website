@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { navSections, site } from "@/content";
+import { HOME_ROUTE, navSections, site } from "@/content";
 import styles from "./Nav.module.css";
 
 /* The source design hides its nav links below 640px with no alternative, on the
@@ -18,8 +19,40 @@ import styles from "./Nav.module.css";
    does. */
 
 export function Nav() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string | null>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (pathname !== HOME_ROUTE) {
+      setActiveSection(null);
+      return;
+    }
+
+    const sections = navSections
+      .map((section) => document.getElementById(section.href.split("#")[1]))
+      .filter((section): section is HTMLElement => section instanceof HTMLElement);
+
+    if (!sections.length || !("IntersectionObserver" in window)) return;
+
+    const visible = new Set<HTMLElement>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) visible.add(entry.target as HTMLElement);
+          else visible.delete(entry.target as HTMLElement);
+        }
+
+        const current = sections.find((section) => visible.has(section));
+        if (current) setActiveSection(current.id);
+      },
+      { rootMargin: "-25% 0px -60% 0px", threshold: 0 }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [pathname]);
 
   const close = useCallback((returnFocus: boolean) => {
     setOpen(false);
@@ -56,7 +89,7 @@ export function Nav() {
   return (
     <header className={styles.nav}>
       <div className={`wrap ${styles.inner}`}>
-        <Link className={styles.mark} href="/">
+        <Link className={styles.mark} href={`${HOME_ROUTE}#top`}>
           {site.name}
           <span className={styles.markRole}>{site.kind}</span>
         </Link>
@@ -66,11 +99,21 @@ export function Nav() {
             announced on every phone. */}
         <nav className={styles.desktopNav} aria-label="Sections">
           <ul className={styles.links}>
-            {navSections.map((section) => (
-              <li key={section.href}>
-                <Link href={section.href}>{section.label}</Link>
-              </li>
-            ))}
+            {navSections.map((section) => {
+              const sectionId = section.href.split("#")[1];
+
+              return (
+                <li key={section.href}>
+                  <Link
+                    href={section.href}
+                    aria-current={activeSection === sectionId ? "location" : undefined}
+                    onClick={() => setActiveSection(sectionId)}
+                  >
+                    {section.label}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </nav>
 
@@ -100,13 +143,24 @@ export function Nav() {
             aria-controls → this panel) is what gives the list its purpose. */}
         <div className="wrap">
           <ul>
-            {navSections.map((section) => (
-              <li key={section.href}>
-                <Link href={section.href} onClick={() => close(false)}>
-                  {section.label}
-                </Link>
-              </li>
-            ))}
+            {navSections.map((section) => {
+              const sectionId = section.href.split("#")[1];
+
+              return (
+                <li key={section.href}>
+                  <Link
+                    href={section.href}
+                    aria-current={activeSection === sectionId ? "location" : undefined}
+                    onClick={() => {
+                      setActiveSection(sectionId);
+                      close(false);
+                    }}
+                  >
+                    {section.label}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>

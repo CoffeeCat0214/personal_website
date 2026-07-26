@@ -18,7 +18,11 @@ import styles from "./CatMark.module.css";
    Decorative in every placement. The act numeral and heading beside it already
    name the section; a screen reader announcing "cat" once per act would be the
    same noise six times over. */
-export function CatMark({ variant = "rail" }: { variant?: "rail" | "panel" }) {
+export function CatMark({
+  variant = "rail",
+}: {
+  variant?: "rail" | "panel" | "tag";
+}) {
   return (
     /* eslint-disable-next-line @next/next/no-img-element -- see Hero.tsx; static
        export runs unoptimized, so next/image adds machinery around an already

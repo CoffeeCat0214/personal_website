@@ -1,31 +1,19 @@
 import Link from "next/link";
-import { hero, site } from "@/content";
+import { hero, heroFacts, HOME_ROUTE, site } from "@/content";
 import styles from "./Hero.module.css";
-
-/* The status line answers the first question a visitor has: is any of this real
-   yet. It read "In development" for an unbuilt story world.
-
-   Three cells, not four. The fourth was "Elsewhere -> GitHub", which is the
-   third link to the same profile above the fold once the nav and the contact
-   act are counted -- and it was the only cell answering a question nobody has
-   yet at the top of the page. Dropping it widens the remaining three rather
-   than leaving a gap, because the row is a fractional grid. */
-const facts = [
-  { key: "Flagship", value: "Shipped", status: true },
-  { key: "Built by", value: site.founder },
-  { key: "Based in", value: site.location },
-];
 
 /* The name is the h1 and the only display-size type on the page. It rides --u,
    so it scales as part of the composition; everything from the tagline down
-   stays in rem and honours the browser's font-size preference. */
+   stays in rem and honours the browser's font-size preference.
+
+   The fact row moved to the content module -- it was declared here, which made
+   this the one component holding its own copy. */
 export function Hero() {
   return (
-    /* Sage is also :root's default, so the class changes nothing visually here
-       -- but data-tone is what the scroll observer reads, and the hero has to
-       report a ground like every other band or the nav starts the page with
-       nothing to adopt. */
-    <section id="top" className={`${styles.hero} tone-sage`} data-tone="sage">
+    /* Pink is the landing ground; data-tone is what the scroll observer reads,
+       and the hero has to report a ground like every other band so the nav
+       starts on the same hue. */
+    <section id="top" className={`${styles.hero} tone-pink`} data-tone="pink">
       <div className="wrap">
         <div className={styles.top}>
           {/* Revealed per child rather than as one block. Reveal.tsx staggers
@@ -67,10 +55,10 @@ export function Hero() {
                 only true when there is no software. Contact stays secondary:
                 nobody gets in touch before they know what for. */}
             <div className={styles.actions} data-reveal>
-              <Link className="btn" href="/#extension">
+              <Link className="btn" href={`${HOME_ROUTE}#extension`}>
                 See the extension
               </Link>
-              <Link className="btn secondary" href="/#contact">
+              <Link className="btn secondary" href={`${HOME_ROUTE}#contact`}>
                 Get in touch
               </Link>
             </div>
@@ -84,10 +72,13 @@ export function Hero() {
             {/* eslint-disable-next-line @next/next/no-img-element -- static
                 export runs with images unoptimized, so next/image would add a
                 wrapper and lazy-loading machinery around an already-sized 38KB
-                asset. Eager and high priority: this is the LCP element.
+                asset. Eager and high priority: this is the LCP element of
+                /home/. The gate paints the same cat on its own route, so a
+                visitor arriving through the gate already has this in cache --
+                but /home/ is directly linkable and has to stand up cold.
 
-                The only full-colour placement of the cat on the page; every
-                other appearance is the masked silhouette in CatMark. Full
+                The only full-colour placement of the cat on this page;
+                every other appearance is the masked silhouette in CatMark. Full
                 colour is worth it exactly once, where there is nothing else
                 competing for attention.
 
@@ -112,7 +103,7 @@ export function Hero() {
         </div>
 
         <dl className={styles.facts} data-reveal>
-          {facts.map((fact) => (
+          {heroFacts.map((fact) => (
             <div className={styles.factCell} key={fact.key}>
               <dt className={styles.factKey}>{fact.key}</dt>
               <dd className={styles.factValue}>

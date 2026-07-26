@@ -23,7 +23,14 @@
    reason a five-ground page does not need five sets of component styles. */
 
 :root {
-  --font: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Headings only -- h1/h2/h3 and the gate. Never body copy: this is a
+     high-contrast display face and its thin strokes disappear at 17px, which is
+     the failure mode of every site that sets a whole page in its display font.
+     The serif fallback matters more than usual here; if Fraunces fails to load,
+     landing on Georgia keeps the contrast the layout was set against, whereas
+     falling through to the sans would silently undo the pairing. */
+  --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
   --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* The display unit. Reference editorial sites set `html { font-size: ~0.694vw }`
@@ -77,7 +84,7 @@
      fill = --ink, label = --paper -- which inherits the body-text ratio on
      every ground, and is what the reference board does with its logotype. */
 
-  /* Default ground. The hero and most acts run sage; :root carries it so an
+  /* Default work ground. The landing opts into pink; :root carries sage so an
      element outside any act is never unstyled. */
   --paper: #b8eb96;
   --panel: #c9f0ad;

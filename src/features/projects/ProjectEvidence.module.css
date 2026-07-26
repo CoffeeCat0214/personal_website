@@ -1,7 +1,11 @@
+/* A row of counts, each hung under its own hairline. The rules are what make
+   this read as a table of measurements rather than three numbers that happen to
+   be near each other, and they cost nothing on a system that already groups by
+   hairline everywhere else. */
 .metrics {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--s4) var(--s7);
+  gap: var(--s4) var(--s8);
   list-style: none;
   margin: 0;
   padding-top: var(--s2);
@@ -9,14 +13,27 @@
 
 .metric {
   display: grid;
-  gap: var(--s1);
+  gap: var(--s2);
+  padding-top: var(--s3);
+  border-top: 1px solid var(--rule);
+  min-width: 7rem;
 }
 
+/* Display scale, and this is the one place on the page where a number earns it.
+   The claim beside these is "no backend, no analytics, no host permissions";
+   these are the same sentence as evidence, and at heading size they read as a
+   caption to the figure instead of as the proof. A zero set large is the most
+   direct thing this project can say about itself.
+
+   Tabular figures because the three sit in a row and ragged digit widths would
+   put the labels out of step underneath them. */
 .metricValue {
   color: var(--ink);
-  font-size: var(--t-h3);
+  font-size: clamp(2.5rem, 4.4vw, 3.75rem);
   font-weight: 500;
-  letter-spacing: -0.02em;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
 }
 
 .metricLabel {

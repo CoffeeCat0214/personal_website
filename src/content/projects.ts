@@ -147,8 +147,12 @@ export const projects = [
 ] as const satisfies readonly Project[];
 
 export const featuredProject = projects[0];
-export const supportingProjects = projects.slice(1);
-export const projectPreviews = projects;
+/* Keep the homepage focused on the two projects the portfolio is actually
+   carrying right now. CodeHuskAI remains in the catalog so an old direct link
+   and its case study do not disappear, but it is no longer part of the public
+   work index or the homepage's project count. */
+export const supportingProjects = projects.filter((project) => project.slug === "cremeai");
+export const projectPreviews = [featuredProject, ...supportingProjects];
 
 export const projectRoutes = projects.map((project) => ({
   slug: project.slug,

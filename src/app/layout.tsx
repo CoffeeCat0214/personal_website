@@ -5,9 +5,6 @@ import "@/styles/base.css";
    avoid fighting the browser's own scrolling. Imported from the package rather
    than copied so it cannot drift from the version actually installed. */
 import "lenis/dist/lenis.css";
-import { Nav } from "@/components/site/Nav";
-import { Footer } from "@/components/site/Footer";
-import { SkipLink } from "@/components/ui/SkipLink";
 import { Reveal } from "@/features/motion/Reveal";
 import { MotionProvider } from "@/features/motion/MotionProvider";
 import { site } from "@/content";
@@ -46,27 +43,27 @@ export const metadata: Metadata = {
   },
 };
 
-/* Organization rather than Person. The masthead is a studio, and the structured
-   data should agree with it -- a Person entity here would tell Google the
-   opposite of what the page says.
+/* Person, not Organization. This was an Organization with a `founder` because
+   the masthead was a studio; the masthead is a person now, and structured data
+   that disagrees with the page it describes is worse than none -- it is the one
+   claim a crawler takes at face value.
 
-   `founder` keeps the human attached to it, which is what stops an Organization
-   with no named people reading as either much larger than it is, or as evasive.
-
-   The studio and its flagship extension share the name CoffeeCat. That is fine
-   for an Organization entity; if a SoftwareApplication entity for the extension
-   is ever added, it needs its own node rather than a second name on this one. */
+   `jobTitle` carries site.kind so the role a reader sees in the eyebrow is the
+   same string a crawler reads. If a SoftwareApplication entity for the CoffeeCat
+   extension is ever added, it needs its own node linked from here rather than
+   fields bolted onto this one. */
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "Organization",
+  "@type": "Person",
   name: site.name,
   url: SITE_URL,
+  jobTitle: site.kind,
   description: site.tagline,
   email: site.email,
-  founder: {
-    "@type": "Person",
-    name: site.founder,
-    sameAs: [site.github, site.linkedin],
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "New York",
+    addressRegion: "NY",
   },
   sameAs: [site.github, site.linkedin],
 };
@@ -75,12 +72,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-        {/* Sans only. The wordmark paints first at display size, so it is worth
-            the early fetch; the mono is label-sized and not render-blocking, and
-            preloading both would have them compete for the same connection. */}
+        {/* Sans and display, not mono. Both paint above the fold on the gate --
+            Fraunces sets the headline, Inter sets the three list items -- so a
+            swap on either is visible on the one screen that has to land. */}
         <link
           rel="preload"
-          href="/fonts/Geist-Variable.woff2"
+          href="/fonts/Fraunces-SemiBold.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin=""
+        />
+        <link
+          rel="preload"
+          href="/fonts/Inter-Variable.woff2"
           as="font"
           type="font/woff2"
           crossOrigin=""
@@ -93,11 +97,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
+      {/* No nav, footer, skip link or <main> here any more -- they belong to
+          (site)/layout.tsx, so that "/" can be the gate and nothing else. What
+          stays is what genuinely is global: the document, the tokens and fonts
+          imported above, and the motion layer, which has to be mounted for both
+          routes because the reveal system applies its hidden state at runtime
+          and a route without it would strand any [data-reveal] element it met. */}
       <body>
-        <SkipLink />
-        <Nav />
-        <main id="main">{children}</main>
-        <Footer />
+        {children}
         <Reveal />
         <MotionProvider />
       </body>

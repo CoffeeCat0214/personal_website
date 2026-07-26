@@ -1,0 +1,539 @@
+/* The entry gate: a front page, not a stack.
+
+   Four bands run the full measure -- masthead, display, columns, footer --
+   divided by two hairlines and one colour cut. Every band spans the same rail,
+   so the composition uses the whole window by construction rather than by
+   negotiation. That is the structural fix for the failure this file went through
+   twice: a single left column on a flat ground has no way to occupy a wide
+   viewport, and the two available escapes (leave the right half empty, or cap
+   the text so the emptiness looks intentional) are both worse than changing the
+   structure.
+
+   The one moment of asymmetry is the display band: type hard left, cat hard
+   right, air between them. That air is composition, not slack -- the bands above
+   and below it are full-width, which is what gives it permission to breathe. */
+
+.gate {
+  display: grid;
+  /* Masthead, display, columns, footer. The display band takes the 1fr, so slack
+     collects as a void above the headline where a front page wants it, and never
+     as a gap in front of the way out.
+
+     The footer was absolutely positioned in an early pass and it is worth
+     recording why it is not: against a grid container with a min-height the
+     abspos containing block did not resolve to the padding box the way the
+     bottom offset assumed, and it landed a clean 41px below the fold on a 900px
+     viewport. Its own auto row makes it always the last thing in the section and
+     always on-screen when the section fits. */
+  grid-template-rows: auto 1fr auto auto;
+  /* A clean 100dvh. This subtracted --nav-h while the gate was the first section
+     of the site page, because Nav is `position: sticky` and sticky elements
+     still take their space in flow -- the gate started 61px down and its bottom
+     edge fell off every viewport. On its own route there is no nav above it, so
+     the allowance would now be 61px of dead space at the bottom instead.
+
+     dvh rather than vh: on mobile Safari and Chrome the URL bar is counted in
+     vh, so 100vh is taller than what you can actually see. */
+  min-height: 100dvh;
+  /* Top only. The footer band paints to the bottom edge, so a bottom pad here
+     would be a sage stripe under a forest bar. */
+  padding-top: var(--s6);
+  /* Guards the right edge only. An `overflow: hidden` lived here once and was
+     actively harmful: `hidden` on one axis forces the other to `auto`, so when
+     the composition outgrew 100dvh the clip silently ate the way out rather than
+     letting the section grow. `clip` does not force the other axis, so the
+     vertical stays genuinely visible and a layout that does not fit is still a
+     layout you can see does not fit. */
+  overflow-x: clip;
+  /* The gate's own gutter. It does not run the site's centred .wrap -- see
+     .rail -- so it has to supply the inset .wrap would otherwise have given it.
+     Scales with the viewport so the frame is proportionate on a phone and on a
+     monitor without a breakpoint. */
+  --gutter: clamp(var(--s5), 4vw, var(--s9));
+}
+
+/* Wider than the site's shared .wrap, and that is the point. Every other route
+   runs a 1120px measure because it is a document read top to bottom; this screen
+   is a poster, and a 1120px column inside a 1470px window leaves 350px that the
+   composition has no way to reach. The rail here is the window minus its gutters,
+   capped only where a measure would genuinely stop being readable. */
+.rail {
+  width: min(1440px, calc(100vw - var(--gutter) * 2));
+  margin-inline: auto;
+}
+
+/* ---------- Masthead ---------- */
+
+.masthead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s5);
+  padding-bottom: var(--s3);
+  border-bottom: 1px solid var(--rule);
+}
+
+/* Mono rather than the grotesque. The name is set at label scale, and mono is
+   the site's filing voice -- it reads as a masthead stamp rather than as a
+   sentence that happens to be short. */
+.name {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: var(--t-small);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.meta {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s3);
+  margin: 0;
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: var(--t-label);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: right;
+}
+
+.sep {
+  color: var(--rule-strong);
+}
+
+/* ---------- Display band ---------- */
+
+.display {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s7);
+  /* Bottom-aligned onto the rule below, so the headline and the cat share a
+     floor. Centring them instead left each one hanging at its own height and the
+     band read as two unrelated objects. */
+  padding-block: var(--s7) var(--s6);
+  border-bottom: 1px solid var(--rule);
+}
+
+.displayCopy {
+  min-width: 0;
+}
+
+/* The screen's opening move, and the one place the site sets mono at display
+   scale. Fraunces owns the display tier everywhere else; it is deliberately not
+   used here, because "TL;DR" is a piece of terminal shorthand and setting it in
+   a high-contrast serif would dress up the one word on the site that should
+   arrive plain.
+
+   Sized against three axes at once, and all three earn their place: 25vw is the
+   proportional intent, 50dvh stops the headline from crowding the three bands
+   below it on a short window, and 22rem stops it running away on a 27" display
+   where 25vw would be 600px of type. The floor keeps it a headline on a handset.
+
+   The width is in ch because the face is monospaced, which is what makes the
+   typing animation exact rather than approximate: five characters at one advance
+   each, less the tracking correction. */
+.label {
+  --caret-w: 0.05em;
+  --caret-gap: 0.06em;
+  /* Five monospaced cells, less the tracking correction below, less the two
+     optical pulls on the semicolon in .punct, plus the reserved strip the caret
+     sits in. Every term is a real declaration elsewhere in this rule -- if any of
+     them changes, this changes with it, or the caret drifts off the last letter.
+     box-sizing is border-box globally, so the padding has to be added back here
+     or it would eat the R instead of sitting beside it. */
+  --label-w: calc(
+    5ch - 0.225em - 0.32em + var(--caret-gap) + var(--caret-w)
+  );
+
+  width: var(--label-w);
+  padding-right: calc(var(--caret-gap) + var(--caret-w));
+  margin: 0 0 var(--s3);
+  overflow: hidden;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: max(3rem, min(25vw, 50dvh, 22rem));
+  font-weight: 500;
+  line-height: 0.92;
+  /* Negative, where the same string carried +0.16em at body size. Tracking is a
+     correction for small type; a monospaced face at 320px already has more air
+     between its characters than any display setting wants, and the positive
+     value opened five letters into five separate objects.
+
+     This value is doing one specific job beyond that. Every glyph in a
+     monospaced face sits in a cell of the same width, so a narrow one gets the
+     difference as sidebearing -- and the semicolon is the narrowest character in
+     this string by a wide margin. At display size that read as "TL ; DR", three
+     objects instead of one word. Tracking cannot close a sidebearing, but pulling
+     every cell in by this much closes enough of it that the string reads whole. */
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  /* The caret is a right-anchored background, not a border and not a pseudo-
+     element, and each of those three was tried.
+
+     An ::after is wrong because it lives inside the clipped content, so it stays
+     hidden until the final frame -- a cursor that appears only once there is
+     nothing left to type. A border-right rides the animating edge correctly but
+     cannot be shorter than the line box, and at this size that meant a bar
+     running well above the caps and below the baseline, reading as a stray rule
+     rather than a cursor.
+
+     A background can do both. `background-position: right` is resolved against
+     the padding box, whose right edge is exactly what the width animation is
+     moving, so it tracks the typing edge like a border does -- and its height is
+     an independent value, so it can be cut to the cap height the letters
+     actually occupy. The 0.71em/0.07em pair is that, and it was measured off a
+     render rather than derived: Geist Mono's caps sit from roughly 0.07em to
+     0.78em down the line box at this line-height, so a caret on those numbers
+     starts a hair above the cap line and lands on the baseline. Retune it by
+     screenshot if the line-height moves. */
+  background-image: linear-gradient(var(--ink), var(--ink));
+  background-repeat: no-repeat;
+  background-size: var(--caret-w) 0.71em;
+  background-position: right 0 top 0.07em;
+  animation:
+    type 1.7s steps(5, end) 0.35s both,
+    caret 1.05s steps(2, jump-none) 0.35s infinite;
+}
+
+/* Width, not opacity or a clip-path: `steps(5)` across the element's width lands
+   the boundary exactly on a character edge every time, because every character
+   in a monospaced face is the same width. Any other property has to be tuned by
+   eye and drifts the moment the font-size clamp moves. */
+@keyframes type {
+  from {
+    width: 0;
+  }
+  to {
+    width: var(--label-w);
+  }
+}
+
+/* background-size does not interpolate meaningfully here and does not need to:
+   `steps(2, jump-none)` holds the `from` value for the first half of the cycle
+   and the `to` value for the second, which is a blink and not a fade. */
+@keyframes caret {
+  from {
+    background-size: var(--caret-w) 0.71em;
+  }
+  to {
+    background-size: var(--caret-w) 0;
+  }
+}
+
+/* The optical pull. See the note above `kern` in Gate.tsx for why the semicolon
+   needs it and letter-spacing cannot supply it. Symmetric, so the glyph stays
+   centred in what is left of its cell rather than sliding into a neighbour. */
+.punct {
+  margin-inline: -0.16em;
+}
+
+/* Fraunces, and small. It is still the page's <h1> and still the document's
+   accessible heading -- it just is not the loudest thing on the screen. The
+   serif here is the whole "glam" half of the pairing doing its one job on this
+   screen: a bracketed aside in the display face under five characters of
+   terminal mono is the site's thesis in two lines. Set well above the 17px floor
+   where Fraunces' thin strokes start to disappear. */
+.heading {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.375rem, 2.1vw, 1.875rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+/* Driven by height, not width: height is the axis the cat competes with the type
+   for, and a width cap that looks right on a 1440x900 laptop eats half a
+   1470x667 window. `flex: none` so it never gets squeezed by the headline beside
+   it.
+
+   No frame, no radius, no ground of its own: the source has real transparency
+   (22% of it is alpha 0), so it sits directly on the act's sage. No
+   image-rendering either, matching Hero.tsx -- the source is a high-resolution
+   illustration with a dither texture rather than a low-res sprite, so
+   `pixelated` would only crunch its own antialiasing.
+
+   420x539 is the intrinsic size of buddy.webp and half of buddy@2x.webp. The
+   400px ceiling keeps the rendered box inside that: past it a 2x display has no
+   more source pixels to draw from and the art goes soft. Raising it needs a new
+   export, not a new number. */
+.cat {
+  flex: none;
+  height: min(400px, 50dvh);
+  width: auto;
+}
+
+/* ---------- Columns ---------- */
+
+.items {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s8);
+  /* margin-block, never the `margin` shorthand. This is the one rule that also
+     carries .rail, and .rail's centring lives in `margin-inline: auto` -- a
+     shorthand here has the same specificity, wins on order, and silently resets
+     it, which drops the whole band to the viewport's left edge while every other
+     band stays on the rail. */
+  margin-block: 0;
+  padding: var(--s6) 0;
+  counter-reset: tldr;
+  list-style: none;
+}
+
+.item {
+  counter-increment: tldr;
+}
+
+/* Column rules, which is the one place this page draws a line that is not a band
+   boundary. Three columns of prose with nothing between them read as one
+   paragraph that wrapped strangely; the rule is what makes them three entries.
+   On the first column it would be a stray mark against the gutter, so only the
+   second and third carry one. */
+.item + .item {
+  border-left: 1px solid var(--rule);
+  padding-left: var(--s6);
+}
+
+/* Leading zeros. "01" sets a two-character column the way "1." cannot, and the
+   pair of digits is what makes the numeral read as an index entry rather than as
+   a bullet that lost its dot. */
+.item::before {
+  content: counter(tldr, decimal-leading-zero);
+  display: block;
+  margin-bottom: var(--s3);
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: var(--t-label);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  font-variant-numeric: tabular-nums;
+}
+
+.itemBody {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: var(--t-body);
+  line-height: 1.5;
+  /* pretty, not balance. Balance optimises each column in isolation and left one
+     three-line column beside a two-line one with a single word on its last line;
+     pretty targets the widow without evening out the columns against each
+     other. */
+  text-wrap: pretty;
+}
+
+/* Weight, not colour. A second colour on this screen would be the only other
+   chromatic event besides the cat, and the cat should keep that job. */
+.emphasis {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* ---------- Footer ---------- */
+
+/* No rule above it. The site's own doctrine is the reason: when a band paints
+   its own full-bleed ground the colour change IS the boundary, and a hairline on
+   top of it is a second, weaker statement of the same thing. */
+.footer {
+  padding-block: var(--s5);
+}
+
+.footerInner {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s7);
+}
+
+/* Set at body scale, not caption scale. It was the smallest text on the screen
+   while it was one of several small things; it is the last instruction the page
+   gives, and on the forest ground it is now the brightest. */
+.enter {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s3);
+  min-height: 44px;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: var(--t-body);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color var(--dur) var(--ease);
+}
+
+.enter:hover {
+  color: var(--ink-2);
+}
+
+.arrow {
+  display: inline-block;
+  animation: nudge 2.4s var(--ease) infinite;
+}
+
+.enter:hover .arrow {
+  animation: none;
+  transform: translateX(4px);
+  transition: transform var(--dur) var(--ease);
+}
+
+/* Horizontal, matching the arrow's direction. It pointed down and nudged down
+   while Enter meant "scroll to the next section"; it is a route change now, and
+   an arrow that says one thing while the link does another is a small lie the
+   whole gate can be judged on. */
+@keyframes nudge {
+  0%, 60%, 100% { transform: translateX(0); }
+  30% { transform: translateX(3px); }
+}
+
+/* The colophon. Right-aligned against the way out so the bar has two ends rather
+   than one label floating on a coloured stripe. */
+.closer {
+  margin: 0;
+  max-width: 46ch;
+  color: var(--ink-2);
+  font-size: var(--t-small);
+  line-height: 1.5;
+  text-align: right;
+  text-wrap: pretty;
+}
+
+/* ---------- Short desktop viewports ----------
+
+   1470x667 is a maximised browser on a 13" laptop; 1280x720 and 1280x800 are the
+   next two down. Keyed on height, because height is the axis that is short -- the
+   width breakpoint below restacks the columns, which is the wrong answer for a
+   wide-but-short window.
+
+   Everything here is subtraction against one budget: four bands have to clear
+   667px without the composition scrolling. The 46dvh caps on the headline and
+   the cat do most of that work already; these are the band paddings, which are
+   the only other place the height is spent. */
+@media (min-width: 901px) and (max-height: 760px) {
+  .display {
+    padding-block: var(--s5) var(--s4);
+  }
+
+  .items {
+    padding: var(--s5) 0;
+  }
+
+  .itemBody {
+    font-size: var(--t-small);
+  }
+
+  .footer {
+    padding-block: var(--s4);
+  }
+}
+
+/* ---------- Handsets ---------- */
+
+@media (max-width: 900px) {
+  .gate {
+    /* The display band stops taking the slack. At this width the composition is
+       taller than the viewport anyway, so a 1fr row there would only push the
+       columns and the footer further down a page that already scrolls. */
+    grid-template-rows: auto auto auto auto;
+  }
+
+  .masthead {
+    /* Stacked. Side by side at this width the name wrapped to two lines and the
+       role wrapped under it, so a two-item bar became four crowded lines with a
+       ragged middle. Stacking keeps both whole and puts them on the same left
+       edge as everything below. */
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s1);
+  }
+
+  .meta {
+    text-align: left;
+  }
+
+  .display {
+    /* Cat first. It is the one thing on this screen that reads instantly at any
+       size, and stacking it under the headline buries the only image on the page
+       below the fold. */
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: var(--s5);
+    padding-block: var(--s5);
+  }
+
+  .cat {
+    height: min(200px, 24dvh);
+    align-self: flex-end;
+    /* Runs to the window edge rather than stopping at the rail. A portrait
+       cutout is narrow, so at this width it sat as a small object with a third
+       of the row empty beside it; cropped at the edge the same space reads as
+       composition. The section's overflow-x: clip is what keeps this from
+       handing every phone a horizontal scrollbar. */
+    margin-right: calc(var(--gutter) * -1);
+  }
+
+  .items {
+    /* One column, and therefore no column rules -- a vertical rule needs a
+       neighbour to divide from. Horizontal rules take over the job. */
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    padding-block: 0 var(--s5);
+  }
+
+  .item {
+    padding-block: var(--s5);
+    border-top: 1px solid var(--rule);
+  }
+
+  .item + .item {
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  .item::before {
+    margin-bottom: var(--s2);
+  }
+
+  .footerInner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s4);
+  }
+
+  .closer {
+    max-width: none;
+    text-align: left;
+  }
+}
+
+/* The gate is a held beat, and holding someone still is exactly what a reduced-
+   motion preference is asking you not to do. This stops the section from
+   claiming a full screen it no longer needs, stills the arrow, and -- most
+   importantly -- delivers the label already typed.
+
+   base.css collapses every animation to 0.001ms under this preference, which
+   would land the type animation on its final frame anyway. The delay is the part
+   that does not collapse: `both` fill would hold the label at zero width for
+   350ms before snapping it in, and a blank where the biggest word on the screen
+   should be reads as something that failed to load. */
+@media (prefers-reduced-motion: reduce) {
+  .gate {
+    min-height: auto;
+  }
+
+  .label {
+    width: var(--label-w);
+    background-image: none;
+    animation: none;
+  }
+
+  .arrow {
+    animation: none;
+  }
+}

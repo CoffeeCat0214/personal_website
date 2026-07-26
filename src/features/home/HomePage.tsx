@@ -7,6 +7,7 @@ import { Hero } from "./Hero";
 import { MarkPanel } from "./MarkPanel";
 import { Runner } from "./Runner";
 import { WorkAct } from "./WorkAct";
+import { Confetti } from "./Confetti";
 
 function assertNever(section: never): never {
   throw new Error(`Unhandled home section: ${JSON.stringify(section)}`);
@@ -39,5 +40,10 @@ function renderSection(section: HomeSection) {
 }
 
 export function HomePage() {
-  return <>{homeSections.map(renderSection)}</>;
+  return (
+    <>
+      <Confetti />
+      {homeSections.map(renderSection)}
+    </>
+  );
 }

@@ -1,6 +1,6 @@
-# CoffeeCat Personal Website
+# Kyrstin Kauchak — Personal Website
 
-Static Next.js portfolio for CoffeeCat, a one-person humane software studio by Kyrstin Kauchak.
+Static Next.js portfolio for Kyrstin Kauchak, an agentic systems engineer in New York. CoffeeCat is the flagship project on it — a Chrome extension — not the name of the site's author.
 
 ## Commands
 
@@ -21,7 +21,7 @@ npm run test:e2e
 - `src/features/projects` owns project evidence UI and `/work/[slug]/` pages.
 - `src/features/motion` owns browser-only setup/teardown adapters for tone tracking, reveal animation, smooth scroll, marquees, and split text.
 - `src/components/ui` contains reusable markup primitives.
-- `src/components/brand` contains CoffeeCat brand marks and project figures.
+- `src/components/brand` contains the cat mark and project figures.
 - `src/components/site` contains site shell components such as nav and footer.
 - `src/content` contains typed site identity, project data, and homepage composition.
 

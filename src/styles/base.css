@@ -2,12 +2,36 @@
    Component-specific rules live in co-located CSS Modules. */
 
 /* Self-hosted rather than CDN-linked: a personal site should not acquire a
-   third-party render-blocking dependency for two files totalling 140KB.
-   SIL OFL -- see public/fonts/LICENSE.txt. */
+   third-party render-blocking dependency for two files totalling ~150KB.
+   SIL OFL -- see public/fonts/LICENSE.txt.
+
+   Inter carries an `opsz` axis (14-32) as well as `wght`, which is the entire
+   reason it is here rather than a single-cut grotesque: `font-optical-sizing:
+   auto` on body lets the browser pick the Display drawing for the wordmark and
+   the Text drawing for body copy, from one file. Shipping a separate "Inter
+   Display" family would be two downloads for the same result.
+
+   The file is a subset -- Latin plus U+2190-2199, because the nav and every
+   ArrowLink render arrows. The stock Google-hosted `latin` subset drops
+   U+2192 and U+2197 specifically, which does not fail loudly: the arrows just
+   silently render in whatever the fallback is, at a different weight. Anyone
+   regenerating this file must keep the arrow range in the subset. */
 @font-face {
-  font-family: "Geist";
-  src: url("/fonts/Geist-Variable.woff2") format("woff2-variations");
+  font-family: "Inter";
+  src: url("/fonts/Inter-Variable.woff2") format("woff2-variations");
   font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* The display face, and the one that gives the site a voice rather than a
+   default. Fraunces carries the "glam" half of Glam & Grind literally: high
+   contrast, editorial, unmistakably set rather than chosen. Geist Mono keeps
+   the "grind" half on labels, and Inter does the reading. */
+@font-face {
+  font-family: "Fraunces";
+  src: url("/fonts/Fraunces-SemiBold.woff2") format("woff2");
+  font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
@@ -39,6 +63,12 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Engages Inter's opsz axis. Without this the browser pins opsz to its
+     default (14, the Text drawing) and every display-size heading on the site
+     renders in the cut meant for body copy -- looser spacing, larger apertures,
+     and none of the tightening the display tracking below is calibrated
+     against. */
+  font-optical-sizing: auto;
   /* Geist ships proportional figures by default; the page has enough numerals
      (dates, section numbers, metrics) that lining them up is worth one
      declaration. */
@@ -57,31 +87,46 @@ img {
   max-width: 100%;
 }
 
+/* The display tier is Fraunces; everything below h3 stays Inter. Weights step
+   up from the 500 the grotesque wanted: a high-contrast serif at 500 reads
+   light against a saturated ground, because the thin strokes are genuinely
+   thinner than a grotesque's at the same nominal weight. */
 h1 {
   color: var(--ink);
+  font-family: var(--font-display);
   font-size: var(--t-display);
-  font-weight: 500;
-  line-height: 0.84;
-  /* Display tracking has to come in hard as size goes up -- this is the single
-     most visible difference between set type and default type. */
-  letter-spacing: -0.045em;
+  font-weight: 600;
+  /* Loosened from the 0.84 the grotesque carried. A serif's descenders reach
+     further below the baseline, and at 0.84 the y of "Kyrstin" landed in the
+     K of "Kauchak" on the line beneath it -- the kind of collision that only
+     appears on the one name the site actually has to set. */
+  line-height: 0.92;
+  /* Far looser than the -0.045em this carried under Geist, and looser again
+     than the -0.032em it took under Inter. A serif's tracking wants the
+     opposite treatment to a grotesque's at display size: the serifs themselves
+     already close the gaps between letters, so pulling in hard on top of them
+     collides the terminals and turns the thin strokes into noise. Retuned by
+     eye against the rendered page, not converted by ratio. */
+  letter-spacing: -0.02em;
 }
 
 h2 {
   color: var(--ink);
+  font-family: var(--font-display);
   font-size: var(--t-h2);
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.04;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.014em;
   text-wrap: balance;
 }
 
 h3 {
   color: var(--ink);
+  font-family: var(--font-display);
   font-size: var(--t-h3);
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.25;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.008em;
 }
 
 p {

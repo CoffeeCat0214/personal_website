@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Project } from "@/content";
+import { HOME_ROUTE } from "@/content";
 import { Figure } from "@/components/brand/figures/Figure";
 import { ArrowLink } from "@/components/ui/ArrowLink";
 import { ProjectFooter, ProjectMetrics, ProjectQuestion } from "./ProjectEvidence";
@@ -21,7 +22,7 @@ export function ProjectPage({ project }: { project: Project }) {
               <a className="btn" href={project.repoHref}>
                 View repository
               </a>
-              <Link className="btn secondary" href="/#work">
+              <Link className="btn secondary" href={`${HOME_ROUTE}#work`}>
                 Back to work
               </Link>
             </div>

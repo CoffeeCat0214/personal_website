@@ -14,6 +14,15 @@
   width: 72px;
 }
 
+/* Sits at the right end of an act's header bar. Deliberately smaller than the
+   rail variant: at 72px in a 200px column the mark read as a small picture that
+   had been placed, and repeating a picture at the head of four consecutive acts
+   is how a recurring mark turns into filler. At this size it reads as a stamp --
+   present on every ground, competing with nothing. */
+.tag {
+  width: 34px;
+}
+
 /* Poster scale. Sized by its panel so the panel owns the composition. */
 .panel {
   width: 100%;

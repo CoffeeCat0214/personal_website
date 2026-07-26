@@ -32,24 +32,38 @@ export function FlagshipAct({ section }: { section: FlagshipSection }) {
           one line at a time. The wrapper carries neither attribute -- a
           data-reveal ancestor holds its subtree at opacity 0 until it fires,
           which would animate the split lines inside something invisible. */}
+      {/* The metrics sit inside this row rather than under it, and that is an
+          argument rather than a layout tweak. The positioning line claims no
+          backend, no analytics, no host permissions; the metrics are 0 network
+          calls, 0 dependencies, 0 accounts. They are the same statement made
+          twice, once in prose and once in evidence, so separating them left the
+          claim unsupported and the numbers unexplained -- and left ~450px of
+          empty ground beside a tall figure, because a 24ch line cannot fill a
+          row that an illustration is setting the height of. */}
       <div className={styles.statement}>
-        <p className={styles.positioning} data-split>
-          {project.positioning ?? project.summary}
-        </p>
+        <div className={styles.claim}>
+          <p className={styles.positioning} data-split>
+            {project.positioning ?? project.summary}
+          </p>
+          <ProjectMetrics metrics={project.metrics} />
+        </div>
         <div className={styles.figure} data-reveal>
           <Figure name={project.figure} />
         </div>
       </div>
 
-      <ProjectMetrics metrics={project.metrics} />
       <ProjectQuestion tests={project.tests} />
 
       <div className={caseStyles.beats}>
         {project.caseStudy.map((beat) => (
           <div className={caseStyles.beat} key={beat.label} data-reveal>
             <p className={caseStyles.beatLabel}>{beat.label}</p>
+            {/* Heading and body are siblings, not nested, so the row can set
+                them as two columns of a spec table. Nested, the body inherited
+                the heading's column and capped at 62ch, which left the right
+                third of every row empty across the whole act. */}
+            <h3 className={caseStyles.beatHeading}>{beat.heading}</h3>
             <div className={caseStyles.beatCopy}>
-              <h3>{beat.heading}</h3>
               {beat.body.map((paragraph) => (
                 <p key={paragraph.slice(0, 32)}>{paragraph}</p>
               ))}

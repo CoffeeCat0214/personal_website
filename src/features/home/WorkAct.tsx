@@ -1,16 +1,17 @@
-import { supportingProjects } from "@/content";
+import { supportingProjects, work } from "@/content";
 import type { HomeSection } from "@/content";
 import { Figure } from "@/components/brand/figures/Figure";
 import { Act } from "@/components/ui/Act";
 import { ArrowLink } from "@/components/ui/ArrowLink";
-import { ProjectFooter, ProjectMetrics, ProjectQuestion } from "@/features/projects/ProjectEvidence";
+import { ProjectQuestion } from "@/features/projects/ProjectEvidence";
 import caseStyles from "./Case.module.css";
 import styles from "./Work.module.css";
 
-/* The two AI projects, in one act. These were three until the extension was
-   promoted. Keeping them in one act stops them competing with it for attention.
+/* One supporting project, in one act. CoffeeCat is the flagship above; CrèmeAI
+   is the one additional project carried in the public index. CodeHuskAI stays
+   in the catalog for old links but is intentionally not promoted here.
 
-   Each tool is an <article> because each is independently meaningful; the act's
+   Each tool is an <article> because it is independently meaningful; the act's
    h2 names the group and each tool's h3 sits under it, so the heading order
    still describes the structure.
 
@@ -28,7 +29,7 @@ export function WorkAct({ section }: { section: WorkSection }) {
       tone={section.tone}
     >
       <div className={caseStyles.head} data-reveal>
-        <h2>Two more experiments, shipped.</h2>
+        <h2>{work.heading}</h2>
       </div>
 
       <div className={styles.tools}>
@@ -40,12 +41,11 @@ export function WorkAct({ section }: { section: WorkSection }) {
               <p className={styles.subtitle}>{tool.summary}</p>
 
               <ProjectQuestion tests={tool.tests} reveal={false} />
-              <ProjectMetrics metrics={tool.metrics} reveal={false} />
 
-              <ProjectFooter tech={tool.tech} reveal={false}>
+              <div className={styles.links}>
                 <ArrowLink href={`/work/${tool.slug}/`}>Read the case study</ArrowLink>
                 <ArrowLink href={tool.repoHref}>{tool.name} on GitHub</ArrowLink>
-              </ProjectFooter>
+              </div>
             </div>
 
             <div className={styles.figure} data-reveal>

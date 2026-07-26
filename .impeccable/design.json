@@ -1,0 +1,185 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-26T00:00:00.000Z",
+  "title": "Design System: Kyrstin Kauchak — Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "forest": {
+        "role": "primary",
+        "displayName": "Forest Ink",
+        "canonical": "#1e2b16",
+        "tonalRamp": ["#0b1008", "#131c0e", "#1e2b16", "#2b3d20", "#3d5630", "#557444", "#7a9c66", "#b8eb96"]
+      },
+      "sage": {
+        "role": "primary",
+        "displayName": "Chartreuse Sage",
+        "canonical": "#b8eb96",
+        "tonalRamp": ["#1e2b16", "#2b3d20", "#3d5630", "#557444", "#76985f", "#95bf79", "#b8eb96", "#dcf5c8"]
+      },
+      "pink": {
+        "role": "secondary",
+        "displayName": "Powder Rose",
+        "canonical": "#f4c2da",
+        "tonalRamp": ["#2c1a23", "#4a2b3a", "#6b3f54", "#8f566f", "#b5748e", "#d59bb2", "#f4c2da", "#fbe4ee"]
+      },
+      "lilac": {
+        "role": "tertiary",
+        "displayName": "Periwinkle Lilac",
+        "canonical": "#9a95dd",
+        "tonalRamp": ["#191733", "#282552", "#3a3672", "#4f4a94", "#6b66b3", "#847ecb", "#9a95dd", "#c8c5ee"]
+      },
+      "ginger": {
+        "role": "tertiary",
+        "displayName": "Ginger",
+        "canonical": "#e8734a",
+        "tonalRamp": ["#2e1109", "#4d1e11", "#70301c", "#96462a", "#bd5b38", "#e8734a", "#ef9271", "#f7c4ae"]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "rgba(30, 43, 22, 0.18)",
+        "tonalRamp": ["rgba(30,43,22,0.06)", "rgba(30,43,22,0.10)", "rgba(30,43,22,0.14)", "rgba(30,43,22,0.18)", "rgba(30,43,22,0.22)", "rgba(30,43,22,0.28)", "rgba(30,43,22,0.32)", "rgba(30,43,22,0.38)"]
+      },
+      "demo-top": {
+        "role": "neutral",
+        "displayName": "Espresso",
+        "canonical": "#35241d",
+        "tonalRamp": ["#0d0806", "#1a120e", "#251913", "#35241d", "#4a342a", "#634739", "#7f5d4b", "#a07a64"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "The name in the hero and the single line on each mark panel. Fraunces only, nothing else." },
+      "headline": { "displayName": "Headline", "purpose": "Act headings, constrained to 52ch so they stay roughly two lines." },
+      "statement": { "displayName": "Statement", "purpose": "The hero positioning copy at full ink — neither heading nor body." },
+      "title": { "displayName": "Title", "purpose": "Sub-headings and index-row terms." },
+      "lead": { "displayName": "Lead", "purpose": "Act ledes, max 42ch." },
+      "body": { "displayName": "Body", "purpose": "All reading copy, at --ink-2 with tabular numerals." },
+      "small": { "displayName": "Small", "purpose": "Controls, nav links, fact values, index notes." },
+      "label": { "displayName": "Label", "purpose": "Act numerals, eyebrows and metadata. Geist Mono, uppercase, +0.12em." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "ease", "value": "cubic-bezier(0.51, 0.01, 0.2, 1)", "purpose": "The single easing curve used for every transition and reveal in the system." },
+      { "name": "dur", "value": "300ms", "purpose": "Default state-transition duration for controls, links and the nav ground." },
+      { "name": "reveal-body", "value": "600ms", "purpose": "Scroll reveal for body content: 12px rise plus fade." },
+      { "name": "reveal-display", "value": "900ms", "purpose": "Scroll reveal for display type: rises 0.14em so the distance scales with the type rather than reading as a rendering hiccup." },
+      { "name": "reveal-mark", "value": "800ms", "purpose": "Scroll reveal for the cat mark: scale 0.94 only. A frameless cutout has no edge to travel against, so translating it looks misplaced rather than animated." }
+    ],
+    "breakpoints": [
+      { "name": "act-stack", "value": "900px" },
+      { "name": "nav-collapse", "value": "640px" },
+      { "name": "narrow", "value": "400px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The act-inverting pill. Fill is the ground's ink, label is the ground's paper — which inherits the body-text contrast ratio on every ground for free.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">See the work</a>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 var(--s6, 24px); border: 1px solid transparent; border-radius: 999px; background: var(--accent, #1e2b16); color: var(--on-accent, #b8eb96); font-family: var(--font, Inter, system-ui, sans-serif); font-size: var(--t-small, 0.9375rem); font-weight: 500; letter-spacing: -0.005em; text-decoration: none; transition: background-color 300ms cubic-bezier(0.51,0.01,0.2,1), border-color 300ms cubic-bezier(0.51,0.01,0.2,1), color 300ms cubic-bezier(0.51,0.01,0.2,1); } .ds-btn-primary:hover { background: var(--accent-hover, #16200f); } .ds-btn-primary:focus-visible { outline: 2px solid var(--focus, #1e2b16); outline-offset: 3px; border-radius: 999px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "A hairline and a colour shift, not a raised slab. Transparent ground with a 32% ink border.",
+      "html": "<a class=\"ds-btn-secondary\" href=\"#\">Read the case study</a>",
+      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 var(--s6, 24px); border: 1px solid var(--rule-strong, rgba(30,43,22,0.32)); border-radius: 999px; background: transparent; color: var(--ink, #1e2b16); font-family: var(--font, Inter, system-ui, sans-serif); font-size: var(--t-small, 0.9375rem); font-weight: 500; letter-spacing: -0.005em; text-decoration: none; transition: background-color 300ms cubic-bezier(0.51,0.01,0.2,1), border-color 300ms cubic-bezier(0.51,0.01,0.2,1); } .ds-btn-secondary:hover { background: color-mix(in srgb, var(--ink, #1e2b16) 5%, transparent); border-color: var(--ink, #1e2b16); } .ds-btn-secondary:focus-visible { outline: 2px solid var(--focus, #1e2b16); outline-offset: 3px; }"
+    },
+    {
+      "name": "Arrow Link",
+      "kind": "custom",
+      "refersTo": "arrow-link",
+      "description": "The workhorse link outside prose. Underlined by a hairline; the arrow glyph travels up-right on hover.",
+      "html": "<a class=\"ds-arrow-link\" href=\"#\">View the repository <span class=\"ds-arrow-link__arrow\" aria-hidden=\"true\">↗</span></a>",
+      "css": ".ds-arrow-link { display: inline-flex; align-items: center; gap: var(--s2, 8px); min-height: 44px; color: var(--ink, #1e2b16); font-family: var(--font, Inter, system-ui, sans-serif); font-size: var(--t-small, 0.9375rem); font-weight: 500; letter-spacing: -0.005em; text-decoration: none; border-bottom: 1px solid var(--rule-strong, rgba(30,43,22,0.32)); padding-bottom: 2px; transition: color 300ms cubic-bezier(0.51,0.01,0.2,1), border-color 300ms cubic-bezier(0.51,0.01,0.2,1); } .ds-arrow-link:hover { color: var(--accent-text, #1e2b16); border-color: var(--accent-text, #1e2b16); } .ds-arrow-link__arrow { display: inline-block; transition: transform 300ms cubic-bezier(0.51,0.01,0.2,1); } .ds-arrow-link:hover .ds-arrow-link__arrow { transform: translate(2px, -2px); } .ds-arrow-link:focus-visible { outline: 2px solid var(--focus, #1e2b16); outline-offset: 3px; }"
+    },
+    {
+      "name": "Act Rail Label",
+      "kind": "custom",
+      "refersTo": "act-label",
+      "description": "The sticky mono rail that rides beside a section's content: numeral over eyebrow, giving a long act a sense of place.",
+      "html": "<div class=\"ds-act-label\"><p class=\"ds-act-label__num\">02</p><p class=\"ds-act-label__eyebrow\">Flagship</p></div>",
+      "css": ".ds-act-label { display: grid; gap: var(--s2, 8px); align-self: start; } .ds-act-label__num, .ds-act-label__eyebrow { margin: 0; font-family: var(--font-mono, ui-monospace, Menlo, monospace); font-size: var(--t-label, 0.6875rem); font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3, #4f683f); }"
+    },
+    {
+      "name": "Index Row",
+      "kind": "list-item",
+      "refersTo": "index-row",
+      "description": "A leader-rule index row — a price-list form rather than a bordered card. The leader lives inside the <dt> because a <dl> row admits only dt/dd.",
+      "html": "<dl class=\"ds-index\"><div class=\"ds-index__row\"><dt class=\"ds-index__term\">CodeHuskAI<span class=\"ds-index__context\">Agentic review</span></dt><dd class=\"ds-index__period\">2025</dd><dd class=\"ds-index__note\">A reviewable diff pipeline that keeps the human in the loop.</dd></div></dl>",
+      "css": ".ds-index { display: grid; margin: 0; } .ds-index__row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: var(--s2, 8px) var(--s5, 20px); padding-block: var(--s6, 24px); border-top: 1px solid var(--rule, rgba(30,43,22,0.18)); border-bottom: 1px solid var(--rule, rgba(30,43,22,0.18)); } .ds-index__term { display: flex; align-items: center; gap: var(--s4, 16px); color: var(--ink, #1e2b16); font-family: var(--font-display, Fraunces, Georgia, serif); font-size: var(--t-h3, 1.3125rem); font-weight: 500; letter-spacing: -0.02em; } .ds-index__term::after { content: \"\"; flex: 1 1 auto; height: 1px; background: var(--rule, rgba(30,43,22,0.18)); } .ds-index__context { color: var(--ink-3, #4f683f); font-family: var(--font-mono, ui-monospace, Menlo, monospace); font-size: var(--t-label, 0.6875rem); font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; white-space: nowrap; } .ds-index__period { margin: 0; font-family: var(--font-mono, ui-monospace, Menlo, monospace); font-size: var(--t-small, 0.9375rem); font-weight: 500; letter-spacing: 0.02em; text-transform: uppercase; color: var(--accent-text, #1e2b16); white-space: nowrap; } .ds-index__note { grid-column: 1 / -1; margin: 0; color: var(--ink-3, #4f683f); font-family: var(--font, Inter, system-ui, sans-serif); font-size: var(--t-small, 0.9375rem); max-width: 60ch; }"
+    },
+    {
+      "name": "Navigation Bar",
+      "kind": "nav",
+      "refersTo": "nav-bar",
+      "description": "Sticky 60px chrome on an opaque ground. Every colour resolves through --paper / --ink, so mirroring the current act's tone class onto <html> re-skins it by inheritance.",
+      "html": "<nav class=\"ds-nav\"><div class=\"ds-nav__inner\"><a class=\"ds-nav__mark\" href=\"#\">Kyrstin Kauchak<span class=\"ds-nav__role\">Agentic systems</span></a><ul class=\"ds-nav__links\"><li><a href=\"#\" aria-current=\"location\">Work</a></li><li><a href=\"#\">About</a></li><li><a href=\"#\">Contact</a></li></ul></div></nav>",
+      "css": ".ds-nav { border-bottom: 1px solid var(--rule, rgba(30,43,22,0.18)); background: var(--paper, #b8eb96); transition: background-color 300ms cubic-bezier(0.51,0.01,0.2,1), border-color 300ms cubic-bezier(0.51,0.01,0.2,1); } .ds-nav__inner { display: flex; align-items: center; justify-content: space-between; gap: var(--s6, 24px); height: 60px; padding: 0 var(--s6, 24px); } .ds-nav__mark { display: inline-flex; align-items: baseline; gap: var(--s2, 8px); color: var(--ink, #1e2b16); font-family: var(--font, Inter, system-ui, sans-serif); font-size: var(--t-small, 0.9375rem); font-weight: 500; letter-spacing: -0.01em; text-decoration: none; } .ds-nav__role { color: var(--ink-3, #4f683f); font-family: var(--font-mono, ui-monospace, Menlo, monospace); font-size: var(--t-label, 0.6875rem); letter-spacing: 0.12em; text-transform: uppercase; } .ds-nav__links { display: flex; gap: var(--s6, 24px); list-style: none; margin: 0; padding: 0; } .ds-nav__links a { color: var(--ink-3, #4f683f); font-family: var(--font, Inter, system-ui, sans-serif); font-size: var(--t-small, 0.9375rem); text-decoration: none; transition: color 300ms cubic-bezier(0.51,0.01,0.2,1); } .ds-nav__links a:hover { color: var(--ink, #1e2b16); } .ds-nav__links a[aria-current=\"location\"] { color: var(--ink, #1e2b16); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.35em; }"
+    },
+    {
+      "name": "Nav Disclosure Toggle",
+      "kind": "button",
+      "refersTo": "nav-toggle",
+      "description": "The mobile menu pill. Rendered always and hidden by CSS below its breakpoint — hiding it with display:none at desktop instead would leave a keyboard trap sighted mouse users never see.",
+      "html": "<button class=\"ds-nav-toggle\" aria-expanded=\"false\">Menu<span class=\"ds-nav-toggle__bars\" aria-hidden=\"true\"></span></button>",
+      "css": ".ds-nav-toggle { display: inline-flex; align-items: center; gap: var(--s2, 8px); min-height: 44px; padding: 0 var(--s3, 12px); border: 1px solid var(--rule-strong, rgba(30,43,22,0.32)); border-radius: 999px; background: transparent; color: var(--ink, #1e2b16); font-family: var(--font-mono, ui-monospace, Menlo, monospace); font-size: var(--t-label, 0.6875rem); font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; transition: border-color 300ms cubic-bezier(0.51,0.01,0.2,1); } .ds-nav-toggle:hover { border-color: var(--ink, #1e2b16); } .ds-nav-toggle:focus-visible { outline: 2px solid var(--focus, #1e2b16); outline-offset: 3px; } .ds-nav-toggle__bars { position: relative; width: 14px; height: 10px; } .ds-nav-toggle__bars::before, .ds-nav-toggle__bars::after { content: \"\"; position: absolute; left: 0; width: 100%; height: 1px; background: currentColor; transition: transform 300ms cubic-bezier(0.51,0.01,0.2,1); } .ds-nav-toggle__bars::before { top: 2px; } .ds-nav-toggle__bars::after { bottom: 2px; }"
+    },
+    {
+      "name": "Hero Fact Cell",
+      "kind": "custom",
+      "refersTo": "act-label",
+      "description": "The scannable fact row under the hero — a definition list, not prose, because a recruiter reads this before the paragraph above it. The live dot is the one piece of decoration that earns its place.",
+      "html": "<div class=\"ds-fact\"><span class=\"ds-fact__key\">Availability</span><p class=\"ds-fact__value\"><span class=\"ds-fact__status\">Open to roles</span></p></div>",
+      "css": ".ds-fact { display: grid; gap: var(--s1, 4px); padding-top: var(--s4, 16px); border-top: 1px solid var(--rule, rgba(30,43,22,0.18)); } .ds-fact__key { font-family: var(--font-mono, ui-monospace, Menlo, monospace); font-size: var(--t-label, 0.6875rem); font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3, #4f683f); } .ds-fact__value { margin: 0; color: var(--ink, #1e2b16); font-family: var(--font, Inter, system-ui, sans-serif); font-size: var(--t-small, 0.9375rem); } .ds-fact__status { display: inline-flex; align-items: center; gap: var(--s2, 8px); } .ds-fact__status::before { content: \"\"; width: 7px; height: 7px; border-radius: 50%; background: var(--accent-text, #1e2b16); flex: none; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Silkscreened Playbill",
+    "overview": "The page is printed, not assembled. Every section is a numbered act that owns a full-bleed ground of flat spot-colour ink, and the reader moves through the page the way they move through a programme: sage, then a poster interlude, then pink, then the dark act. There is no card grid, no elevation, no chrome sitting on a neutral canvas — the colour IS the structure, and the boundary between two acts is the cut between two inks.\n\nThe system's discipline is subtractive. Nothing is enclosed: no box-shadows anywhere, no borders drawn around content, no container with a background that differs from its act. Grouping is done by alignment, hairline rules and whitespace only. A section stops being a section because the ink changes, not because a line was drawn under it.\n\nThe voice is \"Glam & Grind\" and the type pairing carries it literally. Fraunces is the glam: high-contrast, editorial, unmistakably set rather than chosen, and used only at the display tier. Geist Mono is the grind: uppercase, wide-tracked, on act numerals and metadata labels. Inter does the reading and never pretends to be either. One ginger cat mark is restated at every scale across all five grounds, and it is a real cutout with transparency, so it sits directly on the ink with no plate behind it.",
+    "keyCharacteristics": [
+      "Five full-bleed grounds; the ink change is the section boundary.",
+      "Zero shadows, zero enclosure — hairlines, alignment and whitespace group everything.",
+      "Numbered acts with a sticky mono rail label beside a wide content column.",
+      "Display serif for headings only; grotesque for reading; mono for labels.",
+      "One cat mark restated at two scales across every ground.",
+      "Structure is square (0 radius); only controls are pills and only screens are soft."
+    ],
+    "rules": [
+      { "name": "The Mark-Panel Ceiling Rule", "body": "Lilac and ginger never carry body copy. Their best available ink is 5.46:1 and 4.94:1, so a genuinely muted third step would land under 4.5. On those two grounds --ink-2 and --ink-3 collapse into --ink rather than faking a ramp there is no headroom for, and the panels carry nothing but the mark and one display-size line.", "section": "colors" },
+      { "name": "The Invert, Don't Accent Rule", "body": "There is no separate accent hue, because none exists: nothing in the palette clears 4.5:1 on more than one ground. Controls invert their act instead — fill = --ink, label = --paper — which inherits the body-text ratio on every ground for free. --accent-hover always moves away from the label.", "section": "colors" },
+      { "name": "The Re-Declared Focus Rule", "body": "--focus is declared on every .tone-* class, not only on :root. A custom property is substituted where it is declared, so --focus: var(--ink) sitting only in :root resolves against root's ink once and inherits that fixed colour everywhere — producing a forest ring on the forest ground at 1.0:1.", "section": "colors" },
+      { "name": "The Display-Only Rule", "body": "Fraunces sets h1, h2, h3 and the gate — never body copy. Its thin strokes disappear at 17px, which is the failure mode of every site that sets a whole page in its display face.", "section": "typography" },
+      { "name": "The rem Floor Rule", "body": "Only the display unit --u is viewport-driven; everything from the heading scale down is rem. Proportional scaling stays where it does the work (wordmark, numerals, band rhythm) and anything a person actually reads honours the browser font-size preference.", "section": "typography" },
+      { "name": "The Two-Tracking Rule", "body": "Display type gets tight negative tracking; small uppercase mono labels get wide positive tracking (+0.12em). There is no third tracking treatment.", "section": "typography" },
+      { "name": "The No-Enclosure Rule", "body": "No strokes and no box-shadows anywhere. Grouping comes from alignment, hairline rules and whitespace instead of from enclosure.", "section": "elevation" },
+      { "name": "The Colour Change Is the Boundary Rule", "body": "Acts get no border-top. When every act paints its own full-bleed ground, the colour change IS the boundary — a hairline over it restates the same thing more weakly and reads as a seam.", "section": "elevation" },
+      { "name": "The Hard Cut Rule", "body": "Grounds cut, they never blend. The sticky nav is the single exception, because it is chrome sitting over the cut rather than part of it — it transitions its background over 300ms so it doesn't read as a flash.", "section": "elevation" },
+      { "name": "The Zero-By-Default Rule", "body": "A new surface gets radius 0 unless it is a control (pill) or it is depicting a screen (18px). There is no middle radius in this system.", "section": "shapes" },
+      { "name": "The Art-First Rule", "body": "On the hero at ≤900px the cat leads, because it is the brand and it establishes the page before the copy has to. On mark panels the mark also leads, but for the opposite reason — there the mark is the content and the line is its caption.", "section": "layout" }
+    ],
+    "dos": [
+      "Do put a new section on a ground by applying one .tone-* class. A component that reads --ink / --paper / --rule is correct on all five grounds with no variant.",
+      "Do re-declare --focus: var(--ink) on any new ground class, on the same element that declares --ink.",
+      "Do invert the act for any control fill (--ink fill, --paper label) rather than reaching for a colour.",
+      "Do keep display type on --u and everything readable on rem.",
+      "Do group with alignment, hairlines and whitespace.",
+      "Do state measured contrast ratios in a comment when adding a colour.",
+      "Do apply reveal hidden-states at runtime, never as a static CSS rule — [data-reveal] { opacity: 0 } in the stylesheet hands anyone without JS a blank page."
+    ],
+    "donts": [
+      "Don't add a box-shadow. Not for hover, not for cards, not for the nav.",
+      "Don't draw a border around content to group it, or add a border-top to an act.",
+      "Don't put body copy, small labels or anything below display size on lilac or ginger.",
+      "Don't introduce a new accent hue. No colour in this palette clears 4.5:1 on more than one ground.",
+      "Don't set body copy in Fraunces, or use it below the h3 tier.",
+      "Don't introduce a radius between 0 and the pill.",
+      "Don't blend or cross-fade between two grounds; they cut.",
+      "Don't give the cat mark a frame, plate, radius or background. It is a cutout and sits directly on the ink.",
+      "Don't push the figure interiors cooler without looking at the mug sprites and the ginger cat against them."
+    ]
+  }
+}

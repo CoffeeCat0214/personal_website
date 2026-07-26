@@ -3,6 +3,7 @@ import test from "node:test";
 import {
   CONTENT_TONES,
   FIGURE_NAMES,
+  HOME_ROUTE,
   PANEL_TONES,
   featuredProject,
   getProjectBySlug,
@@ -16,6 +17,7 @@ import {
 
 const contentTones = new Set(CONTENT_TONES);
 const panelTones = new Set(PANEL_TONES);
+const runnerTones = new Set([...CONTENT_TONES, ...PANEL_TONES]);
 const figureNames = new Set(FIGURE_NAMES);
 
 function sectionIds(): Set<string> {
@@ -39,7 +41,7 @@ test("navigation is route-aware and derived from act sections", () => {
   );
   const expectedRouteNav = expectedHomeNav.map((section) => ({
     label: section.label,
-    href: `/#${section.id}`,
+    href: `${HOME_ROUTE}#${section.id}`,
     kind: "home-anchor",
   }));
 
@@ -54,8 +56,17 @@ test("navigation targets real homepage sections", () => {
     assert.equal(ids.has(section.id), true, `${section.id} is missing from homeSections`);
   }
 
+  /* Anchors resolve against HOME_ROUTE, not "/". The gate owns "/" and has no
+     acts on it, so a nav href that still pointed at /#work would land on the
+     TL;DR and silently do nothing -- which is exactly the regression this
+     assertion exists to catch. */
   for (const section of navSections) {
-    const anchor = section.href.replace("/#", "");
+    const anchor = section.href.replace(`${HOME_ROUTE}#`, "");
+    assert.equal(
+      section.href.startsWith(`${HOME_ROUTE}#`),
+      true,
+      `${section.href} does not point into ${HOME_ROUTE}`
+    );
     assert.equal(ids.has(anchor), true, `${section.href} is missing from homeSections`);
   }
 });
@@ -89,7 +100,7 @@ test("tones only appear on legal surfaces", () => {
 
     if (section.kind === "runner") {
       assert.equal(
-        panelTones.has(section.runner.tone),
+        runnerTones.has(section.runner.tone),
         true,
         `${section.runner.id} uses ${section.runner.tone}`
       );
@@ -127,6 +138,11 @@ test("project catalog has stable routes and required metadata", () => {
 test("homepage project previews point to catalog projects", () => {
   assert.ok(featuredProject.homeAnchorId);
   assert.equal(sectionIds().has(featuredProject.homeAnchorId), true);
+  assert.deepEqual(
+    supportingProjects.map((project) => project.slug),
+    ["cremeai"],
+    "the public work index keeps CrèmeAI as the only supporting project"
+  );
 
   for (const project of supportingProjects) {
     assert.ok(getProjectBySlug(project.slug), `${project.slug} is missing from projects`);

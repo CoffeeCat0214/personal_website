@@ -8,8 +8,8 @@
 
    Read from the environment because the deployed origin is a deploy-time fact,
    and no domain is registered yet. The fallback was https://cremeandmisu.com,
-   which is now both the wrong studio and a dead domain -- it would unfurl as a
-   broken card rather than an obvious placeholder.
+   which is a dead domain and names a positioning the site no longer has -- it
+   would unfurl as a broken card rather than an obvious placeholder.
 
    So the fallback is the origin that actually serves the site, from
    deploy-to-s3.sh. Set NEXT_PUBLIC_SITE_URL the day a domain lands. */

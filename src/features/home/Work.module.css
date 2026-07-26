@@ -36,6 +36,14 @@
   margin: 0;
 }
 
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s3) var(--s6);
+  padding-top: var(--s2);
+  border-top: 1px solid var(--rule);
+}
+
 .figure {
   /* Figures are illustrative at this size, so they yield to the copy on any
      screen narrow enough that two columns would squeeze the paragraph. */
@@ -49,6 +57,7 @@
   }
 
   .figure {
-    order: -1;
+    /* Name the project before showing its illustration on narrow screens. */
+    order: 0;
   }
 }

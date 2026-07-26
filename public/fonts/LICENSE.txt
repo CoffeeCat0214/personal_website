@@ -1,6 +1,30 @@
+GeistMono-Variable.woff2
 Copyright (c) 2023 Vercel, in collaboration with basement.studio
 
-This Font Software is licensed under the SIL Open Font License, Version 1.1.
+Inter-Variable.woff2
+Copyright (c) 2016 The Inter Project Authors (https://github.com/rsms/inter)
+
+    This file is a MODIFIED version of the upstream release: a subset produced
+    with fonttools' pyftsubset, reduced to the Latin range plus the arrow
+    glyphs the site uses (U+2190-2199), and keeping the kern/liga/clig/calt/
+    tnum/frac/ccmp/mark/mkmk features. Both variable axes are retained --
+    opsz 14-32 and wght 100-900 -- because the optical-size axis is the whole
+    reason this face was chosen over a static cut.
+
+    The OFL permits modification and redistribution. Inter declares no
+    Reserved Font Name, so the family name is unchanged.
+
+Fraunces-SemiBold.woff2
+Copyright (c) 2020 The Fraunces Project Authors
+(https://github.com/undercasetype/Fraunces)
+
+    This is the upstream 72pt SemiBold webfont, used for display headings only.
+    It is distributed separately from the Inter and GeistMono webfonts because
+    its display cut is intentionally not used for body copy.
+
+    Fraunces declares no Reserved Font Name, so the family name is unchanged.
+
+All three are licensed under the SIL Open Font License, Version 1.1.
 This license is copied below, and is also available with a FAQ at:
 http://scripts.sil.org/OFL
 

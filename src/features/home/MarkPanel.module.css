@@ -2,7 +2,7 @@
    would turn every one into a scroll obstacle on a laptop; this is enough to
    read as a break in the page without making the reader work to get past it. */
 .panel {
-  padding-block: calc(var(--u) * 12);
+  padding-block: calc(var(--u) * 9);
 }
 
 /* Line left, mark right -- the same spine as the hero, so the panels punctuate
@@ -35,8 +35,7 @@
 /* Viewport units, not a percentage. This sits in an `auto` grid track, and a
    percentage width inside an indefinitely-sized track is cyclic -- it resolves
    to auto, and because the mark is an empty masked span with no intrinsic
-   dimensions (unlike the hero's <img>, which has the file's own size to fall
-   back on) it collapsed to zero width and vanished entirely. vw is definite,
+   dimensions it collapsed to zero width and vanished entirely. vw is definite,
    so the track has something real to size against. */
 .mark {
   justify-self: end;

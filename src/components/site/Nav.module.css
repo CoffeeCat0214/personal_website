@@ -11,13 +11,14 @@
   top: 0;
   z-index: 20;
   border-bottom: 1px solid var(--rule);
-  background: color-mix(in srgb, var(--paper) 82%, transparent);
-  backdrop-filter: saturate(1.4) blur(14px);
-  -webkit-backdrop-filter: saturate(1.4) blur(14px);
+  /* A solid ground keeps the color-block system decisive while the page moves
+     underneath it. Translucency and blur made adjacent tones bleed together. */
+  background: var(--paper);
   transition:
     background-color var(--dur) var(--ease),
     border-color var(--dur) var(--ease);
 }
+
 
 .inner {
   display: flex;
@@ -62,6 +63,13 @@
 
 .links a:hover {
   color: var(--ink);
+}
+
+.links a[aria-current="location"] {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.35em;
 }
 
 /* The disclosure button only exists below 640px. Rendering it always and hiding

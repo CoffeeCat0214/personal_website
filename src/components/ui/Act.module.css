@@ -1,43 +1,57 @@
-/* Every section is a numbered act: a mono label in a narrow left column, the
-   content in a wide right one. This is what replaces "each section is a card in
-   a grid" -- the page gets a structure instead of a stack. */
+/* Every section is a numbered act: a header bar naming it, then the content at
+   full measure underneath. This is what replaces "each section is a card in a
+   grid" -- the page gets a structure instead of a stack.
 
-/* No border-top any more. When every act paints its own full-bleed ground, the
-   colour change *is* the boundary -- a hairline on top of it is a second, weaker
+   It also replaces the version of this component that put the numeral in a
+   200px sticky rail beside the content. That rail held a ~120px label and then
+   stayed empty for the rest of the act, so a quarter of the page width was
+   permanently blank next to every table and index on the site. See the note in
+   Act.tsx for why the rail's orientation job was already covered elsewhere. */
+
+/* No border-top. When every act paints its own full-bleed ground, the colour
+   change *is* the boundary -- a hairline on top of it is a second, weaker
    statement of the same thing, and it reads as a seam. This is the same
    subtractive move the rest of the system makes: the rule was only ever there
    because the old page had one paper colour and needed something to divide it. */
 .act {
-  padding-block: calc(var(--u) * 11);
+  padding-block: calc(var(--u) * 8);
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: minmax(0, 200px) minmax(0, 1fr);
-  gap: var(--s8);
-  align-items: start;
-}
-
-/* The label rides along beside its content, which is what gives a long section
-   a sense of place. align-self:start is load-bearing -- a stretched grid item
-   cannot stick. */
-.label {
-  position: sticky;
-  top: calc(var(--nav-h) + var(--s7));
-  display: grid;
-  gap: var(--s2);
-  align-self: start;
+/* The act's nameplate. Numeral and eyebrow on the left, the mark stamped at the
+   right end, a hairline under the lot -- the same shape as the gate's masthead,
+   so the two entry surfaces of the site are recognisably the same document. */
+.bar {
+  display: flex;
+  align-items: center;
+  gap: var(--s4);
+  padding-bottom: var(--s3);
+  margin-bottom: var(--s8);
+  border-bottom: 1px solid var(--rule);
 }
 
 .num,
 .eyebrow {
+  margin: 0;
   font-family: var(--font-mono);
   font-size: var(--t-label);
   font-weight: 500;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink-3);
-  margin: 0;
+}
+
+/* Full ink on the numeral. It is the one piece of this bar that is an index
+   rather than a description, and at label size a muted step made it disappear
+   into the eyebrow beside it. */
+.num {
+  color: var(--ink);
+}
+
+/* Pushed to the right end by the auto margin rather than by a spacer or
+   `justify-content`, so the numeral and eyebrow stay a tight pair on the left
+   instead of being spread across the bar. */
+.bar img {
+  margin-left: auto;
 }
 
 .body {
@@ -58,25 +72,11 @@
 }
 
 @media (max-width: 900px) {
-  .grid {
-    grid-template-columns: 1fr;
-    gap: var(--s6);
+  .act {
+    padding-block: calc(var(--u) * 7);
   }
 
-  /* Stacked, the label sits directly above its content -- sticking it would
-     park it over the heading it introduces. */
-  .label {
-    position: static;
-    grid-auto-flow: column;
-    justify-content: start;
-    align-items: center;
-    gap: var(--s3);
-  }
-
-  /* The mark is a portrait shape, so at rail width it sets the height of this
-     whole row once the label runs horizontally. Smaller here keeps the row a
-     label rather than a band. */
-  .label > :first-child {
-    width: 26px;
+  .bar {
+    margin-bottom: var(--s7);
   }
 }

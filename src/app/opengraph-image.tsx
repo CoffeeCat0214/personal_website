@@ -1,10 +1,13 @@
 import { ImageResponse } from "next/og";
 import { site } from "@/content";
 
-/* The share card. Every link to this site currently unfurls as a bare URL,
-   which matters more than usual here: the studio's stated growth mechanism is
-   an audience, and the card is what a link looks like at the moment somebody
-   decides whether to click it.
+/* The share card -- what a link to this site looks like at the moment somebody
+   decides whether to click it. Without it every link unfurls as a bare URL.
+
+   The wordmark is now a person's name rather than "CoffeeCat", which is half
+   again as long at the same 92px. It still fits on one line inside the 1200px
+   frame with the 80px padding, but that is now close enough to the edge to be
+   worth re-checking the generated PNG if the name or the size changes.
 
    Generated at build time. `output: 'export'` has no server to render this on
    request, so Next runs it during the build and writes a real PNG into out/.

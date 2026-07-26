@@ -19,7 +19,7 @@ import styles from "./MarkPanel.module.css";
    data-tone is what the nav reads to re-colour itself on scroll. */
 export function MarkPanel({ panel }: { panel: MarkPanelData }) {
   return (
-    <section
+    <div
       id={panel.id}
       className={`tone-${panel.tone} ${styles.panel}`}
       data-tone={panel.tone}
@@ -44,6 +44,6 @@ export function MarkPanel({ panel }: { panel: MarkPanelData }) {
           <CatMark variant="panel" />
         </div>
       </div>
-    </section>
+    </div>
   );
 }

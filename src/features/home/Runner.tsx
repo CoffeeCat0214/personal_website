@@ -35,7 +35,7 @@ export function Runner({ runner }: { runner: RunnerData }) {
     /* data-tone so the sticky nav re-colours over this band like any other
        ground -- a runner that did not report its tone would leave the nav
        painted with whatever act preceded it. */
-    <section
+    <div
       id={runner.id}
       className={`tone-${runner.tone} ${styles.runner}`}
       data-tone={runner.tone}
@@ -48,6 +48,6 @@ export function Runner({ runner }: { runner: RunnerData }) {
           </div>
         ))}
       </div>
-    </section>
+    </div>
   );
 }

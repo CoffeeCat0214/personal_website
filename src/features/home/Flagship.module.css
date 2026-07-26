@@ -6,11 +6,11 @@
    lines, which are compositional; this is a sentence somebody has to actually
    read, so it honours the browser's font-size preference (WCAG 1.4.4). */
 .positioning {
-  font-size: clamp(1.5rem, 2.6vw, 2.125rem);
-  line-height: 1.25;
-  letter-spacing: -0.02em;
+  font-size: clamp(1.75rem, 3.2vw, 2.75rem);
+  line-height: 1.2;
+  letter-spacing: -0.025em;
   color: var(--ink);
-  max-width: 24ch;
+  max-width: 20ch;
   margin: 0;
   text-wrap: balance;
 }
@@ -31,6 +31,17 @@
   grid-template-columns: minmax(0, 1.35fr) minmax(220px, 0.65fr);
   gap: var(--s8);
   align-items: center;
+}
+
+/* The claim and the evidence for it, stacked. `space-between` rather than a
+   fixed gap: the figure is a tall fixed-ratio panel and sets this row's height,
+   so pinning the pair to the top would put the void back underneath them.
+   Letting the line rise to the figure's top and the metrics fall to its bottom
+   makes the illustration's height the composition instead of a leftover. */
+.claim {
+  display: grid;
+  align-content: start;
+  gap: var(--s9);
 }
 
 .figure {
