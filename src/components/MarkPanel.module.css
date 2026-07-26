@@ -1,0 +1,61 @@
+/* Panels are taller than a band and shorter than a screen. Full viewport height
+   would turn every one into a scroll obstacle on a laptop; this is enough to
+   read as a break in the page without making the reader work to get past it. */
+.panel {
+  padding-block: calc(var(--u) * 12);
+}
+
+/* Line left, mark right -- the same spine as the hero, so the panels punctuate
+   the page without introducing a second layout logic. `auto` on the mark
+   column for the reason the hero uses it: the mark is a fixed-width object, and
+   a fractional column would reserve space it never fills. */
+.inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--s9);
+  align-items: center;
+}
+
+/* Display-size and set as the only text here. This is the one place the page
+   uses --t-display outside the hero, which is what makes a panel feel like a
+   cover rather than a section. */
+.line {
+  margin: 0;
+  color: var(--ink);
+  font-size: var(--t-display);
+  font-weight: 500;
+  line-height: 0.86;
+  letter-spacing: -0.045em;
+  max-width: 12ch;
+}
+
+/* Viewport units, not a percentage. This sits in an `auto` grid track, and a
+   percentage width inside an indefinitely-sized track is cyclic -- it resolves
+   to auto, and because the mark is an empty masked span with no intrinsic
+   dimensions (unlike the hero's <img>, which has the file's own size to fall
+   back on) it collapsed to zero width and vanished entirely. vw is definite,
+   so the track has something real to size against. */
+.mark {
+  justify-self: end;
+  width: min(260px, 24vw);
+}
+
+@media (max-width: 900px) {
+  .inner {
+    grid-template-columns: 1fr;
+    gap: var(--s7);
+  }
+
+  /* Mark first here, unlike the hero. On a panel the mark is the content and
+     the line is its caption; leading with the line would make the reader scroll
+     past a lone sentence to reach the thing it names. */
+  .mark {
+    order: -1;
+    justify-self: start;
+    width: min(160px, 46%);
+  }
+
+  .line {
+    max-width: none;
+  }
+}

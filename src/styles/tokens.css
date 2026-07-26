@@ -1,0 +1,257 @@
+/* Design tokens.
+
+   The structural rules carried over from the previous system and still hold:
+
+     - one grotesque, three weights, nothing else
+     - no strokes and no box-shadows anywhere; grouping comes from alignment,
+       hairline rules and whitespace instead of from enclosure
+     - radii are 0 for structure; the one soft value is reserved for panels that
+       depict a screen
+     - very tight negative tracking on display type, wide positive tracking on
+       small uppercase labels
+     - one slow, decisive easing curve used for everything
+
+   What changed is the colour. The previous palette was a single pink accent on
+   a single paper, with "one dark act" as the page's only rhythm. This is a
+   colour-block system: every act owns a full-bleed ground, and one mark is
+   restated across all of them.
+
+   The mechanism is unchanged, only generalised. Previously `.dark` re-pointed
+   the whole palette for its subtree so no component needed a dark variant.
+   Now there are five such classes instead of one. A component still reads
+   --ink / --paper / --rule and stays correct on any ground, which is the only
+   reason a five-ground page does not need five sets of component styles. */
+
+:root {
+  --font: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* The display unit. Reference editorial sites set `html { font-size: ~0.694vw }`
+     so the whole composition scales as one object -- and in doing so they
+     override the visitor's browser font-size preference (WCAG 1.4.4). This
+     keeps the proportional feel where it does the work (the wordmark, the
+     section numerals, the band rhythm) and leaves body copy in rem, where the
+     preference actually matters. */
+  --u: clamp(4px, 0.72vw, 11px);
+
+  /* 4pt grid. */
+  --s1: 4px;   --s2: 8px;   --s3: 12px;  --s4: 16px;
+  --s5: 20px;  --s6: 24px;  --s7: 32px;  --s8: 48px;
+  --s9: 64px;  --s10: 96px;
+
+  /* ---------- Palette ----------
+
+     Five grounds. Every ratio below is measured, not assumed -- the previous
+     file documented its contrast and this one keeps that convention, because a
+     palette where two members sit one step from failing is exactly the kind
+     that drifts silently under later edits.
+
+       forest  #1e2b16   universal ink | the only dark ground | focus ring
+       sage    #b8eb96   ground
+       pink    #f4c2da   ground
+       lilac   #9a95dd   MARK PANELS ONLY -- see below
+       orange  #e8734a   MARK PANELS ONLY -- see below
+
+     Forest against each ground, which is also the focus-ring ratio
+     (WCAG 1.4.11 needs 3.0 for non-text):
+
+       on sage    10.88:1     on pink    9.61:1
+       on lilac    5.46:1     on orange  4.94:1
+       sage on forest 10.88:1
+
+     Everything clears AA for body text. But sage, pink and forest have room
+     above 7.0 for a genuinely muted third ink step, and lilac and orange do
+     not: their best available ink is 5.46 and 4.94, so a muted --ink-3 there
+     lands under 4.5. Solving that by tinting less produced #2c372c and
+     #2c301a -- 89% and 93% of the way back to full ink, which is to say not a
+     muted step at all, just a rounding error wearing one.
+
+     So lilac and orange never carry body copy. They are full-bleed mark panels:
+     the cat mark and one numeral at display size, nothing small enough for the
+     ceiling to matter. The contrast limit became a layout rule instead of a
+     compromise, which is also how the reference board uses those two colours.
+
+     There is no separate accent hue. Nothing in the palette clears 4.5 on more
+     than one ground (orange on sage is 2.20), so an accent that worked
+     everywhere does not exist here. Controls invert their act instead --
+     fill = --ink, label = --paper -- which inherits the body-text ratio on
+     every ground, and is what the reference board does with its logotype. */
+
+  /* Default ground. The hero and most acts run sage; :root carries it so an
+     element outside any act is never unstyled. */
+  --paper: #b8eb96;
+  --panel: #c9f0ad;
+  --ink: #1e2b16;
+  --ink-2: #374a2a;          /* 7.06:1 */
+  --ink-3: #4f683f;          /* 4.54:1 */
+  --rule: rgba(30, 43, 22, 0.18);
+  --rule-strong: rgba(30, 43, 22, 0.32);
+  --accent: #1e2b16;
+  --accent-hover: #16200f;   /* deepens away from the label, never toward it */
+  --accent-text: #1e2b16;
+  --on-accent: #b8eb96;
+
+  /* The one theme-constant colour outside the figures: the bot bubble fill.
+     Ginger, so it stays in-family with the mug sprites and the cat. Carries
+     forest as its label at 4.94:1. */
+  --accent-bright: #e8734a;
+
+  --focus: var(--ink);
+
+  /* The figure surface -- the ground inside project figures that depict a
+     screen. Deliberately theme-constant, and deliberately still brown after the
+     repalette: these represent something being looked at, not site chrome, so
+     they do not adopt an act's ground. The figures carry the coffee-mug pixel
+     sprites, and the brown keeps that art in its own shadow family -- the same
+     reason the ginger cat reads correctly against them. Do not push these
+     cooler without looking at the mug. */
+  --demo-top: #35241d;
+  --demo-bot: #1a120e;
+  --on-demo: rgba(255, 246, 240, 0.34);
+  --on-demo-faint: rgba(255, 246, 240, 0.07);
+
+  /* Type. Display is driven off --u; everything from the heading scale down is
+     in rem.
+
+     rem, not px, is load-bearing. Browser *zoom* scales px happily, so a px
+     scale still satisfies WCAG 1.4.4 on zoom -- but a reader who instead raises
+     their default font size gets nothing from a px scale, because px is exactly
+     the instruction to ignore that preference.
+
+     Display type runs larger than the previous system's 10u. A colour-block
+     page needs type that holds its own against a full-bleed ground; at 10u on
+     sage the name read as a caption sitting on a colour rather than as the
+     thing the colour was there to carry. */
+  --t-display: min(calc(var(--u) * 13), 19vw);
+  --t-h2: clamp(2.125rem, 4.4vw, 3.5rem);
+  --t-h3: 1.3125rem;
+  --t-lead: 1.25rem;
+  --t-body: 1.0625rem;
+  --t-small: 0.9375rem;
+  --t-label: 0.6875rem;
+
+  /* Radii are 0 for structure. The single soft value is reserved for panels
+     that depict a screen, where it reads as a device corner rather than as
+     decoration. */
+  --r-panel: 18px;
+
+  --ease: cubic-bezier(0.51, 0.01, 0.2, 1);
+  --dur: 300ms;
+
+  --nav-h: 60px;
+
+  color-scheme: light;
+}
+
+/* No `prefers-color-scheme` block and no theme toggle. The act grounds ARE the
+   colour structure; a system preference inverting them would flatten the one
+   rhythm the page has. */
+
+/* ---------- Grounds ----------
+
+   Each class re-points the palette for its whole subtree. Applying one is the
+   entire cost of putting a section on a new ground. */
+
+.tone-sage {
+  --paper: #b8eb96;
+  --panel: #c9f0ad;
+  --ink: #1e2b16;            /* 10.88:1 */
+  --ink-2: #374a2a;          /*  7.06:1 */
+  --ink-3: #4f683f;          /*  4.54:1 */
+  --rule: rgba(30, 43, 22, 0.18);
+  --rule-strong: rgba(30, 43, 22, 0.32);
+  --accent: #1e2b16;
+  --accent-hover: #16200f;
+  --accent-text: #1e2b16;
+  --on-accent: #b8eb96;
+}
+
+.tone-pink {
+  --paper: #f4c2da;
+  --panel: #f9d9e8;
+  --ink: #1e2b16;            /* 9.61:1 */
+  --ink-2: #3a3f2f;          /* 7.03:1 */
+  --ink-3: #5e5851;          /* 4.54:1 */
+  --rule: rgba(30, 43, 22, 0.18);
+  --rule-strong: rgba(30, 43, 22, 0.32);
+  --accent: #1e2b16;
+  --accent-hover: #16200f;
+  --accent-text: #1e2b16;
+  --on-accent: #f4c2da;
+}
+
+/* The only dark ground. Its ink ramp runs the other way -- toward white rather
+   than toward black -- so --accent-hover lightens here for the same reason it
+   deepens elsewhere: away from the label, never toward it. */
+.tone-forest {
+  --paper: #1e2b16;
+  --panel: #2b3d20;
+  --ink: #b8eb96;            /* 10.88:1 */
+  --ink-2: #95bf79;          /*  7.08:1 */
+  --ink-3: #76985f;          /*  4.55:1 */
+  --rule: rgba(184, 235, 150, 0.18);
+  --rule-strong: rgba(184, 235, 150, 0.32);
+  --accent: #b8eb96;
+  --accent-hover: #c6f0a9;
+  --accent-text: #b8eb96;
+  --on-accent: #1e2b16;
+}
+
+/* ---------- Mark-panel grounds ----------
+
+   Body copy must never land on these. --ink-2 and --ink-3 collapse into --ink
+   rather than pretending to a ramp there is no headroom for. A component that
+   reads --ink-3 for a small label still renders legibly here -- it just renders
+   at full strength, which suits a poster panel.
+
+   PanelTone in src/content/site.ts is the actual guard; this comment is the
+   reason behind it. */
+
+.tone-lilac {
+  --paper: #9a95dd;
+  --panel: #b0abe6;
+  --ink: #1e2b16;            /* 5.46:1 */
+  --ink-2: var(--ink);
+  --ink-3: var(--ink);
+  --rule: rgba(30, 43, 22, 0.22);
+  --rule-strong: rgba(30, 43, 22, 0.38);
+  --accent: #1e2b16;
+  --accent-hover: #16200f;
+  --accent-text: #1e2b16;
+  --on-accent: #9a95dd;
+}
+
+.tone-orange {
+  --paper: #e8734a;
+  --panel: #ed8a68;
+  --ink: #1e2b16;            /* 4.94:1 */
+  --ink-2: var(--ink);
+  --ink-3: var(--ink);
+  --rule: rgba(30, 43, 22, 0.22);
+  --rule-strong: rgba(30, 43, 22, 0.38);
+  --accent: #1e2b16;
+  --accent-hover: #16200f;
+  --accent-text: #1e2b16;
+  --on-accent: #e8734a;
+}
+
+/* Every ground paints its own background, which is what makes an act a block
+   rather than a band with a rule above it.
+
+   --focus is re-declared here, and it has to be. A custom property is
+   substituted where it is *declared*, not where it is used: `--focus: var(--ink)`
+   sitting only in :root resolves against :root's ink once, then inherits that
+   fixed colour into every subtree. On the four light grounds that is invisible,
+   because their ink is forest too -- but on .tone-forest it produced a forest
+   ring on a forest ground, 1.0:1, a focus indicator that does not exist.
+   Re-declaring it on the same element that declares --ink is what makes it
+   re-resolve per ground. Caught by the contrast audit, not by looking. */
+.tone-sage,
+.tone-pink,
+.tone-forest,
+.tone-lilac,
+.tone-orange {
+  --focus: var(--ink);
+  background: var(--paper);
+  color: var(--ink-2);
+}

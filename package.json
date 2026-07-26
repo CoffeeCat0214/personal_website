@@ -5,12 +5,10 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "next start",
     "lint": "next lint",
-    "export": "next build",
-    "export:no-lint": "ESLINT_SKIP=true next build",
-    "deploy:s3": "npm run export:no-lint && aws s3 sync out/ s3://kyrstin-portfolio-2024 --delete",
-    "deploy:gh-pages": "rm -rf out && npm run export:no-lint && cd out && touch .nojekyll && git init && git add . && git commit -m \"Deploy to GitHub Pages\" && git branch -M gh-pages && git push -f origin gh-pages"
+    "serve": "npx --yes serve out",
+    "deploy:s3": "npm run build && aws s3 sync out/ s3://kyrstin-portfolio-website --delete",
+    "deploy:gh-pages": "rm -rf out && npm run build && cd out && touch .nojekyll && git init && git add . && git commit -m \"Deploy to GitHub Pages\" && git branch -M gh-pages && git push -f origin gh-pages"
   },
   "dependencies": {
     "react": "^19.0.0",
@@ -22,8 +20,6 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "autoprefixer": "^10.0.1",
-    "tailwindcss": "^3.3.0",
     "eslint": "^9",
     "eslint-config-next": "15.3.0",
     "@eslint/eslintrc": "^3"

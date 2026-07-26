@@ -1,0 +1,228 @@
+/* One shared chrome for all three project figures.
+
+   Type inside these figures is in px, deliberately, while every other size in
+   the project is rem. This is text that *depicts* an interface rather than text
+   to be read: it lives in a fixed-aspect panel with overflow:hidden, it is
+   aria-hidden, and each figure's meaning is carried by its role="img" label and
+   by the real body copy beside it. Letting a raised font-size preference scale
+   it would overflow the panel and destroy the composition without making
+   anything more readable -- the thing a reader actually needs is the prose,
+   which does scale.
+
+   Each depicts a screen, so each gets --r-panel -- the single soft radius in the
+   system, reserved for exactly this. The surface tokens (--demo-*) are
+   theme-constant on purpose: they represent something being looked at, not site
+   chrome, so the figure does not invert inside the dark act. */
+
+.figure {
+  overflow: hidden;
+  border-radius: var(--r-panel);
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  margin: 0;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  min-height: 40px;
+  padding: 0 var(--s4);
+  border-bottom: 1px solid var(--rule);
+}
+
+/* Hairline outlines rather than filled discs -- at this size a heavy stroke
+   reads as three loud dots instead of as window furniture. */
+.dot {
+  width: 9px;
+  height: 9px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 50%;
+}
+
+.barLabel {
+  margin-left: var(--s2);
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.stage {
+  position: relative;
+  min-height: 400px;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, var(--on-demo-faint) 1px, transparent 1px),
+    linear-gradient(var(--demo-top), var(--demo-bot));
+  background-size: 80px 80px, auto;
+}
+
+/* ---------- CoffeeCat ---------- */
+
+.feedLines {
+  position: absolute;
+  left: var(--s7);
+  top: var(--s7);
+  display: grid;
+  gap: var(--s3);
+  width: min(240px, 46%);
+}
+
+.feedLines span {
+  height: 12px;
+  border-radius: 999px;
+  background: var(--on-demo);
+}
+
+.feedLines span:nth-child(2) { width: 82%; }
+.feedLines span:nth-child(3) { width: 60%; }
+
+.mug {
+  position: absolute;
+  right: 8%;
+  bottom: 8%;
+  width: 40%;
+  max-width: 220px;
+  /* The sprite canvas is square and every layer shares its origin. */
+  aspect-ratio: 1;
+}
+
+.mugLayer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  /* The sprites are low-resolution pixel art; smoothing them is the one thing
+     that would make them look like a mistake rather than a style. */
+  image-rendering: pixelated;
+}
+
+.steam {
+  animation: drift 4s var(--ease) infinite;
+}
+
+@keyframes drift {
+  0%, 100% { opacity: 0.45; transform: translateY(0); }
+  50%      { opacity: 0.9;  transform: translateY(-4px); }
+}
+
+/* ---------- Shared inner panel for the code / thread figures ---------- */
+
+.panel {
+  position: absolute;
+  left: var(--s7);
+  right: var(--s7);
+  top: var(--s7);
+  bottom: var(--s7);
+  display: grid;
+  align-content: start;
+  gap: var(--s3);
+  padding: var(--s5);
+  border-radius: 12px;
+  background: rgba(12, 8, 6, 0.45);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.7;
+  color: rgba(242, 237, 255, 0.72);
+  overflow: hidden;
+}
+
+.line {
+  display: flex;
+  gap: var(--s3);
+  white-space: nowrap;
+}
+
+.gutter {
+  color: var(--on-demo);
+  user-select: none;
+}
+
+/* Diff colours are not from the brand palette, deliberately. Red/green in a
+   diff is a convention a reader already knows how to parse; recolouring it to
+   match a pink brand would trade comprehension for consistency. Both clear AA
+   on the coffee_bean ground. */
+.removed { color: #ffa8bd; }
+.added   { color: #9fe6c0; }
+.muted   { color: var(--on-demo); }
+
+/* ---------- Thread ---------- */
+
+.bubble {
+  max-width: 78%;
+  padding: var(--s3) var(--s4);
+  border-radius: 14px;
+  font-family: var(--font);
+  font-size: var(--t-small);
+  line-height: 1.45;
+  white-space: normal;
+}
+
+.fromUser {
+  justify-self: end;
+  background: rgba(242, 237, 255, 0.14);
+  color: rgba(242, 237, 255, 0.88);
+  border-bottom-right-radius: 4px;
+}
+
+/* The one place the signature pink appears at size on a light-on-dark fill --
+   it clears AA against the coffee ground and against its own dark label. */
+.fromBot {
+  justify-self: start;
+  background: var(--accent-bright);
+  color: #3d0418;
+  border-bottom-left-radius: 4px;
+}
+
+.typing {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.typing span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: blink 1.4s var(--ease) infinite;
+}
+
+.typing span:nth-child(2) { animation-delay: 0.2s; }
+.typing span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes blink {
+  0%, 60%, 100% { opacity: 0.3; }
+  30%           { opacity: 1; }
+}
+
+@media (max-width: 640px) {
+  .stage {
+    min-height: 320px;
+  }
+
+  .panel {
+    left: var(--s4);
+    right: var(--s4);
+    top: var(--s4);
+    bottom: var(--s4);
+    padding: var(--s4);
+    font-size: 12px;
+  }
+}
+
+/* The steam drift and the typing dots are decorative loops. They must stop, not
+   just shorten -- and stop at a state that still reads correctly. */
+@media (prefers-reduced-motion: reduce) {
+  .steam {
+    animation: none;
+    opacity: 0.7;
+  }
+
+  .typing span {
+    animation: none;
+    opacity: 0.6;
+  }
+}

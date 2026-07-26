@@ -1,43 +1,46 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import Navbar from "../components/Navbar";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
+import "@/styles/tokens.css";
+import "@/styles/base.css";
+import { Nav } from "@/components/Nav";
+import { SkipLink } from "@/components/SkipLink";
+import { Reveal } from "@/components/Reveal";
+import { Footer } from "@/components/Footer";
+import { site } from "@/content/site";
 
 export const metadata: Metadata = {
-  title: "Kyrstin Kauchak | Portfolio",
-  description: "Software Engineer | Data Professional | Agile Leader",
+  title: `${site.name} — ${site.role}`,
+  description: site.tagline,
+  openGraph: {
+    title: `${site.name} — ${site.role}`,
+    description: site.tagline,
+    type: "website",
+  },
   icons: {
-    icon: '/favicon.ico',
-    apple: '/favicon.ico',
+    icon: "/favicon.ico",
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/favicon.ico" />
+        {/* Sans only. The wordmark paints first at display size, so it is worth
+            the early fetch; the mono is label-sized and not render-blocking, and
+            preloading both would have them compete for the same connection. */}
+        <link
+          rel="preload"
+          href="/fonts/Geist-Variable.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin=""
+        />
       </head>
-      <body className={inter.className}>
-        <Navbar />
-        <main className="min-h-screen pt-16">
-          {children}
-        </main>
-        <footer className="py-8 bg-[var(--background)] border-t border-[var(--border)] text-center text-sm text-[var(--text)]/60">
-          <div className="max-w-6xl mx-auto px-4">
-            <p>© {new Date().getFullYear()} Kyrstin Kauchak. All rights reserved.</p>
-            <p className="mt-2">Built with Next.js, TailwindCSS, and ❤️</p>
-          </div>
-        </footer>
+      <body>
+        <SkipLink />
+        <Nav />
+        <main id="main">{children}</main>
+        <Footer />
+        <Reveal />
       </body>
     </html>
   );

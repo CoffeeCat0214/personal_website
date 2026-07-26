@@ -1,0 +1,36 @@
+.footer {
+  padding-block: var(--s8) var(--s9);
+  border-top: 1px solid var(--rule);
+}
+
+.inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s4);
+}
+
+.mark {
+  color: var(--ink);
+  font-size: var(--t-small);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.meta {
+  font-size: var(--t-small);
+  color: var(--ink-3);
+}
+
+/* A colophon rather than a credit. "Built with Next.js and ❤️" tells a reader
+   nothing they cannot see from the page source; the type and the palette rule
+   are the two decisions actually worth naming. */
+.colophon {
+  flex-basis: 100%;
+  margin-top: var(--s5);
+  color: var(--ink-3);
+  font-size: 0.75rem;
+  opacity: 0.8;
+  max-width: 72ch;
+}

@@ -1,0 +1,159 @@
+/* Every colour here resolves through --paper / --ink, which is the whole reason
+   the adaptive ground in Reveal.tsx needed no rules of its own: mirroring an
+   act's tone class onto <html> re-points these by inheritance.
+
+   The grounds themselves hard-cut as you scroll -- blending sage into pink muds
+   both, and a colour-block system cuts. The nav is the exception, because it is
+   chrome sitting *over* the cut rather than part of it, and a bar that flipped
+   instantly would read as a flash. */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  border-bottom: 1px solid var(--rule);
+  background: color-mix(in srgb, var(--paper) 82%, transparent);
+  backdrop-filter: saturate(1.4) blur(14px);
+  -webkit-backdrop-filter: saturate(1.4) blur(14px);
+  transition:
+    background-color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s6);
+  height: var(--nav-h);
+}
+
+.mark {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--s2);
+  color: var(--ink);
+  font-size: var(--t-small);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+
+.markRole {
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.links {
+  display: flex;
+  gap: var(--s6);
+  list-style: none;
+  margin: 0;
+}
+
+.links a {
+  color: var(--ink-3);
+  font-size: var(--t-small);
+  text-decoration: none;
+  transition: color var(--dur) var(--ease);
+}
+
+.links a:hover {
+  color: var(--ink);
+}
+
+/* The disclosure button only exists below 640px. Rendering it always and hiding
+   it with CSS keeps it in the tab order on desktop, where it is invisible --
+   a keyboard trap that sighted mouse users never see and screen-reader users
+   hit immediately. */
+.toggle {
+  display: none;
+  align-items: center;
+  gap: var(--s2);
+  min-height: 44px;
+  padding: 0 var(--s3);
+  border: 1px solid var(--rule-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: var(--t-label);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color var(--dur) var(--ease);
+}
+
+.toggle:hover {
+  border-color: var(--ink);
+}
+
+.bars {
+  position: relative;
+  width: 14px;
+  height: 10px;
+}
+
+.bars::before,
+.bars::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transition: transform var(--dur) var(--ease);
+}
+
+.bars::before { top: 2px; }
+.bars::after { bottom: 2px; }
+
+.barsOpen::before { transform: translateY(3px) rotate(45deg); }
+.barsOpen::after { transform: translateY(-3px) rotate(-45deg); }
+
+.panel {
+  display: none;
+  border-top: 1px solid var(--rule);
+  padding-block: var(--s4) var(--s6);
+}
+
+.panel ul {
+  display: grid;
+  list-style: none;
+  margin: 0;
+}
+
+.panel a {
+  display: block;
+  padding-block: var(--s4);
+  border-bottom: 1px solid var(--rule);
+  color: var(--ink);
+  font-size: var(--t-lead);
+  letter-spacing: -0.015em;
+  text-decoration: none;
+}
+
+@media (max-width: 640px) {
+  /* Hide the landmark, not just the list -- see Nav.tsx. */
+  .desktopNav {
+    display: none;
+  }
+
+  /* The name and the role both wrap at this width, pushing a 60px bar to two
+     crowded lines. The role is repeated in the hero immediately below, so the
+     bar keeps the name only. */
+  .markRole {
+    display: none;
+  }
+
+  .toggle {
+    display: inline-flex;
+  }
+
+  .panelOpen {
+    display: block;
+  }
+}

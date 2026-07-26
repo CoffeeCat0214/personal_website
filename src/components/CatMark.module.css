@@ -1,0 +1,20 @@
+/* One asset at both sizes, so the rail marks cost nothing after the hero has
+   already fetched it. Height comes from the intrinsic ratio rather than a
+   declared aspect-ratio: it is a real <img> now, not an empty masked span, so
+   it brings its own dimensions and cannot collapse in an auto-sized grid track
+   the way the mask did. */
+.mark {
+  display: block;
+  height: auto;
+}
+
+/* Rides the sticky act rail above the numeral. Small, but full-colour, which is
+   the only reason it still reads as a cat at this size. */
+.rail {
+  width: 72px;
+}
+
+/* Poster scale. Sized by its panel so the panel owns the composition. */
+.panel {
+  width: 100%;
+}

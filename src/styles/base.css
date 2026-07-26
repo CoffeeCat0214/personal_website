@@ -1,0 +1,240 @@
+/* Fonts, reset, element defaults, focus, motion.
+   Component-specific rules live in co-located CSS Modules. */
+
+/* Self-hosted rather than CDN-linked: a personal site should not acquire a
+   third-party render-blocking dependency for two files totalling 140KB.
+   SIL OFL -- see public/fonts/LICENSE.txt. */
+@font-face {
+  font-family: "Geist";
+  src: url("/fonts/Geist-Variable.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url("/fonts/GeistMono-Variable.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Anchor targets must clear the sticky header. */
+  scroll-padding-top: calc(var(--nav-h) + var(--s6));
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink-2);
+  font-family: var(--font);
+  font-size: var(--t-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Geist ships proportional figures by default; the page has enough numerals
+     (dates, section numbers, metrics) that lining them up is worth one
+     declaration. */
+  font-variant-numeric: tabular-nums;
+}
+
+h1, h2, h3, p, ol, ul, figure, figcaption, dl, dd {
+  margin: 0;
+}
+
+ul, ol {
+  padding: 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1 {
+  color: var(--ink);
+  font-size: var(--t-display);
+  font-weight: 500;
+  line-height: 0.84;
+  /* Display tracking has to come in hard as size goes up -- this is the single
+     most visible difference between set type and default type. */
+  letter-spacing: -0.045em;
+}
+
+h2 {
+  color: var(--ink);
+  font-size: var(--t-h2);
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+h3 {
+  color: var(--ink);
+  font-size: var(--t-h3);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+p {
+  color: var(--ink-2);
+}
+
+code {
+  /* Tight horizontal padding: at 0.4em the trailing punctuation after an
+     inline <code> visibly detaches from it. */
+  padding: 0.15em 0.28em;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+}
+
+/* One container rule for every band on the page. Sections are full-width so a
+   dark one bleeds edge to edge with no negative-margin trick; only .wrap
+   constrains the measure. */
+.wrap {
+  width: min(1120px, calc(100vw - var(--s8)));
+  margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+  .wrap {
+    width: min(1120px, calc(100vw - var(--s6)));
+  }
+}
+
+/* 52ch keeps a heading to roughly two lines at --t-h2, which is where a display
+   line stops reading as a statement and starts reading as a paragraph. */
+.section-head {
+  display: grid;
+  gap: var(--s4);
+  max-width: 52ch;
+}
+
+/* Scoped to .btn. Styling the bare `a` element turns every link on the page
+   into a 46px filled button, footer and prose included. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 var(--s6);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: var(--t-small);
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  text-decoration: none;
+  transition:
+    background-color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    color var(--dur) var(--ease);
+}
+
+.btn:hover {
+  background: var(--accent-hover);
+}
+
+/* A hairline and a colour shift, not a raised slab. */
+.btn.secondary {
+  background: transparent;
+  border-color: var(--rule-strong);
+  color: var(--ink);
+}
+
+.btn.secondary:hover {
+  background: color-mix(in srgb, var(--ink) 5%, transparent);
+  border-color: var(--ink);
+}
+
+/* One declaration covers all five grounds, because each .tone-* class
+   re-declares --focus against its own --ink. That re-declaration is
+   load-bearing and not obviously so -- see the note in tokens.css about why
+   defining --focus only on :root produced an invisible ring on the dark act. */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ---------- Scroll reveal ----------
+   The hidden state is applied by Reveal.tsx at runtime, never as a static rule
+   here. `[data-reveal] { opacity: 0 }` in the stylesheet hands anyone without
+   JS -- or anyone whose JS fails -- a blank page. Under static export that is a
+   real risk, not a hypothetical: the HTML ships fully formed and would be
+   hidden by CSS that no script ever arrives to undo. */
+
+[data-reveal].is-hidden {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+[data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 600ms var(--ease),
+    transform 600ms var(--ease);
+}
+
+/* Display type rises further and slower than body content. 12px under a 100px
+   wordmark is a twitch; the distance has to scale with the type or the gesture
+   reads as a rendering hiccup rather than as an entrance. */
+[data-reveal="display"].is-hidden {
+  transform: translateY(0.14em);
+}
+
+[data-reveal="display"].is-revealed {
+  transition:
+    opacity 900ms var(--ease),
+    transform 900ms var(--ease);
+}
+
+/* The mark settles rather than slides. Scale only -- a cutout with no frame has
+   no edge to travel against, so translating it just looks like it was dropped
+   in the wrong place first. */
+[data-reveal="mark"].is-hidden {
+  transform: scale(0.94);
+}
+
+[data-reveal="mark"].is-revealed {
+  transition:
+    opacity 800ms var(--ease),
+    transform 800ms var(--ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  /* Belt and braces: Reveal.tsx already skips the reveal entirely under reduced
+     motion, but if it ever failed to run, content must not be left invisible. */
+  [data-reveal].is-hidden {
+    opacity: 1;
+    transform: none;
+  }
+}

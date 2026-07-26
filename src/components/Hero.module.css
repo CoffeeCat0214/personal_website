@@ -1,0 +1,176 @@
+.hero {
+  border-top: 0;
+  padding-block: calc(var(--u) * 8) calc(var(--u) * 10);
+}
+
+/* Copy left, brand art right. The art is what makes the hero a composition
+   rather than a headline -- which is also why the display type came down to
+   10u: at 18u the name alone filled the row and the illustration had nowhere
+   to sit that did not read as an afterthought pinned to the margin. */
+/* `auto` rather than a fractional art column. The art is a fixed-width portrait
+   block, so a 0.72fr column just reserved ~480px and let 140px of it sit empty
+   behind a `justify-self: end` -- the gap between the columns was a lie about
+   where the composition actually ended. Sizing the column to its content makes
+   the --s9 gap the real measure between the tagline and the picture. */
+.top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--s9);
+  align-items: center;
+}
+
+.copy {
+  display: grid;
+  gap: var(--s5);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--t-label);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 0;
+}
+
+.name {
+  display: grid;
+  gap: var(--s4);
+}
+
+.tagline {
+  color: var(--ink);
+  font-size: var(--t-lead);
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+  max-width: 40ch;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s3);
+  margin-top: var(--s2);
+}
+
+/* No frame, no radius, no ground of its own. The cat is a cutout with real
+   transparency (22% of the source is alpha 0), so it sits directly on the act's
+   sage and reads as a mark rather than as a picture that has been placed. This
+   is the one thing the retired windowsill illustration could never do -- it
+   carried its own opaque night sky, which is why it needed a plate around it
+   and why it could not survive the repalette.
+
+   aspect-ratio matches the source exactly. Anything else and the cutout
+   distorts with nothing around it to hide the stretch. */
+.art {
+  position: relative;
+  justify-self: end;
+  width: min(400px, 100%);
+  aspect-ratio: 890 / 1142;
+}
+
+.art img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+}
+
+/* Facts worth scanning, set as a definition list rather than prose. A recruiter
+   reads this row before the paragraph above it. */
+.facts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0 var(--s6);
+  margin: var(--s9) 0 0;
+  border-top: 1px solid var(--rule);
+}
+
+.factCell {
+  display: grid;
+  gap: var(--s1);
+  padding-top: var(--s4);
+}
+
+.factKey {
+  font-family: var(--font-mono);
+  font-size: var(--t-label);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.factValue {
+  margin: 0;
+  color: var(--ink);
+  font-size: var(--t-small);
+}
+
+.factValue a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule-strong);
+  transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+.factValue a:hover {
+  color: var(--accent-text);
+  border-color: var(--accent-text);
+}
+
+/* A live dot is the one piece of decoration that earns its place: availability
+   is the single most time-sensitive fact on a hiring page. */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+}
+
+.status::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-text);
+  flex: none;
+}
+
+@media (max-width: 900px) {
+  .top {
+    grid-template-columns: 1fr;
+    gap: var(--s7);
+  }
+
+  /* Art first on a phone: it is the brand, and it establishes the page before
+     the copy has to carry it. Narrower than the old square, because at 2:3 the
+     same width buys 50% more height -- 220px wide would push the name below the
+     fold on a small phone, which inverts the reason it is first. */
+  .art {
+    order: -1;
+    justify-self: start;
+    width: min(180px, 52%);
+  }
+
+  .facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s5) var(--s6);
+    margin-top: var(--s8);
+  }
+}
+
+@media (max-width: 400px) {
+  .facts {
+    grid-template-columns: 1fr;
+  }
+
+  /* :global is required. `.btn` is defined in base.css, but inside a CSS Module
+     every bare class name is rewritten to a scoped hash by default -- so
+     `.actions .btn` would compile to a selector matching nothing, and this rule
+     would silently do nothing at all. */
+  .actions :global(.btn) {
+    flex: 1 1 100%;
+  }
+}

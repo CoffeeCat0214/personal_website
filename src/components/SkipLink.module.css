@@ -1,0 +1,31 @@
+/* Not in the source design, which has no skip link. With a sticky nav and six
+   long acts, a keyboard user otherwise tabs the full nav on every visit.
+
+   Clipped rather than `display: none` or `visibility: hidden` -- both of those
+   remove the element from the tab order entirely, so it can never receive the
+   focus that is supposed to reveal it. */
+.link {
+  position: absolute;
+  left: var(--s4);
+  top: var(--s4);
+  z-index: 50;
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  padding: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: var(--t-small);
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.link:focus-visible {
+  clip-path: none;
+  width: auto;
+  height: auto;
+  padding: var(--s3) var(--s5);
+}
