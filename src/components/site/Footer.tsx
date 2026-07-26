@@ -1,4 +1,4 @@
-import { site } from "@/content/site";
+import { site } from "@/content";
 import styles from "./Footer.module.css";
 
 export function Footer() {
@@ -10,7 +10,7 @@ export function Footer() {
             behind it gets named. A studio with no attributable human reads as
             either much bigger than it is, or as hiding something. */}
         <p className={styles.meta}>
-          Founded by {site.founder} · {site.location} · {new Date().getFullYear()}
+          Built by {site.founder} · {site.location} · {new Date().getFullYear()}
         </p>
         {/* A colophon that describes the old palette is worse than no colophon:
             it is the one paragraph on the page claiming the design was

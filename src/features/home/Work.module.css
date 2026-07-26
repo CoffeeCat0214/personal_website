@@ -1,0 +1,54 @@
+/* Tools stacked as rows, separated by rules rather than boxed as cards. Cards
+   in a row all compete for the same attention and each one asks to be
+   evaluated; rows read in sequence and let the reader stop when they have seen
+   enough, which is the right affordance for supporting evidence.
+
+   Metric and footer rules moved to Case.module.css when the flagship became a
+   shipped product that carries the same evidence. Only the two-column tool row
+   and its subtitle are specific to this act now. */
+.tools {
+  display: grid;
+}
+
+.tool {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(220px, 0.65fr);
+  gap: var(--s8);
+  align-items: start;
+  padding-block: var(--s8);
+  border-top: 1px solid var(--rule);
+}
+
+.tool:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+
+.copy {
+  display: grid;
+  gap: var(--s4);
+}
+
+.subtitle {
+  font-size: var(--t-small);
+  line-height: 1.6;
+  color: var(--ink-3);
+  max-width: 58ch;
+  margin: 0;
+}
+
+.figure {
+  /* Figures are illustrative at this size, so they yield to the copy on any
+     screen narrow enough that two columns would squeeze the paragraph. */
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .tool {
+    grid-template-columns: 1fr;
+    gap: var(--s6);
+  }
+
+  .figure {
+    order: -1;
+  }
+}

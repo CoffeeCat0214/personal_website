@@ -1,0 +1,51 @@
+/* The positioning line. Sized between lead and h2 -- large enough to read as a
+   statement rather than a caption, small enough that it does not compete with
+   the act's own h2 directly above it.
+
+   In rem, not --u. The display unit is reserved for the wordmark and the panel
+   lines, which are compositional; this is a sentence somebody has to actually
+   read, so it honours the browser's font-size preference (WCAG 1.4.4). */
+.positioning {
+  font-size: clamp(1.5rem, 2.6vw, 2.125rem);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  max-width: 24ch;
+  margin: 0;
+  text-wrap: balance;
+}
+
+@media (max-width: 640px) {
+  .positioning {
+    max-width: none;
+  }
+}
+
+/* The positioning line and the figure share a row. The line is capped at 24ch
+   and would otherwise leave most of the act empty beside it.
+
+   Same column ratio as a tool row in Work.module.css, so the figure reads at
+   the same size in both acts instead of being conspicuously larger here. */
+.statement {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(220px, 0.65fr);
+  gap: var(--s8);
+  align-items: center;
+}
+
+.figure {
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .statement {
+    grid-template-columns: 1fr;
+    gap: var(--s6);
+  }
+
+  /* No `order: -1` here, unlike the tool rows. Those lead with their figure
+     because the illustration is the fastest way to tell three similar-looking
+     entries apart. This act has one figure and a heading directly above it, and
+     hoisting the sprite would drop it between the h2 and the sentence that
+     completes it. */
+}

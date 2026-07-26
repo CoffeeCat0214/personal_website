@@ -1,14 +1,18 @@
-import { site } from "@/content/site";
+import { hero, site } from "@/content";
 import styles from "./Hero.module.css";
 
-/* "Open to new roles" used to lead this row. It was the single line most at
-   odds with the rest of the page: a studio that is looking for a job is not a
-   studio. The status treatment is kept and repointed at the thing a partner
-   actually wants to know, which is how far along the flagship is. */
+/* The status line answers the first question a visitor has: is any of this real
+   yet. It read "In development" for an unbuilt story world.
+
+   Three cells, not four. The fourth was "Elsewhere -> GitHub", which is the
+   third link to the same profile above the fold once the nav and the contact
+   act are counted -- and it was the only cell answering a question nobody has
+   yet at the top of the page. Dropping it widens the remaining three rather
+   than leaving a gap, because the row is a fractional grid. */
 const facts = [
-  { key: "Flagship", value: "In development", status: true },
+  { key: "Flagship", value: "Shipped", status: true },
+  { key: "Built by", value: site.founder },
   { key: "Based in", value: site.location },
-  { key: "Founded by", value: site.founder },
 ];
 
 /* The name is the h1 and the only display-size type on the page. It rides --u,
@@ -35,16 +39,38 @@ export function Hero() {
             <p className={styles.tagline} data-reveal>
               {site.tagline}
             </p>
-            {/* The primary action is the argument, not the work. A partner who
-                reads the thesis and leaves is a better outcome than one who
-                skims three GitHub links; the subscribe path is secondary here
-                because nobody subscribes before they know what for. */}
+
+            {/* The positioning, and the only copy on the page set between body
+                and heading size.
+
+                data-split, not data-reveal, and the wrapper deliberately
+                carries neither: a data-reveal ancestor holds its subtree at
+                opacity 0 until it fires, which would run the line masks inside
+                something invisible. Same constraint FlagshipAct.tsx documents.
+
+                The two sentences are separate <p> elements rather than one
+                two-sentence paragraph so each gets its own trigger and its own
+                stagger -- the second lands after the first has settled, which
+                is the difference between a statement arriving and a block of
+                text sliding. */}
+            <div className={styles.statement}>
+              {hero.statement.map((line) => (
+                <p key={line.slice(0, 32)} data-split>
+                  {line}
+                </p>
+              ))}
+            </div>
+
+            {/* The primary action is the work. It used to point at a thesis, on
+                the theory that the argument mattered more than the software --
+                only true when there is no software. Contact stays secondary:
+                nobody gets in touch before they know what for. */}
             <div className={styles.actions} data-reveal>
-              <a className="btn" href="#thesis">
-                Read the thesis
+              <a className="btn" href="#extension">
+                See the extension
               </a>
-              <a className="btn secondary" href="#subscribe">
-                Follow the Lab
+              <a className="btn secondary" href="#contact">
+                Get in touch
               </a>
             </div>
           </div>
@@ -97,12 +123,6 @@ export function Hero() {
               </dd>
             </div>
           ))}
-          <div className={styles.factCell}>
-            <dt className={styles.factKey}>Elsewhere</dt>
-            <dd className={styles.factValue}>
-              <a href={site.github}>GitHub</a>
-            </dd>
-          </div>
         </dl>
       </div>
     </section>

@@ -5,12 +5,12 @@ import "@/styles/base.css";
    avoid fighting the browser's own scrolling. Imported from the package rather
    than copied so it cannot drift from the version actually installed. */
 import "lenis/dist/lenis.css";
-import { Nav } from "@/components/Nav";
-import { SkipLink } from "@/components/SkipLink";
-import { Reveal } from "@/components/Reveal";
-import { MotionProvider } from "@/components/motion/MotionProvider";
-import { Footer } from "@/components/Footer";
-import { site } from "@/content/site";
+import { Nav } from "@/components/site/Nav";
+import { Footer } from "@/components/site/Footer";
+import { SkipLink } from "@/components/ui/SkipLink";
+import { Reveal } from "@/features/motion/Reveal";
+import { MotionProvider } from "@/features/motion/MotionProvider";
+import { site } from "@/content";
 import { SITE_URL } from "@/lib/site-url";
 
 const title = `${site.name} — ${site.kind}`;
@@ -46,13 +46,16 @@ export const metadata: Metadata = {
   },
 };
 
-/* Organization rather than Person. The masthead is a studio now, and the
-   structured data should agree with it -- a Person entity here would tell
-   Google the opposite of what the page says.
+/* Organization rather than Person. The masthead is a studio, and the structured
+   data should agree with it -- a Person entity here would tell Google the
+   opposite of what the page says.
 
-   `founder` keeps the human attached to it, which is what stops an
-   Organization with no named people reading as either much larger than it is,
-   or as evasive. */
+   `founder` keeps the human attached to it, which is what stops an Organization
+   with no named people reading as either much larger than it is, or as evasive.
+
+   The studio and its flagship extension share the name CoffeeCat. That is fine
+   for an Organization entity; if a SoftwareApplication entity for the extension
+   is ever added, it needs its own node rather than a second name on this one. */
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",

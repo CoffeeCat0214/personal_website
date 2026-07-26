@@ -48,6 +48,37 @@
   max-width: 40ch;
 }
 
+/* The positioning statement. Sits between the tagline and the buttons at a size
+   the rem scale has nowhere else, which is the point -- it is the one piece of
+   copy on the page that is neither a heading nor body text.
+
+   --ink, not --ink-2. Body copy runs at the second ink step; this runs at full
+   strength because it is a statement rather than supporting text, and because
+   the tagline directly above it is already at --ink. Two sentences at different
+   inks would read as a paragraph that lost its nerve halfway through.
+
+   45ch rather than the tagline's 40ch: at this size 40ch breaks the first
+   sentence across three lines with two words on the last one. */
+.statement {
+  display: grid;
+  gap: var(--s3);
+  max-width: 45ch;
+}
+
+/* No text-wrap: balance, unlike the h2 rule in base.css. Balancing optimises
+   each paragraph on its own, and with two stacked paragraphs that is the wrong
+   scope: the second one balanced to three short lines beside a first one that
+   ran nearly full measure, so the block read as ragged rather than set. A
+   single heading has no neighbour to disagree with, which is why the same
+   declaration is right there and wrong here. */
+.statement p {
+  color: var(--ink);
+  font-size: var(--t-statement);
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;
@@ -82,7 +113,7 @@
    reads this row before the paragraph above it. */
 .facts {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0 var(--s6);
   margin: var(--s9) 0 0;
   border-top: 1px solid var(--rule);

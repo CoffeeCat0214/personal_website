@@ -7,8 +7,12 @@
    sitemap and JSON-LD.
 
    Read from the environment because the deployed origin is a deploy-time fact,
-   not a source-code one -- and it is genuinely not settled yet: the bucket is
-   still `kyrstin-portfolio-website` and the domain has not been registered. The
-   fallback keeps builds working meanwhile and is wrong on purpose in a way that
-   is obvious rather than subtle if it ever ships. */
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://cremeandmisu.com";
+   and no domain is registered yet. The fallback was https://cremeandmisu.com,
+   which is now both the wrong studio and a dead domain -- it would unfurl as a
+   broken card rather than an obvious placeholder.
+
+   So the fallback is the origin that actually serves the site, from
+   deploy-to-s3.sh. Set NEXT_PUBLIC_SITE_URL the day a domain lands. */
+export const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  "http://kyrstin-portfolio-website.s3-website-us-east-1.amazonaws.com";

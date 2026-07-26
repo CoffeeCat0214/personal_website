@@ -1,5 +1,5 @@
-import type { MarkPanel as MarkPanelData } from "@/content/site";
-import { CatMark } from "./CatMark";
+import type { MarkPanel as MarkPanelData } from "@/content";
+import { CatMark } from "@/components/brand/CatMark";
 import styles from "./MarkPanel.module.css";
 
 /* A full-bleed colour field carrying the mark and one display-size line.
@@ -25,7 +25,19 @@ export function MarkPanel({ panel }: { panel: MarkPanelData }) {
       data-tone={panel.tone}
     >
       <div className={`wrap ${styles.inner}`}>
-        <p className={styles.line} data-reveal="display">
+        {/* data-split rather than data-reveal="display". This line is the
+            largest type on the page outside the wordmark and it wraps to two or
+            three lines, which is exactly the case the line mask was built for:
+            a display sentence rising one line at a time out from behind a hard
+            edge. The whole-block fade it used before treated three lines of
+            poster type as a single object.
+
+            The mark keeps data-reveal="mark" -- a cutout with no frame has no
+            edge to be masked against, so splitting it would have nothing to
+            hide behind. The two systems own disjoint attributes, so a panel
+            using one for its line and the other for its mark is the intended
+            division rather than a mixture. */}
+        <p className={styles.line} data-split>
           {panel.line}
         </p>
         <div className={styles.mark} data-reveal="mark">

@@ -124,6 +124,13 @@
      thing the colour was there to carry. */
   --t-display: min(calc(var(--u) * 13), 19vw);
   --t-h2: clamp(2.125rem, 4.4vw, 3.5rem);
+  /* The hero statement, and the only step between the lead and a heading. In
+     rem and not --u, despite sitting in the hero: this is a sentence somebody
+     reads rather than a piece of the composition, so it honours the browser
+     font-size preference like the rest of the rem scale. The ceiling stays
+     under --t-h2's floor so the statement can never out-size a section
+     heading. */
+  --t-statement: clamp(1.5rem, 2.4vw, 2rem);
   --t-h3: 1.3125rem;
   --t-lead: 1.25rem;
   --t-body: 1.0625rem;

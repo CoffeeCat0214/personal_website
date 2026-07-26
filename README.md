@@ -1,36 +1,31 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CoffeeCat Personal Website
 
-## Getting Started
+Static Next.js portfolio for CoffeeCat, a one-person humane software studio by Kyrstin Kauchak.
 
-First, run the development server:
+## Commands
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+npm run test:e2e
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+`npm run build` writes the static export to `out/`. `npm run test:e2e` builds first, then checks the exported HTML and metadata routes.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `src/features/home` owns the one-page composition and section-specific components.
+- `src/features/motion` owns browser-only setup/teardown adapters for tone tracking, reveal animation, smooth scroll, marquees, and split text.
+- `src/components/ui` contains reusable markup primitives.
+- `src/components/brand` contains CoffeeCat brand marks and project figures.
+- `src/components/site` contains site shell components such as nav and footer.
+- `src/content` contains typed site identity, project data, and homepage composition.
 
-## Learn More
+## Deployment
 
-To learn more about Next.js, take a look at the following resources:
+The app uses `output: "export"` and is safe to host from S3, GitHub Pages, CloudFront, or any static host. Set `NEXT_PUBLIC_SITE_URL` at build time once a canonical domain exists.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See `docs/architecture.md`, `docs/design-system.md`, and `docs/deployment.md` for the repo contracts that matter when changing structure, visuals, or hosting.

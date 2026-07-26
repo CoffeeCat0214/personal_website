@@ -5,6 +5,9 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
+    "typecheck": "tsc --noEmit",
+    "test": "tsc -p tsconfig.test.json && node --test .test-output/tests/*.js",
+    "test:e2e": "npm run build && node --test tests/static-export.test.mjs",
     "lint": "next lint",
     "serve": "npx --yes serve out",
     "deploy:s3": "./deploy-to-s3.sh",

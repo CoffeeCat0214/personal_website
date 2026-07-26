@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import type { ContentTone } from "@/content/site";
-import { CatMark } from "./CatMark";
+import type { ContentTone } from "@/content";
+import { CatMark } from "@/components/brand/CatMark";
 import styles from "./Act.module.css";
 
 type ActProps = {
@@ -37,5 +37,3 @@ export function Act({ id, number, eyebrow, tone, anchorId, children }: ActProps)
     </section>
   );
 }
-
-export { styles as actStyles };

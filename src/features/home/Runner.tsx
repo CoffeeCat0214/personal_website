@@ -1,4 +1,4 @@
-import type { Runner as RunnerData } from "@/content/site";
+import type { Runner as RunnerData } from "@/content";
 import styles from "./Runner.module.css";
 
 /* A full-bleed marquee band -- the reference site's "Runners", which mark the

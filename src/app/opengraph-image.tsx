@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { site } from "@/content/site";
+import { site } from "@/content";
 
 /* The share card. Every link to this site currently unfurls as a bare URL,
    which matters more than usual here: the studio's stated growth mechanism is

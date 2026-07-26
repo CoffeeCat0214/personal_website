@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { navSections, site } from "@/content/site";
+import { navSections, site } from "@/content";
 import styles from "./Nav.module.css";
 
 /* The source design hides its nav links below 640px with no alternative, on the
