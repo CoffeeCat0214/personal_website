@@ -24,7 +24,10 @@
   color: var(--ink);
   font-size: var(--t-display);
   font-weight: 500;
-  line-height: 0.86;
+  /* GSAP masks each split line with overflow hidden. At display size, 0.86
+     clips descenders -- most visibly the g in "pages" -- so this stays tight
+     but leaves enough line box for the font's lower bowl and tail. */
+  line-height: 0.96;
   letter-spacing: -0.045em;
   max-width: 12ch;
 }
