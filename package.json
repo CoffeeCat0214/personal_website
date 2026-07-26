@@ -7,21 +7,23 @@
     "build": "next build",
     "lint": "next lint",
     "serve": "npx --yes serve out",
-    "deploy:s3": "npm run build && aws s3 sync out/ s3://kyrstin-portfolio-website --delete",
+    "deploy:s3": "./deploy-to-s3.sh",
     "deploy:gh-pages": "rm -rf out && npm run build && cd out && touch .nojekyll && git init && git add . && git commit -m \"Deploy to GitHub Pages\" && git branch -M gh-pages && git push -f origin gh-pages"
   },
   "dependencies": {
+    "gsap": "^3.15.0",
+    "lenis": "^1.3.25",
+    "next": "15.3.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "next": "15.3.0"
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.3.0",
-    "@eslint/eslintrc": "^3"
+    "typescript": "^5"
   }
 }

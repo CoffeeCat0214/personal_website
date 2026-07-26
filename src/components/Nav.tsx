@@ -57,7 +57,7 @@ export function Nav() {
       <div className={`wrap ${styles.inner}`}>
         <a className={styles.mark} href="#top">
           {site.name}
-          <span className={styles.markRole}>{site.role}</span>
+          <span className={styles.markRole}>{site.kind}</span>
         </a>
 
         {/* The breakpoint hides this whole landmark, not just its list. Hiding

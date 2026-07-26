@@ -32,6 +32,10 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# ...except the example, which exists specifically to be committed. `.env*`
+# matches it too, so without this negation the one env file that documents the
+# required variables is the one nobody ever receives.
+!.env.example
 
 # vercel
 .vercel

@@ -1,10 +1,14 @@
-import { site, skills } from "@/content/site";
+import { site } from "@/content/site";
 import styles from "./Hero.module.css";
 
+/* "Open to new roles" used to lead this row. It was the single line most at
+   odds with the rest of the page: a studio that is looking for a job is not a
+   studio. The status treatment is kept and repointed at the thing a partner
+   actually wants to know, which is how far along the flagship is. */
 const facts = [
-  { key: "Status", value: "Open to new roles", status: true },
+  { key: "Flagship", value: "In development", status: true },
   { key: "Based in", value: site.location },
-  { key: "Core", value: skills.slice(0, 3).join(" · ") },
+  { key: "Founded by", value: site.founder },
 ];
 
 /* The name is the h1 and the only display-size type on the page. It rides --u,
@@ -25,18 +29,22 @@ export function Hero() {
               whole column arriving as a single slab. */}
           <div className={styles.copy}>
             <div className={styles.name} data-reveal="display">
-              <p className={styles.eyebrow}>{site.role}</p>
+              <p className={styles.eyebrow}>{site.kind}</p>
               <h1>{site.name}</h1>
             </div>
             <p className={styles.tagline} data-reveal>
               {site.tagline}
             </p>
+            {/* The primary action is the argument, not the work. A partner who
+                reads the thesis and leaves is a better outcome than one who
+                skims three GitHub links; the subscribe path is secondary here
+                because nobody subscribes before they know what for. */}
             <div className={styles.actions} data-reveal>
-              <a className="btn" href="#work">
-                See the work
+              <a className="btn" href="#thesis">
+                Read the thesis
               </a>
-              <a className="btn secondary" href={`mailto:${site.email}`}>
-                Get in touch
+              <a className="btn secondary" href="#subscribe">
+                Follow the Lab
               </a>
             </div>
           </div>
