@@ -1,5 +1,5 @@
-import { flagship } from "./projects";
-import type { BackgroundEntry, HomeSection, MarkPanel, Runner } from "./types";
+import { featuredProject } from "./projects";
+import type { BackgroundEntry, HomeSection, MarkPanel, RouteNavItem, Runner } from "./types";
 
 export const hero = {
   statement: [
@@ -77,15 +77,15 @@ export const runners = {
 export const homeSections = [
   { kind: "hero", id: "top" },
   { kind: "runner", runner: runners.agency },
-  { kind: "panel", panel: markPanels.extension, precedes: flagship.id },
+  { kind: "panel", panel: markPanels.extension, precedes: featuredProject.homeAnchorId },
   {
     kind: "act",
     act: "flagship",
-    id: flagship.id,
+    id: featuredProject.homeAnchorId,
     navLabel: "Extension",
-    number: flagship.number,
-    eyebrow: flagship.eyebrow,
-    tone: flagship.tone,
+    number: "01",
+    eyebrow: featuredProject.eyebrow,
+    tone: featuredProject.tone,
   },
   { kind: "panel", panel: markPanels.work, precedes: "work" },
   {
@@ -118,6 +118,12 @@ export const homeSections = [
   },
 ] as const satisfies readonly HomeSection[];
 
-export const navSections = homeSections.flatMap((section) =>
+export const homeNavSections = homeSections.flatMap((section) =>
   section.kind === "act" ? [{ id: section.id, label: section.navLabel }] : []
 );
+
+export const navSections = homeNavSections.map((section) => ({
+  label: section.label,
+  href: `/#${section.id}`,
+  kind: "home-anchor",
+})) satisfies RouteNavItem[];

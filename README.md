@@ -18,6 +18,7 @@ npm run test:e2e
 ## Structure
 
 - `src/features/home` owns the one-page composition and section-specific components.
+- `src/features/projects` owns project evidence UI and `/work/[slug]/` pages.
 - `src/features/motion` owns browser-only setup/teardown adapters for tone tracking, reveal animation, smooth scroll, marquees, and split text.
 - `src/components/ui` contains reusable markup primitives.
 - `src/components/brand` contains CoffeeCat brand marks and project figures.
@@ -26,6 +27,6 @@ npm run test:e2e
 
 ## Deployment
 
-The app uses `output: "export"` and is safe to host from S3, GitHub Pages, CloudFront, or any static host. Set `NEXT_PUBLIC_SITE_URL` at build time once a canonical domain exists.
+The app uses `output: "export"` with trailing-slash routes, so subpages export as directory indexes for static hosts. Set `NEXT_PUBLIC_SITE_URL` at build time once a canonical domain exists.
 
 See `docs/architecture.md`, `docs/design-system.md`, and `docs/deployment.md` for the repo contracts that matter when changing structure, visuals, or hosting.

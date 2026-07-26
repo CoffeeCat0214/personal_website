@@ -1,8 +1,9 @@
-import { tools } from "@/content";
+import { supportingProjects } from "@/content";
 import type { HomeSection } from "@/content";
 import { Figure } from "@/components/brand/figures/Figure";
 import { Act } from "@/components/ui/Act";
 import { ArrowLink } from "@/components/ui/ArrowLink";
+import { ProjectFooter, ProjectMetrics, ProjectQuestion } from "@/features/projects/ProjectEvidence";
 import caseStyles from "./Case.module.css";
 import styles from "./Work.module.css";
 
@@ -31,34 +32,20 @@ export function WorkAct({ section }: { section: WorkSection }) {
       </div>
 
       <div className={styles.tools}>
-        {tools.map((tool) => (
-          <article className={styles.tool} key={tool.id}>
+        {supportingProjects.map((tool) => (
+          <article className={styles.tool} key={tool.slug}>
             <div className={styles.copy} data-reveal>
               <p className={caseStyles.beatLabel}>{tool.eyebrow}</p>
               <h3>{tool.title}</h3>
-              <p className={styles.subtitle}>{tool.subtitle}</p>
+              <p className={styles.subtitle}>{tool.summary}</p>
 
-              <p className={caseStyles.tests}>
-                <span className={caseStyles.testsKey}>Testing</span> {tool.tests}
-              </p>
+              <ProjectQuestion tests={tool.tests} reveal={false} />
+              <ProjectMetrics metrics={tool.metrics} reveal={false} />
 
-              <ul className={caseStyles.metrics}>
-                {tool.metrics.map((metric) => (
-                  <li className={caseStyles.metric} key={metric.label}>
-                    <span className={caseStyles.metricValue}>{metric.value}</span>
-                    <span className={caseStyles.metricLabel}>{metric.label}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <div className={caseStyles.footer}>
-                <ul className={caseStyles.tech}>
-                  {tool.tech.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-                <ArrowLink href={tool.href}>{tool.name} on GitHub</ArrowLink>
-              </div>
+              <ProjectFooter tech={tool.tech} reveal={false}>
+                <ArrowLink href={`/work/${tool.slug}/`}>Read the case study</ArrowLink>
+                <ArrowLink href={tool.repoHref}>{tool.name} on GitHub</ArrowLink>
+              </ProjectFooter>
             </div>
 
             <div className={styles.figure} data-reveal>

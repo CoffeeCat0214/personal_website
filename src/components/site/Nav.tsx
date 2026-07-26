@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { navSections, site } from "@/content";
 import styles from "./Nav.module.css";
@@ -55,10 +56,10 @@ export function Nav() {
   return (
     <header className={styles.nav}>
       <div className={`wrap ${styles.inner}`}>
-        <a className={styles.mark} href="#top">
+        <Link className={styles.mark} href="/">
           {site.name}
           <span className={styles.markRole}>{site.kind}</span>
-        </a>
+        </Link>
 
         {/* The breakpoint hides this whole landmark, not just its list. Hiding
             only the <ul> would leave an empty "Sections" navigation landmark
@@ -66,8 +67,8 @@ export function Nav() {
         <nav className={styles.desktopNav} aria-label="Sections">
           <ul className={styles.links}>
             {navSections.map((section) => (
-              <li key={section.id}>
-                <a href={`#${section.id}`}>{section.label}</a>
+              <li key={section.href}>
+                <Link href={section.href}>{section.label}</Link>
               </li>
             ))}
           </ul>
@@ -100,10 +101,10 @@ export function Nav() {
         <div className="wrap">
           <ul>
             {navSections.map((section) => (
-              <li key={section.id}>
-                <a href={`#${section.id}`} onClick={() => close(false)}>
+              <li key={section.href}>
+                <Link href={section.href} onClick={() => close(false)}>
                   {section.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

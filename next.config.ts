@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
   // host is chosen is the classic way to ship a site where every asset 404s.
   output: "export",
   distDir: "out",
+  trailingSlash: true,
   images: {
     unoptimized: true,
   },

@@ -1,13 +1,10 @@
 #!/bin/bash
 
-# Exit on error
-set -e
+set -euo pipefail
 
-# Configuration - REPLACE THESE VALUES
-S3_BUCKET="kyrstin-portfolio-website"
-REGION="us-east-1"
-# Setting to empty string to skip CloudFront invalidation
-DISTRIBUTION_ID=""
+: "${S3_BUCKET:=kyrstin-portfolio-website}"
+: "${AWS_REGION:=us-east-1}"
+: "${DISTRIBUTION_ID:=}"
 
 # Colors for terminal output
 GREEN='\033[0;32m'
@@ -22,7 +19,7 @@ echo -e "${YELLOW}Building Next.js static export...${NC}"
 npm run build
 
 echo -e "${YELLOW}Deploying to S3 bucket: ${S3_BUCKET}...${NC}"
-aws s3 sync out/ s3://${S3_BUCKET} --delete --region ${REGION}
+aws s3 sync out/ "s3://${S3_BUCKET}" --delete --region "${AWS_REGION}"
 
 # Next writes the generated OG card to out/opengraph-image with NO file
 # extension. `aws s3 sync` infers Content-Type from the extension, so that
@@ -40,17 +37,20 @@ if [ -f out/opengraph-image ]; then
   aws s3 cp "s3://${S3_BUCKET}/opengraph-image" "s3://${S3_BUCKET}/opengraph-image" \
     --content-type image/png \
     --metadata-directive REPLACE \
-    --region ${REGION}
+    --region "${AWS_REGION}"
 fi
 
 # No longer using ACL flags as the bucket doesn't support them
 # Instead, we'll rely on the bucket policy for public access
 
 # If using CloudFront, invalidate the cache
-if [ ! -z "$DISTRIBUTION_ID" ]; then
+if [ -n "$DISTRIBUTION_ID" ]; then
   echo -e "${YELLOW}Invalidating CloudFront cache...${NC}"
-  aws cloudfront create-invalidation --distribution-id ${DISTRIBUTION_ID} --paths "/*" --region ${REGION}
+  aws cloudfront create-invalidation \
+    --distribution-id "${DISTRIBUTION_ID}" \
+    --paths "/*" \
+    --region "${AWS_REGION}"
 fi
 
 echo -e "${GREEN}Deployment completed successfully!${NC}"
-echo -e "${GREEN}Your website is available at: http://${S3_BUCKET}.s3-website-${REGION}.amazonaws.com${NC}" 
+echo -e "${GREEN}Your website is available at: http://${S3_BUCKET}.s3-website-${AWS_REGION}.amazonaws.com${NC}"

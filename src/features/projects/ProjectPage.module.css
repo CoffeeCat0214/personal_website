@@ -1,0 +1,114 @@
+.hero {
+  padding-block: calc(var(--u) * 10);
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(240px, 0.75fr);
+  gap: var(--s8);
+  align-items: center;
+}
+
+.copy {
+  display: grid;
+  gap: var(--s5);
+}
+
+.eyebrow,
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--t-label);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.copy h1 {
+  font-size: clamp(3.5rem, 10vw, 7rem);
+  line-height: 0.9;
+}
+
+.title {
+  max-width: 18ch;
+  color: var(--ink);
+  font-size: var(--t-statement);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.summary {
+  max-width: 56ch;
+  color: var(--ink-2);
+  font-size: var(--t-lead);
+  line-height: 1.45;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s3);
+}
+
+.figure {
+  min-width: 0;
+}
+
+.case {
+  padding-block: calc(var(--u) * 10);
+}
+
+.caseGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 200px) minmax(0, 1fr);
+  gap: var(--s8);
+  align-items: start;
+}
+
+.rail {
+  position: sticky;
+  top: calc(var(--nav-h) + var(--s7));
+  display: grid;
+  gap: var(--s2);
+  align-self: start;
+}
+
+.body {
+  display: grid;
+  gap: var(--s8);
+}
+
+.section {
+  display: grid;
+  grid-template-columns: 8rem minmax(0, 1fr);
+  gap: var(--s6);
+  align-items: start;
+  padding-block: var(--s7);
+  border-top: 1px solid var(--rule);
+}
+
+.section:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+
+.sectionCopy {
+  display: grid;
+  gap: var(--s3);
+}
+
+.sectionCopy p {
+  max-width: 64ch;
+  color: var(--ink-3);
+}
+
+@media (max-width: 900px) {
+  .heroGrid,
+  .caseGrid,
+  .section {
+    grid-template-columns: 1fr;
+  }
+
+  .rail {
+    position: static;
+  }
+}

@@ -9,10 +9,14 @@ export type Metric = {
   label: string;
 };
 
-export type FigureName = "coffeecat" | "diff" | "thread";
+export const FIGURE_NAMES = ["coffeecat", "diff", "thread"] as const;
+export type FigureName = (typeof FIGURE_NAMES)[number];
 
-export type ContentTone = "sage" | "pink" | "forest";
-export type PanelTone = "lilac" | "orange";
+export const CONTENT_TONES = ["sage", "pink", "forest"] as const;
+export type ContentTone = (typeof CONTENT_TONES)[number];
+
+export const PANEL_TONES = ["lilac", "orange"] as const;
+export type PanelTone = (typeof PANEL_TONES)[number];
 
 export type MarkPanel = {
   id: string;
@@ -38,33 +42,43 @@ export type SiteIdentity = {
   lastUpdated: string;
 };
 
-export type FlagshipProject = {
-  id: string;
-  number: string;
-  name: string;
-  eyebrow: string;
+export const PROJECT_SLUGS = ["coffeecat", "codehusk", "cremeai"] as const;
+export type ProjectSlug = (typeof PROJECT_SLUGS)[number];
+
+export type ProjectCaseStudySection = {
+  label: string;
+  heading: string;
+  body: string[];
+};
+
+export type ProjectMetadata = {
   title: string;
-  positioning: string;
-  tests: string;
-  beats: Beat[];
-  tech: string[];
-  metrics: Metric[];
-  href: string;
-  figure: FigureName;
-  tone: ContentTone;
+  description: string;
+};
+
+export type ProjectRoute = {
+  slug: ProjectSlug;
+  href: `/work/${ProjectSlug}/`;
+  lastUpdated: string;
 };
 
 export type Project = {
-  id: string;
+  slug: ProjectSlug;
+  homeAnchorId?: string;
   name: string;
   eyebrow: string;
   title: string;
-  subtitle: string;
+  summary: string;
+  positioning?: string;
   tests: string;
+  caseStudy: ProjectCaseStudySection[];
   tech: string[];
   metrics: Metric[];
-  href: string;
+  repoHref: string;
   figure: FigureName;
+  tone: ContentTone;
+  metadata: ProjectMetadata;
+  lastUpdated: string;
 };
 
 export type BackgroundEntry = {
@@ -94,3 +108,9 @@ export type HomeSection =
   | { kind: "runner"; runner: Runner }
   | { kind: "panel"; panel: MarkPanel; precedes: string }
   | HomeActSection;
+
+export type RouteNavItem = {
+  label: string;
+  href: `/${string}` | `/#${string}`;
+  kind: "home-anchor" | "route";
+};

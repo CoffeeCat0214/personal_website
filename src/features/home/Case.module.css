@@ -5,10 +5,8 @@
    the per-project subtitle went with that structure. What is left is what both
    acts genuinely share.
 
-   The metric and footer rules below lived in Work.module.css while the flagship
-   was an unbuilt story world with no evidence to show. The flagship is a
-   shipped extension now and carries the same metrics, tech chips and repo link
-   the tools do, so they moved back here rather than being duplicated. */
+   Project evidence styles live in `features/projects`, where the homepage and
+   project routes can share them. */
 
 .head {
   display: grid;
@@ -55,105 +53,6 @@
   font-size: var(--t-small);
   color: var(--ink-3);
   max-width: 62ch;
-}
-
-/* Metrics run inline rather than as the vertical caption rail the old
-   full-width project acts used. At this density a stacked rail would be taller
-   than the paragraph it annotates. */
-.metrics {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s4) var(--s7);
-  list-style: none;
-  margin: 0;
-  padding-top: var(--s2);
-}
-
-.metric {
-  display: grid;
-  gap: var(--s1);
-}
-
-.metricValue {
-  color: var(--ink);
-  font-size: var(--t-h3);
-  font-weight: 500;
-  letter-spacing: -0.02em;
-}
-
-.metricLabel {
-  font-family: var(--font-mono);
-  font-size: var(--t-label);
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-}
-
-/* The open question each project answers.
-
-   One line, at body size rather than label size. It was tempting to set the
-   whole thing in the mono uppercase used by every other small label here, but
-   this is a sentence and that treatment is for two-word tags -- uppercase mono
-   is measurably slower to read past about five words, and the sentence is the
-   payload. So only the key gets the label treatment and the answer stays in the
-   reading face.
-
-   --ink on the sentence against --ink-3 on the key inverts the usual pairing in
-   this file, where a mono key labels a quieter value. Here the value is the
-   argument and the key is only telling you what kind of statement follows.
-
-   The key runs inline and the sentence wraps under it. A hanging indent would
-   read slightly better on the two-line case, but it needs the label's rendered
-   width as a magic em value -- and that number is wrong the moment the label
-   text, the label size or the mono face changes, in a way nothing would catch. */
-.tests {
-  max-width: 62ch;
-  padding-top: var(--s2);
-  color: var(--ink);
-  font-size: var(--t-body);
-  line-height: 1.5;
-}
-
-.testsKey {
-  font-family: var(--font-mono);
-  font-size: var(--t-label);
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-  /* The mono label sits on a smaller em box than the sentence, so without this
-     it rides low against the text it introduces. */
-  vertical-align: 0.08em;
-  padding-right: var(--s2);
-}
-
-/* Tech chips on one side, repo link on the other. Wraps to two rows before it
-   lets the link collide with the last chip. */
-.footer {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--s4);
-  padding-top: var(--s2);
-}
-
-.tech {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s2) var(--s4);
-  list-style: none;
-  margin: 0;
-}
-
-.tech li {
-  font-family: var(--font-mono);
-  font-size: var(--t-label);
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-3);
 }
 
 @media (max-width: 640px) {

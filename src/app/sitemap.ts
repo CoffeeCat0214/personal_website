@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { site } from "@/content";
+import { projectRoutes, site } from "@/content";
 import { SITE_URL } from "@/lib/site-url";
 
 /* Required under `output: 'export'`. Next treats metadata routes as dynamic by
@@ -19,5 +19,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 1,
     },
+    ...projectRoutes.map((route) => ({
+      url: new URL(route.href, SITE_URL).toString(),
+      lastModified: route.lastUpdated,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
   ];
 }

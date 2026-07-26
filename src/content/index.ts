@@ -1,11 +1,20 @@
 export { site } from "./identity";
-export { flagship, tools } from "./projects";
+export {
+  featuredProject,
+  getProjectBySlug,
+  getProjectRoute,
+  projectPreviews,
+  projectRoutes,
+  projects,
+  supportingProjects,
+} from "./projects";
 export {
   about,
   background,
   contact,
   hero,
   homeSections,
+  homeNavSections,
   markPanels,
   navSections,
   runners,
@@ -16,12 +25,17 @@ export type {
   Beat,
   ContentTone,
   FigureName,
-  FlagshipProject,
   HomeSection,
   MarkPanel,
   Metric,
   PanelTone,
   Project,
+  ProjectCaseStudySection,
+  ProjectMetadata,
+  ProjectRoute,
+  ProjectSlug,
+  RouteNavItem,
   Runner,
   SiteIdentity,
 } from "./types";
+export { CONTENT_TONES, FIGURE_NAMES, PANEL_TONES, PROJECT_SLUGS } from "./types";

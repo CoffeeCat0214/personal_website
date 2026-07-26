@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { hero, site } from "@/content";
 import styles from "./Hero.module.css";
 
@@ -66,12 +67,12 @@ export function Hero() {
                 only true when there is no software. Contact stays secondary:
                 nobody gets in touch before they know what for. */}
             <div className={styles.actions} data-reveal>
-              <a className="btn" href="#extension">
+              <Link className="btn" href="/#extension">
                 See the extension
-              </a>
-              <a className="btn secondary" href="#contact">
+              </Link>
+              <Link className="btn secondary" href="/#contact">
                 Get in touch
-              </a>
+              </Link>
             </div>
           </div>
 
