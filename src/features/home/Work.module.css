@@ -1,21 +1,19 @@
-/* Tools stacked as rows, separated by rules rather than boxed as cards. Cards
-   in a row all compete for the same attention and each one asks to be
-   evaluated; rows read in sequence and let the reader stop when they have seen
-   enough, which is the right affordance for supporting evidence.
+.projectHead {
+  display: grid;
+  gap: var(--s4);
+  max-width: 52ch;
+}
 
-   Project evidence rules live in features/projects because homepage previews
-   and project routes share them. Only the two-column tool row and its subtitle
-   are specific to this act now. */
 .tools {
   display: grid;
 }
 
 .tool {
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(220px, 0.65fr);
+  grid-template-columns: minmax(0, 1.12fr) minmax(280px, 0.88fr);
   gap: var(--s8);
   align-items: start;
-  padding-block: var(--s8);
+  padding-block: var(--s7);
   border-top: 1px solid var(--rule);
 }
 
@@ -29,24 +27,21 @@
 }
 
 .subtitle {
+  max-width: 58ch;
+  color: var(--ink-2);
   font-size: var(--t-small);
   line-height: 1.6;
-  color: var(--ink-3);
-  max-width: 58ch;
-  margin: 0;
 }
 
 .links {
   display: flex;
   flex-wrap: wrap;
   gap: var(--s3) var(--s6);
-  padding-top: var(--s2);
+  padding-top: var(--s3);
   border-top: 1px solid var(--rule);
 }
 
 .figure {
-  /* Figures are illustrative at this size, so they yield to the copy on any
-     screen narrow enough that two columns would squeeze the paragraph. */
   min-width: 0;
 }
 
@@ -54,10 +49,5 @@
   .tool {
     grid-template-columns: 1fr;
     gap: var(--s6);
-  }
-
-  .figure {
-    /* Name the project before showing its illustration on narrow screens. */
-    order: 0;
   }
 }

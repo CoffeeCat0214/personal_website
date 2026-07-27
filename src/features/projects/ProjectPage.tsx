@@ -22,7 +22,7 @@ export function ProjectPage({ project }: { project: Project }) {
               <a className="btn" href={project.repoHref}>
                 View repository
               </a>
-              <Link className="btn secondary" href={`${HOME_ROUTE}#work`}>
+              <Link className="btn secondary" href={`${HOME_ROUTE}#cremeai`}>
                 Back to work
               </Link>
             </div>

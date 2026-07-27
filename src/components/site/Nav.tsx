@@ -6,6 +6,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { HOME_ROUTE, navSections, site } from "@/content";
 import styles from "./Nav.module.css";
 
+type Mode = "glam" | "grind";
+const MODE_STORAGE_KEY = "kyrstin-portfolio-mode";
+
 /* The source design hides its nav links below 640px with no alternative, on the
    grounds that a hamburger for a six-section page is more machinery than the
    page is worth. That is a defensible call for a marketing page you scroll
@@ -22,7 +25,18 @@ export function Nav() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [mode, setMode] = useState<Mode>("glam");
   const toggleRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const stored = window.localStorage.getItem(MODE_STORAGE_KEY);
+    if (stored === "glam" || stored === "grind") setMode(stored);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.dataset.mode = mode;
+    window.localStorage.setItem(MODE_STORAGE_KEY, mode);
+  }, [mode]);
 
   useEffect(() => {
     if (pathname !== HOME_ROUTE) {
@@ -93,6 +107,21 @@ export function Nav() {
           {site.name}
           <span className={styles.markRole}>{site.kind}</span>
         </Link>
+
+        <div className={styles.modeSwitch} role="group" aria-label="Visual mode">
+          <span className={styles.modeLabel}>Mode</span>
+          {(["glam", "grind"] as const).map((option) => (
+            <button
+              key={option}
+              type="button"
+              className={styles.modeButton}
+              aria-pressed={mode === option}
+              onClick={() => setMode(option)}
+            >
+              {option === "glam" ? "Glam" : "Grind"}
+            </button>
+          ))}
+        </div>
 
         {/* The breakpoint hides this whole landmark, not just its list. Hiding
             only the <ul> would leave an empty "Sections" navigation landmark

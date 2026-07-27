@@ -34,16 +34,28 @@ test("home page export contains core anchors and assets", () => {
      whatever "/" happened to contain. */
   const html = readFileSync("out/home/index.html", "utf8");
 
-  for (const anchor of ["top", "extension", "work", "about", "contact"]) {
+  for (const anchor of ["top", "extension", "cremeai"]) {
     assert.match(html, new RegExp(`id="${anchor}"`));
   }
 
-  assert.match(html, /\/art\/buddy\.webp/);
+  assert.match(html, /\/art\/hero-cat\.png/);
+  assert.equal(existsSync("out/art/hero-cat.png"), true);
+  assert.match(html, /aria-label="Visual mode"/);
+  assert.match(html, /aria-pressed="true"/);
+  assert.match(html, />Glam<\/button>/);
+  assert.match(html, />Grind<\/button>/);
+  assert.match(html, /data-transition="sakura-pixel"/);
+  assert.match(html, /data-transition-target="cremeai"/);
+  assert.match(html, /data-separator="projects"/);
+  assert.match(html, /Focus without network access\./);
+  assert.match(html, /A Discord bot built like a service\./);
   assert.match(html, /Hero_[^\"]+ tone-pink/);
-  assert.match(html, /id="runner-landing"/);
-  assert.match(html, />Glam<\/span>/);
-  assert.match(html, />Grind<\/span>/);
-  assert.match(html, /class="Confetti_[^\"]+" aria-hidden="true"/);
+  assert.match(html, /Explore CoffeeCat/);
+  assert.match(html, /System pulse/);
+  assert.match(html, /Start focus/);
+  assert.match(html, /class="Confetti_[^"]+" aria-hidden="true"/);
+  assert.doesNotMatch(html, /Testing/);
+  assert.doesNotMatch(html, /whether a tool can be genuinely useful/);
   assert.doesNotMatch(html, /CodeHuskAI/);
 });
 
@@ -57,7 +69,7 @@ test("the gate and the site are separate documents", () => {
   const home = readFileSync("out/home/index.html", "utf8");
 
   // The gate carries no site chrome and none of the acts.
-  for (const anchor of ["extension", "work", "about", "contact"]) {
+  for (const anchor of ["extension", "cremeai"]) {
     assert.doesNotMatch(gate, new RegExp(`id="${anchor}"`), `gate should not contain #${anchor}`);
   }
   assert.doesNotMatch(gate, /Skip to content/, "gate should not render the site chrome");
@@ -69,7 +81,7 @@ test("the gate and the site are separate documents", () => {
   /* Every nav anchor on the site points into /home/, never bare "/#". A bare
      anchor would land on the gate, which has no acts, and fail silently. */
   assert.doesNotMatch(home, /href="\/#/, 'site links must not target "/#"');
-  assert.match(home, /href="\/home\/#work"/);
+  assert.match(home, /href="\/home\/#cremeai"/);
 
   // And the gate's only way forward is the site.
   assert.match(gate, /href="\/home\/?"/);

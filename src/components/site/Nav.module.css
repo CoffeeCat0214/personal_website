@@ -19,6 +19,19 @@
     border-color var(--dur) var(--ease);
 }
 
+/* Glam is the deliberately complete no-JavaScript fallback. The tone observer
+   adds the live ground to <html> after hydration; before that, the homepage's
+   pink hero should still carry the persistent chrome instead of inheriting the
+   root sage default. */
+:global(html:not([data-mode])) .nav {
+  --paper: #f4c2da;
+  --ink: #1e2b16;
+  --ink-3: #5e5851;
+  --rule: rgba(30, 43, 22, 0.18);
+  --rule-strong: rgba(30, 43, 22, 0.32);
+  background: var(--paper);
+}
+
 
 .inner {
   display: flex;
@@ -45,6 +58,47 @@
   font-size: var(--t-label);
   letter-spacing: 0.12em;
   text-transform: uppercase;
+}
+
+.modeSwitch {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  min-height: 44px;
+  margin-left: auto;
+  padding: 2px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 999px;
+  color: var(--ink-3);
+  font: 500 var(--t-label) / 1 var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+.modeLabel {
+  padding-inline: var(--s2);
+}
+
+.modeButton {
+  min-width: 50px;
+  min-height: 44px;
+  padding-inline: var(--s2);
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-3);
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+  transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+.modeButton:hover,
+.modeButton[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--paper);
 }
 
 .links {
@@ -145,6 +199,18 @@
 }
 
 @media (max-width: 640px) {
+  .inner {
+    gap: var(--s2);
+  }
+
+  .mark {
+    min-width: 0;
+    flex: 1 1 auto;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
   /* Hide the landmark, not just the list -- see Nav.tsx. */
   .desktopNav {
     display: none;
@@ -157,11 +223,36 @@
     display: none;
   }
 
+  .modeSwitch {
+    margin-left: 0;
+  }
+
+  .modeLabel {
+    display: none;
+  }
+
+  .modeButton {
+    min-width: 44px;
+  }
+
   .toggle {
     display: inline-flex;
+    flex: 0 0 auto;
+    padding-inline: var(--s2);
   }
 
   .panelOpen {
     display: block;
+  }
+}
+
+@media (max-width: 360px) {
+  .modeSwitch {
+    gap: 0;
+  }
+
+  .modeButton {
+    min-width: 44px;
+    padding-inline: var(--s1);
   }
 }

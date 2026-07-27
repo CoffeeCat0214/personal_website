@@ -249,6 +249,47 @@
   --on-accent: #e8734a;
 }
 
+/* Grind is the same palette after hours: forest ink and espresso surfaces, a
+   mono-led hierarchy, and tighter readable type. These overrides intentionally
+   sit after the ground definitions so one document-level mode can restyle every
+   act without changing the static Glam fallback. */
+html[data-mode="grind"] {
+  --font-display: var(--font-mono);
+  --t-display: min(calc(var(--u) * 11), 17vw);
+  --t-h2: clamp(1.95rem, 3.8vw, 3.125rem);
+  --t-statement: clamp(1.35rem, 2.1vw, 1.75rem);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur: 420ms;
+}
+
+html[data-mode="grind"].tone-sage,
+html[data-mode="grind"].tone-pink,
+html[data-mode="grind"].tone-forest,
+html[data-mode="grind"] .tone-sage,
+html[data-mode="grind"] .tone-pink,
+html[data-mode="grind"] .tone-forest {
+  --paper: #35241d;
+  --panel: #2b3d20;
+  --ink: #b8eb96;            /* 8.23:1 on espresso */
+  --ink-2: #c9f0ad;          /* 10.11:1 on espresso */
+  --ink-3: #95bf79;          /* 5.90:1 on espresso */
+  --rule: rgba(184, 235, 150, 0.22);
+  --rule-strong: rgba(184, 235, 150, 0.38);
+  --accent: #b8eb96;
+  --accent-hover: #c9f0ad;
+  --accent-text: #b8eb96;
+  --on-accent: #35241d;
+  --focus: var(--ink);
+  background: var(--paper);
+  color: var(--ink-2);
+}
+
+.tone-sage,
+.tone-pink,
+.tone-forest {
+  transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
 /* Every ground paints its own background, which is what makes an act a block
    rather than a band with a rule above it.
 

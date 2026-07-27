@@ -5,7 +5,7 @@ import styles from "./Confetti.module.css";
 
 const COLORS = ["#1e2b16", "#e8734a", "#9a95dd", "#b8eb96", "#f4c2da"];
 const PIECE_COUNT = 96;
-const LIFETIME = 2200;
+const LIFETIME = 2400;
 
 type Piece = {
   x: number;
@@ -19,6 +19,7 @@ type Piece = {
   gravity: number;
   drag: number;
   color: string;
+  shape: "bar" | "diamond" | "square";
 };
 
 export function Confetti() {
@@ -52,17 +53,18 @@ export function Confetti() {
 
     for (let index = 0; index < PIECE_COUNT; index += 1) {
       pieces.push({
-        x: window.innerWidth * (0.08 + Math.random() * 0.84),
-        y: -20 - Math.random() * 120,
-        width: 5 + Math.random() * 7,
-        height: 8 + Math.random() * 9,
+        x: window.innerWidth * (0.02 + Math.random() * 0.96),
+        y: -40 - Math.random() * 180,
+        width: 6 + Math.random() * 10,
+        height: 10 + Math.random() * 16,
         rotation: Math.random() * Math.PI,
-        rotationSpeed: (Math.random() - 0.5) * 0.18,
+        rotationSpeed: (Math.random() - 0.5) * 0.24,
         velocityX: (Math.random() - 0.5) * 1.8,
         velocityY: 1.2 + Math.random() * 2.5,
         gravity: 0.035 + Math.random() * 0.025,
         drag: 0.995 + Math.random() * 0.002,
         color: COLORS[index % COLORS.length],
+        shape: index % 5 === 0 ? "diamond" : index % 3 === 0 ? "square" : "bar",
       });
     }
 
@@ -81,7 +83,20 @@ export function Confetti() {
         context.translate(piece.x, piece.y);
         context.rotate(piece.rotation);
         context.fillStyle = piece.color;
-        context.fillRect(-piece.width / 2, -piece.height / 2, piece.width, piece.height);
+        if (piece.shape === "diamond") {
+          context.beginPath();
+          context.moveTo(0, -piece.height / 2);
+          context.lineTo(piece.width / 2, 0);
+          context.lineTo(0, piece.height / 2);
+          context.lineTo(-piece.width / 2, 0);
+          context.closePath();
+          context.fill();
+        } else if (piece.shape === "square") {
+          const size = Math.min(piece.width, piece.height);
+          context.fillRect(-size / 2, -size / 2, size, size);
+        } else {
+          context.fillRect(-piece.width / 2, -piece.height / 2, piece.width, piece.height);
+        }
         context.restore();
       }
 

@@ -64,8 +64,7 @@ export const tldr: Tldr = {
    agentic work, and naming it is more specific than naming the technology. */
 export const hero = {
   statement: [
-    "CoffeeCat: a privacy-first Chrome focus timer.",
-    "No backend. No analytics. No host permissions.",
+    "Privacy-first tools and small services for people who think in systems.",
   ],
 } as const;
 
@@ -84,8 +83,8 @@ export const hero = {
    `fact.status` in the component would not compile. Widening to HeroFact makes
    the optional field optional at the point it is read. */
 export const heroFacts: readonly HeroFact[] = [
-  { key: "Ships", value: "CoffeeCat", status: true },
-  { key: "Code", value: "Cat-coded" },
+  { key: "Extension", value: "CoffeeCat", status: true },
+  { key: "Service", value: "CrèmeAI" },
   { key: "Based in", value: site.location },
 ];
 
@@ -188,7 +187,6 @@ export const runners = {
 
 export const homeSections = [
   { kind: "hero", id: "top" },
-  { kind: "runner", runner: runners.landing },
   {
     kind: "act",
     act: "flagship",
@@ -198,36 +196,14 @@ export const homeSections = [
     eyebrow: featuredProject.eyebrow,
     tone: featuredProject.tone,
   },
-  { kind: "panel", panel: markPanels.extension, precedes: "work" },
-  { kind: "runner", runner: runners.agency },
-  { kind: "panel", panel: markPanels.work, precedes: "work" },
   {
     kind: "act",
     act: "work",
-    id: "work",
-    navLabel: "Experiments",
+    id: "cremeai",
+    navLabel: "CrèmeAI",
     number: "02",
-    eyebrow: "Experiments",
+    eyebrow: "Serverless Discord bot",
     tone: "sage",
-  },
-  { kind: "runner", runner: runners.about },
-  {
-    kind: "act",
-    act: "about",
-    id: "about",
-    navLabel: "About",
-    number: "03",
-    eyebrow: "About",
-    tone: "forest",
-  },
-  {
-    kind: "act",
-    act: "contact",
-    id: "contact",
-    navLabel: "Contact",
-    number: "04",
-    eyebrow: "Contact",
-    tone: "pink",
   },
 ] as const satisfies readonly HomeSection[];
 

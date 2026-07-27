@@ -32,7 +32,7 @@ export function CoffeeCatFigure() {
              costs no layout shift. */
           <img
             key={layer}
-            className={styles.mugLayer}
+            className={`${styles.mugLayer} ${layer === "mug-fill" ? styles.fill : ""}`}
             src={`/art/mug/${layer}.png`}
             alt=""
             loading="lazy"

@@ -3,7 +3,9 @@ import type { HomeSection } from "@/content";
 import { Figure } from "@/components/brand/figures/Figure";
 import { Act } from "@/components/ui/Act";
 import { ArrowLink } from "@/components/ui/ArrowLink";
-import { ProjectQuestion } from "@/features/projects/ProjectEvidence";
+import { ProjectMetrics } from "@/features/projects/ProjectEvidence";
+import { SystemPulse } from "./SystemPulse";
+import { SakuraPixelTransition } from "./SakuraPixelTransition";
 import caseStyles from "./Case.module.css";
 import styles from "./Work.module.css";
 
@@ -15,9 +17,8 @@ import styles from "./Work.module.css";
    h2 names the group and each tool's h3 sits under it, so the heading order
    still describes the structure.
 
-   The id stays "work" while the label reads "Experiments". The anchor is a URL
-   people may already have; renaming it to match the copy would break those for
-   a word only the nav shows. */
+   The anchor is the project name so the homepage CTA and case-study return link
+   land on the same place. */
 type WorkSection = Extract<HomeSection, { kind: "act"; act: "work" }>;
 
 export function WorkAct({ section }: { section: WorkSection }) {
@@ -28,9 +29,12 @@ export function WorkAct({ section }: { section: WorkSection }) {
       eyebrow={section.eyebrow}
       tone={section.tone}
     >
-      <div className={caseStyles.head} data-reveal>
-        <h2>{work.heading}</h2>
-      </div>
+      <SakuraPixelTransition>
+        <div className={styles.projectHead} data-reveal>
+          <p className={caseStyles.beatLabel}>{work.heading}</p>
+          <h2 data-transition-target="cremeai">CrèmeAI</h2>
+        </div>
+      </SakuraPixelTransition>
 
       <div className={styles.tools}>
         {supportingProjects.map((tool) => (
@@ -40,7 +44,8 @@ export function WorkAct({ section }: { section: WorkSection }) {
               <h3>{tool.title}</h3>
               <p className={styles.subtitle}>{tool.summary}</p>
 
-              <ProjectQuestion tests={tool.tests} reveal={false} />
+              <ProjectMetrics metrics={tool.metrics} reveal={false} />
+              <SystemPulse />
 
               <div className={styles.links}>
                 <ArrowLink href={`/work/${tool.slug}/`}>Read the case study</ArrowLink>

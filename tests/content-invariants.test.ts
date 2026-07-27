@@ -4,7 +4,6 @@ import {
   CONTENT_TONES,
   FIGURE_NAMES,
   HOME_ROUTE,
-  PANEL_TONES,
   featuredProject,
   getProjectBySlug,
   homeNavSections,
@@ -16,17 +15,11 @@ import {
 } from "../src/content";
 
 const contentTones = new Set(CONTENT_TONES);
-const panelTones = new Set(PANEL_TONES);
-const runnerTones = new Set([...CONTENT_TONES, ...PANEL_TONES]);
 const figureNames = new Set(FIGURE_NAMES);
 
 function sectionIds(): Set<string> {
   return new Set<string>(
-    homeSections.map((section) => {
-      if (section.kind === "runner") return section.runner.id;
-      if (section.kind === "panel") return section.panel.id;
-      return section.id;
-    })
+    homeSections.map((section) => section.id)
   );
 }
 
@@ -57,7 +50,7 @@ test("navigation targets real homepage sections", () => {
   }
 
   /* Anchors resolve against HOME_ROUTE, not "/". The gate owns "/" and has no
-     acts on it, so a nav href that still pointed at /#work would land on the
+     acts on it, so a nav href that still pointed at /#cremeai would land on the
      TL;DR and silently do nothing -- which is exactly the regression this
      assertion exists to catch. */
   for (const section of navSections) {
@@ -71,40 +64,12 @@ test("navigation targets real homepage sections", () => {
   }
 });
 
-test("panels point at real following act sections", () => {
-  const ids = sectionIds();
-
-  for (const section of homeSections) {
-    if (section.kind !== "panel") continue;
-    assert.equal(
-      ids.has(section.precedes),
-      true,
-      `${section.panel.id} precedes ${section.precedes}`
-    );
-  }
-});
-
 test("tones only appear on legal surfaces", () => {
   for (const section of homeSections) {
     if (section.kind === "act") {
       assert.equal(contentTones.has(section.tone), true, `${section.id} uses ${section.tone}`);
     }
 
-    if (section.kind === "panel") {
-      assert.equal(
-        panelTones.has(section.panel.tone),
-        true,
-        `${section.panel.id} uses ${section.panel.tone}`
-      );
-    }
-
-    if (section.kind === "runner") {
-      assert.equal(
-        runnerTones.has(section.runner.tone),
-        true,
-        `${section.runner.id} uses ${section.runner.tone}`
-      );
-    }
   }
 
   for (const project of projects) {

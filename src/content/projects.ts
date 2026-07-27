@@ -6,7 +6,7 @@ export const projects = [
     homeAnchorId: "extension",
     name: "CoffeeCat",
     eyebrow: "Chrome Extension · Shipped",
-    title: "A focus timer with no network access.",
+    title: "Focus without network access.",
     summary: "A privacy-first focus timer Chrome extension with no backend, no analytics, and no host permissions.",
     positioning: "No backend. No analytics. No host permissions. Chrome enforces all three.",
     tests: "whether a tool can be genuinely useful with zero access to your data.",
@@ -101,7 +101,7 @@ export const projects = [
     slug: "cremeai",
     name: "CrèmeAI",
     eyebrow: "Serverless Discord Bot",
-    title: "A chatbot built like a service.",
+    title: "A Discord bot built like a service.",
     summary:
       "A Discord assistant on Lambda with DynamoDB response caching, rate limiting, and CloudWatch instrumentation.",
     tests: "how far a small service can degrade before anyone using it notices.",

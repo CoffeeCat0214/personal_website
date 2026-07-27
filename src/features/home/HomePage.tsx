@@ -1,13 +1,11 @@
+import { Fragment } from "react";
 import { homeSections } from "@/content";
 import type { HomeSection } from "@/content";
-import { AboutAct } from "./AboutAct";
-import { ContactAct } from "./ContactAct";
 import { FlagshipAct } from "./FlagshipAct";
 import { Hero } from "./Hero";
-import { MarkPanel } from "./MarkPanel";
-import { Runner } from "./Runner";
 import { WorkAct } from "./WorkAct";
 import { Confetti } from "./Confetti";
+import { SectionDivider } from "./SectionDivider";
 
 function assertNever(section: never): never {
   throw new Error(`Unhandled home section: ${JSON.stringify(section)}`);
@@ -18,9 +16,8 @@ function renderSection(section: HomeSection) {
     case "hero":
       return <Hero key={section.id} />;
     case "runner":
-      return <Runner key={section.runner.id} runner={section.runner} />;
     case "panel":
-      return <MarkPanel key={section.panel.id} panel={section.panel} />;
+      return null;
     case "act":
       switch (section.act) {
         case "flagship":
@@ -28,9 +25,8 @@ function renderSection(section: HomeSection) {
         case "work":
           return <WorkAct key={section.id} section={section} />;
         case "about":
-          return <AboutAct key={section.id} section={section} />;
         case "contact":
-          return <ContactAct key={section.id} section={section} />;
+          return null;
         default:
           return assertNever(section);
       }
@@ -43,7 +39,12 @@ export function HomePage() {
   return (
     <>
       <Confetti />
-      {homeSections.map(renderSection)}
+      {homeSections.map((section) => (
+        <Fragment key={section.id}>
+          {section.kind === "act" && section.act === "work" ? <SectionDivider /> : null}
+          {renderSection(section)}
+        </Fragment>
+      ))}
     </>
   );
 }

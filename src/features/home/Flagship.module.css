@@ -1,47 +1,28 @@
-/* The positioning line. Sized between lead and h2 -- large enough to read as a
-   statement rather than a caption, small enough that it does not compete with
-   the act's own h2 directly above it.
-
-   In rem, not --u. The display unit is reserved for the wordmark and the panel
-   lines, which are compositional; this is a sentence somebody has to actually
-   read, so it honours the browser's font-size preference (WCAG 1.4.4). */
-.positioning {
-  font-size: clamp(1.75rem, 3.2vw, 2.75rem);
-  line-height: 1.2;
-  letter-spacing: -0.025em;
-  color: var(--ink);
-  max-width: 20ch;
-  margin: 0;
-  text-wrap: balance;
-}
-
-@media (max-width: 640px) {
-  .positioning {
-    max-width: none;
-  }
-}
-
-/* The positioning line and the figure share a row. The line is capped at 24ch
-   and would otherwise leave most of the act empty beside it.
-
-   Same column ratio as a tool row in Work.module.css, so the figure reads at
-   the same size in both acts instead of being conspicuously larger here. */
-.statement {
+.projectHead {
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(220px, 0.65fr);
-  gap: var(--s8);
-  align-items: center;
+  gap: var(--s4);
+  max-width: 52ch;
 }
 
-/* The claim and the evidence for it, stacked. `space-between` rather than a
-   fixed gap: the figure is a tall fixed-ratio panel and sets this row's height,
-   so pinning the pair to the top would put the void back underneath them.
-   Letting the line rise to the figure's top and the metrics fall to its bottom
-   makes the illustration's height the composition instead of a leftover. */
+.showcase {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(260px, 0.9fr);
+  gap: var(--s8);
+  align-items: start;
+}
+
 .claim {
   display: grid;
-  align-content: start;
-  gap: var(--s9);
+  gap: var(--s7);
+}
+
+.positioning {
+  max-width: 20ch;
+  color: var(--ink);
+  font-size: var(--t-statement);
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
 }
 
 .figure {
@@ -49,14 +30,18 @@
 }
 
 @media (max-width: 900px) {
-  .statement {
+  .showcase {
     grid-template-columns: 1fr;
     gap: var(--s6);
   }
 
-  /* No `order: -1` here, unlike the tool rows. Those lead with their figure
-     because the illustration is the fastest way to tell three similar-looking
-     entries apart. This act has one figure and a heading directly above it, and
-     hoisting the sprite would drop it between the h2 and the sentence that
-     completes it. */
+  .figure {
+    order: -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .positioning {
+    max-width: none;
+  }
 }
