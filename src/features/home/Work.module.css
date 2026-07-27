@@ -1,7 +1,7 @@
 .projectHead {
   position: relative;
   display: grid;
-  gap: var(--s4);
+  gap: var(--s5);
   max-width: 52ch;
 }
 
@@ -19,19 +19,18 @@
 
 .tools {
   display: grid;
+  gap: clamp(32px, 5vw, 56px);
 }
 
 .tool {
   display: grid;
   grid-template-columns: minmax(0, 1.08fr) minmax(240px, 0.92fr);
-  gap: var(--s7);
+  gap: clamp(24px, 4vw, 56px);
   align-items: start;
-  padding-block: var(--s7);
-  border-top: 1px solid var(--rule);
-}
-
-.tool:last-child {
-  border-bottom: 1px solid var(--rule);
+  padding: clamp(24px, 3vw, 40px);
+  border: var(--neo-border);
+  background: var(--panel);
+  box-shadow: var(--neo-shadow);
 }
 
 .copy {
@@ -42,7 +41,7 @@
 .subtitle {
   max-width: 42ch;
   color: var(--ink-2);
-  font-size: var(--t-small);
+  font-size: var(--t-post-body);
   line-height: 1.6;
 }
 
@@ -51,7 +50,6 @@
   flex-wrap: wrap;
   gap: var(--s3) var(--s6);
   padding-top: var(--s3);
-  border-top: 1px solid var(--rule);
 }
 
 .figure {

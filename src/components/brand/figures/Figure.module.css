@@ -18,7 +18,8 @@
   overflow: hidden;
   border-radius: var(--r-panel);
   background: var(--panel);
-  border: 1px solid var(--rule);
+  border: 3px solid var(--ink);
+  box-shadow: 5px 5px 0 var(--ink);
   margin: 0;
 }
 
@@ -26,9 +27,9 @@
   display: flex;
   align-items: center;
   gap: var(--s2);
-  min-height: 40px;
+  min-height: 48px;
   padding: 0 var(--s4);
-  border-bottom: 1px solid var(--rule);
+  border-bottom: 2px solid var(--ink);
 }
 
 /* Hairline outlines rather than filled discs -- at this size a heavy stroke
@@ -44,8 +45,8 @@
   margin-left: var(--s2);
   color: var(--ink-3);
   font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 400;
+  font-size: var(--t-post-label);
+  font-weight: 700;
 }
 
 .stage {

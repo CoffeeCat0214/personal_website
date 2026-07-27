@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import styles from "./SectionDivider.module.css";
 
 /* Must stay in sync with the -20% travel in section-drift: the keyframe shifts
@@ -5,9 +8,11 @@ import styles from "./SectionDivider.module.css";
 const REPEATS = 5;
 
 export function SectionDivider() {
+  const [paused, setPaused] = useState(false);
+
   return (
-    <div className={styles.divider} data-separator="projects" aria-hidden="true">
-      <div className={styles.track}>
+    <div className={styles.divider} data-separator="projects">
+      <div className={`${styles.track} ${paused ? styles.paused : ""}`} aria-hidden="true">
         {Array.from({ length: REPEATS }, (_, index) => (
           <span className={styles.unit} key={index}>
             <span>COFFEECAT</span>
@@ -17,6 +22,15 @@ export function SectionDivider() {
           </span>
         ))}
       </div>
+      <button
+        className={styles.toggle}
+        type="button"
+        aria-pressed={paused}
+        aria-label={paused ? "Resume project marker" : "Pause project marker"}
+        onClick={() => setPaused((value) => !value)}
+      >
+        {paused ? "Play" : "Pause"}
+      </button>
     </div>
   );
 }

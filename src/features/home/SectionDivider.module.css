@@ -8,9 +8,40 @@
   min-height: clamp(76px, 8vw, 112px);
   display: flex;
   align-items: center;
-  background: var(--home-purple, #32123f);
-  color: var(--home-pink, #ff9bd7);
-  border-block: 3px solid color-mix(in srgb, var(--home-pink, #ff9bd7) 34%, transparent);
+  background: var(--home-purple);
+  color: var(--home-pink);
+  border-block: 3px solid color-mix(in srgb, var(--home-pink) 34%, transparent);
+}
+
+.toggle {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  right: clamp(12px, 2vw, 28px);
+  min-height: 44px;
+  padding: 0 12px;
+  border: 2px solid var(--home-purple);
+  border-radius: 2px;
+  background: var(--home-green, #c9f5a5);
+  color: var(--home-purple);
+  font: 700 var(--t-post-label) / 1 var(--font-courier);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transform: translateY(-50%);
+  box-shadow: 3px 3px 0 var(--home-purple);
+  transition: transform 160ms var(--ease), box-shadow 160ms var(--ease);
+}
+
+.toggle:hover,
+.toggle:focus-visible {
+  transform: translate(2px, calc(-50% + 2px));
+  box-shadow: 1px 1px 0 var(--home-purple);
+}
+
+.toggle:active {
+  transform: translate(3px, calc(-50% + 3px));
+  box-shadow: 0 0 0 var(--home-purple);
 }
 
 .track {
@@ -18,6 +49,10 @@
   width: max-content;
   animation: section-drift 24s linear infinite;
   will-change: transform;
+}
+
+.paused {
+  animation-play-state: paused;
 }
 
 .unit {
@@ -33,7 +68,7 @@
      accent lands under the top border. BubblePanel can run the full size only
      because "EVEN IN THE AGE OF AI." has no accent and no descender. Matching
      its size exactly here would mean shipping a clipped diacritic. */
-  font-size: clamp(3.2rem, 7.4vw, 6.6rem);
+  font-size: var(--t-divider);
   font-weight: 900;
   letter-spacing: -0.075em;
   line-height: 0.82;
@@ -44,7 +79,7 @@
 
 .unit b,
 .unit i {
-  color: var(--home-green, #c9f5a5);
+  color: var(--home-green);
   font-style: normal;
   font-weight: 900;
 }
@@ -58,6 +93,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .toggle {
+    display: none;
+  }
+
   .track {
     animation: none;
     will-change: auto;

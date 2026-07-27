@@ -2,8 +2,10 @@
   display: grid;
   gap: var(--s4);
   margin-top: var(--s4);
-  padding-top: var(--s5);
-  border-top: 1px solid var(--rule);
+  padding: var(--s5);
+  border: 2px solid var(--ink);
+  background: var(--paper);
+  box-shadow: var(--neo-shadow-sm);
 }
 
 .header,
@@ -16,7 +18,7 @@
 .header {
   justify-content: space-between;
   color: var(--ink-3);
-  font: 500 var(--t-label) / 1.2 var(--font-mono);
+  font: 700 var(--t-post-label) / 1.2 var(--font-mono);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -57,25 +59,37 @@
   width: 100%;
   min-height: 56px;
   padding: var(--s2) var(--s3);
-  border: 1px solid var(--rule-strong);
-  border-radius: 4px;
+  border: 2px solid var(--ink);
+  border-radius: 2px;
   background: transparent;
   color: var(--ink);
   text-align: left;
-  font: 500 var(--t-small) / 1.1 var(--font-mono);
+  font: 700 var(--t-post-label) / 1.1 var(--font-mono);
   cursor: pointer;
+  box-shadow: 3px 3px 0 var(--ink);
+  transition:
+    transform 160ms var(--ease),
+    box-shadow 160ms var(--ease),
+    background-color 160ms var(--ease),
+    color 160ms var(--ease);
 }
 
 .nodes button:hover,
 .nodes .active {
-  border-color: var(--ink);
   background: var(--ink);
   color: var(--paper);
 }
 
+.nodes button:active,
+.nodes .active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--ink);
+}
+
 .index {
   color: var(--ink-3);
-  font-size: var(--t-label);
+  font-size: var(--t-post-label);
+  font-weight: 700;
 }
 
 .active .index { color: var(--paper); }
@@ -83,7 +97,7 @@
 .detail {
   align-items: baseline;
   color: var(--ink-2);
-  font-size: var(--t-small);
+  font-size: var(--t-post-body);
   line-height: 1.45;
 }
 
@@ -91,7 +105,8 @@
   flex: none;
   color: var(--ink-3);
   font-family: var(--font-mono);
-  font-size: var(--t-label);
+  font-size: var(--t-post-label);
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }

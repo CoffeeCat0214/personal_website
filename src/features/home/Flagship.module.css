@@ -1,7 +1,7 @@
 .projectHead {
   position: relative;
   display: grid;
-  gap: var(--s4);
+  gap: var(--s5);
   max-width: 52ch;
 }
 
@@ -19,21 +19,26 @@
 .showcase {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(260px, 0.9fr);
-  gap: var(--s8);
+  gap: clamp(32px, 5vw, 72px);
   align-items: start;
 }
 
 .claim {
   display: grid;
   gap: var(--s7);
+  padding: clamp(24px, 3vw, 40px);
+  border: var(--neo-border);
+  background: var(--panel);
+  box-shadow: var(--neo-shadow);
 }
 
 .positioning {
-  max-width: 25ch;
+  max-width: 24ch;
   color: var(--ink);
-  font-size: var(--t-statement);
-  line-height: 1.2;
-  letter-spacing: -0.025em;
+  font-size: var(--t-post-lede);
+  font-weight: 600;
+  line-height: 1.18;
+  letter-spacing: -0.03em;
   text-wrap: balance;
 }
 

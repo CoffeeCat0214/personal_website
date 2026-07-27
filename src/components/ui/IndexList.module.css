@@ -4,6 +4,7 @@
 
 .index {
   display: grid;
+  gap: var(--s6);
 }
 
 .row {
@@ -11,12 +12,10 @@
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: baseline;
   gap: var(--s2) var(--s5);
-  padding-block: var(--s6);
-  border-top: 1px solid var(--rule);
-}
-
-.row:last-child {
-  border-bottom: 1px solid var(--rule);
+  padding: var(--s5);
+  border: var(--neo-border);
+  background: var(--panel);
+  box-shadow: var(--neo-shadow-sm);
 }
 
 /* The leader lives inside the <dt> because a <dl> row admits only dt/dd -- a
@@ -26,7 +25,7 @@
   align-items: center;
   gap: var(--s4);
   color: var(--ink);
-  font-size: var(--t-h3);
+  font-size: var(--t-post-h3);
   font-weight: 500;
   letter-spacing: -0.02em;
 }
@@ -41,8 +40,8 @@
 .termContext {
   color: var(--ink-3);
   font-family: var(--font-mono);
-  font-size: var(--t-label);
-  font-weight: 500;
+  font-size: var(--t-post-label);
+  font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   white-space: nowrap;
@@ -50,8 +49,8 @@
 
 .period {
   font-family: var(--font-mono);
-  font-size: var(--t-small);
-  font-weight: 500;
+  font-size: var(--t-post-label);
+  font-weight: 700;
   letter-spacing: 0.02em;
   text-transform: uppercase;
   color: var(--accent-text);
@@ -62,7 +61,8 @@
 .note {
   grid-column: 1 / -1;
   color: var(--ink-3);
-  font-size: var(--t-small);
+  font-size: var(--t-post-body);
+  line-height: 1.62;
   max-width: 60ch;
   margin: 0;
 }
@@ -70,6 +70,7 @@
 @media (max-width: 640px) {
   .row {
     grid-template-columns: 1fr;
+    gap: var(--s3);
   }
 
   /* With one column the leader has nothing to lead to. */

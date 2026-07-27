@@ -14,7 +14,7 @@
    subtractive move the rest of the system makes: the rule was only ever there
    because the old page had one paper colour and needed something to divide it. */
 .act {
-  padding-block: clamp(36px, 5vw, 64px);
+  padding-block: clamp(56px, 7vw, 96px);
 }
 
 /* The act's nameplate. Numeral and eyebrow on the left, the mark stamped at the
@@ -24,18 +24,21 @@
   display: flex;
   align-items: center;
   gap: var(--s4);
-  padding-bottom: var(--s3);
-  margin-bottom: var(--s6);
-  border-bottom: 2px solid var(--rule);
+  min-height: 72px;
+  padding: var(--s4) var(--s5);
+  margin-bottom: clamp(40px, 5vw, 64px);
+  border: var(--neo-border);
+  background: var(--panel);
+  box-shadow: var(--neo-shadow);
 }
 
 .num,
 .eyebrow {
   margin: 0;
   font-family: var(--font-mono);
-  font-size: var(--t-label);
-  font-weight: 500;
-  letter-spacing: 0.14em;
+  font-size: var(--t-post-label);
+  font-weight: 700;
+  letter-spacing: 0.13em;
   text-transform: uppercase;
   color: var(--ink-3);
 }
@@ -56,7 +59,7 @@
 
 .body {
   display: grid;
-  gap: clamp(28px, 4vw, 48px);
+  gap: clamp(40px, 5vw, 72px);
 }
 
 .head {
@@ -66,17 +69,24 @@
 }
 
 .lede {
-  font-size: var(--t-lead);
+  font-size: var(--t-post-lede);
   line-height: 1.5;
   max-width: 42ch;
 }
 
 @media (max-width: 900px) {
   .act {
-    padding-block: 40px;
+    padding-block: 48px;
   }
 
   .bar {
-    margin-bottom: var(--s6);
+    margin-bottom: 40px;
+  }
+}
+
+@media (max-width: 640px) {
+  .bar {
+    min-height: 64px;
+    padding: var(--s3) var(--s4);
   }
 }

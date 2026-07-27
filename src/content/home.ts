@@ -207,6 +207,24 @@ export const homeSections = [
     eyebrow: "Serverless Discord bot",
     tone: "sage",
   },
+  {
+    kind: "act",
+    act: "about",
+    id: "about",
+    navLabel: "About",
+    number: "03",
+    eyebrow: "The short version",
+    tone: "forest",
+  },
+  {
+    kind: "act",
+    act: "contact",
+    id: "contact",
+    navLabel: "Contact",
+    number: "04",
+    eyebrow: "Open channel",
+    tone: "pink",
+  },
 ] as const satisfies readonly HomeSection[];
 
 export const homeNavSections = homeSections.flatMap((section) =>

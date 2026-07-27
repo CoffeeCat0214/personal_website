@@ -1,5 +1,6 @@
 .channels {
   display: grid;
+  gap: var(--s4);
   margin: 0;
 }
 
@@ -8,18 +9,16 @@
   grid-template-columns: minmax(0, 200px) minmax(0, 1fr);
   gap: var(--s4);
   align-items: baseline;
-  padding-block: var(--s5);
-  border-top: 1px solid var(--rule);
-}
-
-.row:last-child {
-  border-bottom: 1px solid var(--rule);
+  padding: var(--s5);
+  border: var(--neo-border);
+  background: var(--panel);
+  box-shadow: var(--neo-shadow-sm);
 }
 
 .key {
   font-family: var(--font-mono);
-  font-size: var(--t-label);
-  font-weight: 500;
+  font-size: var(--t-post-label);
+  font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-3);
@@ -28,8 +27,8 @@
 .value {
   margin: 0;
   color: var(--ink);
-  font-size: var(--t-h3);
-  font-weight: 500;
+  font-size: var(--t-post-h3);
+  font-weight: 600;
   letter-spacing: -0.02em;
 }
 
@@ -43,6 +42,7 @@
 .value a:hover {
   color: var(--accent-text);
   border-color: var(--accent-text);
+  background: var(--paper);
 }
 
 @media (max-width: 640px) {

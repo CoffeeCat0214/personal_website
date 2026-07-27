@@ -63,6 +63,22 @@ typography:
     fontSize: "1.0625rem"
     fontWeight: 400
     lineHeight: 1.6
+  post-hero-body:
+    fontFamily: "Inter, system-ui, sans-serif"
+    fontSize: "1.08rem"
+    fontWeight: 400
+    lineHeight: 1.62
+  post-hero-headline:
+    fontFamily: "Fraunces, Iowan Old Style, Georgia, serif"
+    fontSize: "clamp(2.5rem, 5vw, 4.5rem)"
+    fontWeight: 600
+    lineHeight: 0.96
+    letterSpacing: "-0.05em"
+  runner:
+    fontFamily: "Inter, system-ui, sans-serif"
+    fontSize: "clamp(3.4rem, 7.8vw, 7rem)"
+    fontWeight: 900
+    lineHeight: 0.82
   small:
     fontFamily: "Inter, system-ui, sans-serif"
     fontSize: "0.9375rem"
@@ -166,13 +182,13 @@ evidence conventions, but the homepage owns the louder treatment.
 
 The page is printed, not assembled. Every section is a numbered act that owns a full-bleed ground of flat spot-colour ink, and the reader moves through the page the way they move through a programme: sage, then a poster interlude, then pink, then the dark act. There is no card grid, no elevation, no chrome sitting on a neutral canvas — the colour *is* the structure, and the boundary between two acts is the cut between two inks.
 
-The system's discipline is subtractive. Nothing is enclosed: no box-shadows anywhere, no borders drawn around content, no container with a background that differs from its act. Grouping is done by alignment, hairline rules and whitespace only. A section stops being a section because the ink changes, not because a line was drawn under it. Where the previous system used a border-top to divide a single paper colour, the colour-block system deletes it — a hairline on top of a colour change is a second, weaker statement of the same thing and reads as a seam.
+The system's discipline is selective. The protected entry surfaces stay flat and editorial; the post-hero workbench uses a small, explicit neobrutalist vocabulary: 3px ink frames, flat zero-blur offset shadows, and physical press states. A section still stops being a section because the ink changes, not because a line was drawn under it. Where the previous system used a border-top to divide a single paper colour, the colour-block system deletes it — a hairline on top of a colour change is a second, weaker statement of the same thing and reads as a seam.
 
 The voice is "Glam & Grind" and the type pairing carries it literally. Fraunces is the glam: high-contrast, editorial, unmistakably *set* rather than chosen, and used only at the display tier. Geist Mono is the grind: uppercase, wide-tracked, on act numerals and metadata labels. Inter does the reading and never pretends to be either. One ginger cat mark is restated at every scale across all five grounds — small on the sticky act rail, poster-size on the interlude panels — and it is a real cutout with transparency, so it sits directly on the ink with no plate behind it.
 
 **Key Characteristics:**
 - Five full-bleed grounds; the ink change is the section boundary.
-- Zero shadows, zero enclosure — hairlines, alignment and whitespace group everything.
+- Flat entry surfaces; tactile framed workbench surfaces after the hero.
 - Numbered acts with a sticky mono rail label beside a wide content column.
 - Display serif for headings only; grotesque for reading; mono for labels.
 - One cat mark restated at two scales across every ground.
@@ -290,8 +306,8 @@ The recurring silhouette is the portrait cutout: the cat mark is a real alpha-tr
 - **Note:** The arrow glyphs (U+2190–2199) are included in the Inter subset deliberately. Google's stock `latin` subset drops U+2192 and U+2197, which fails silently — the arrows just render in the fallback at a different weight.
 
 ### Index List
-- **Style:** A leader-rule index — a price-list / table-of-contents form, not a stack of cards. Two columns (term / period) baseline-aligned, 24px block padding, hairline `--rule` on every row top plus the last row's bottom.
-- **Term:** Title-tier at 500 weight, followed by a flex-filled 1px leader rule rendered as `::after` *inside* the `<dt>` — a `<dl>` row admits only `dt`/`dd`, so a decorative span between them would be invalid markup.
+- **Style:** A framed editorial index — a price-list / table-of-contents form, not a stack of generic cards. Two columns (term / period) baseline-aligned, 20px block padding, one strong frame per entry, and a flat offset shadow.
+- **Term:** Post-hero heading tier at 500 weight, followed by a flex-filled 1px leader rule rendered as `::after` *inside* the `<dt>` — a `<dl>` row admits only `dt`/`dd`, so a decorative span between them would be invalid markup.
 - **Metadata:** Mono label tier at `--ink-3`, `white-space: nowrap`.
 - **Mobile (≤640px):** Collapses to one column and drops the leader — with one column it has nothing to lead to.
 
@@ -302,13 +318,16 @@ The recurring silhouette is the portrait cutout: the cat mark is a real alpha-tr
 - **Mobile:** A pill disclosure toggle with a two-bar glyph that rotates into an X. The toggle is rendered always and hidden by CSS only below its breakpoint — rendering it and hiding it with `display: none` at desktop would leave it in the tab order as a trap invisible to sighted mouse users.
 
 ### Act
-- The signature component. A numbered act: sticky mono rail (mark + numeral + eyebrow) on the left, heading / lede / body on the right, on its own full-bleed ground with no top border. Head constrained to 52ch, lede to 42ch, body gap 48px.
+- The signature component. A numbered act with a framed mono nameplate (mark + numeral + eyebrow), heading / lede / body underneath, and its own full-bleed ground with no top border. The post-hero nameplate and evidence boards use a 3px ink frame plus a flat offset shadow; body copy stays on the rem-based reading tier.
+
+### Studio board
+- The post-hero evidence surface. Project claims, timers, request paths, background entries, and contact channels can use `--neo-border` and `--neo-shadow` so depth means physical displacement rather than atmosphere. This vocabulary is scoped below the protected hero and never becomes a generic card grid.
 
 ### Mark Panel
 - The interlude. One display-size line (max 12ch, −0.045em, line-height 0.96) left, poster-scale cat mark (`min(260px, 24vw)`) right, on lilac or ginger. The only place outside the hero that uses the display tier, which is what makes a panel read as a cover rather than a section. Line-height stays at 0.96 rather than 0.86 because GSAP masks each split line with `overflow: hidden` and the tighter value clipped descenders.
 
 ### Figures
-- Project figures depicting screens: espresso interior in Glam and a midnight-indigo interior in Grind (`--demo-top` → `--demo-bot`), 18px radius. They carry the coffee-mug pixel sprites, and the mode-specific surface keeps the figure legible without making Grind feel like a brown recolour.
+- Project figures depicting screens: espresso interior in Glam and a midnight-indigo interior in Grind (`--demo-top` → `--demo-bot`), 18px radius. They carry the coffee-mug pixel sprites, and the mode-specific surface keeps the figure legible without making Grind feel like a brown recolour. Their outer bezel may use the same zero-blur offset shadow as a studio board.
 
 ## Do's and Don'ts
 
@@ -322,8 +341,8 @@ The recurring silhouette is the portrait cutout: the cat mark is a real alpha-tr
 - **Do** apply reveal hidden-states at runtime, never as a static CSS rule — `[data-reveal] { opacity: 0 }` in the stylesheet hands anyone without JS a blank page, and under static export that is a real risk rather than a hypothetical.
 
 ### Don't:
-- **Don't** add a `box-shadow`. Not for hover, not for cards, not for the nav. The system has none and depth is not part of its vocabulary.
-- **Don't** draw a border around content to group it, or add a `border-top` to an act.
+- **Don't** add blurred or ambient shadows. When a post-hero studio board needs depth, use the named zero-blur offset token and a physical press state; keep the gate, hero, and nav flat.
+- **Don't** draw a border around a full act to group it, or add a `border-top` to an act. Strong frames are reserved for post-hero nameplates, evidence boards, instruments, and direct-action rows.
 - **Don't** put body copy, small labels or anything below display size on lilac or ginger.
 - **Don't** introduce a new accent hue. No colour in this palette clears 4.5:1 on more than one ground, so an accent that works everywhere does not exist here.
 - **Don't** set body copy in Fraunces, or use it below the h3 tier.

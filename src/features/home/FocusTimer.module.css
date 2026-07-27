@@ -2,8 +2,10 @@
   display: grid;
   gap: var(--s4);
   max-width: 32rem;
-  padding-top: var(--s5);
-  border-top: 1px solid var(--rule);
+  padding: var(--s5);
+  border: 2px solid var(--ink);
+  background: var(--paper);
+  box-shadow: var(--neo-shadow-sm);
 }
 
 .timerHeader,
@@ -19,7 +21,8 @@
 .note {
   color: var(--ink-3);
   font-family: var(--font-mono);
-  font-size: var(--t-label);
+  font-size: var(--t-post-label);
+  font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -46,7 +49,8 @@
 }
 
 .progress {
-  height: 6px;
+  height: 8px;
+  border: 2px solid var(--ink);
   background: color-mix(in srgb, var(--ink) 12%, transparent);
 }
 
@@ -72,27 +76,42 @@
 .actions button {
   min-height: 44px;
   padding: 0 var(--s3);
-  border: 1px solid var(--rule-strong);
-  border-radius: 999px;
+  border: 2px solid var(--ink);
+  border-radius: 2px;
   background: transparent;
   color: var(--ink);
-  font: 500 var(--t-label) / 1 var(--font-mono);
+  font: 700 var(--t-post-label) / 1 var(--font-mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: pointer;
+  box-shadow: 3px 3px 0 var(--ink);
+  transition:
+    transform 160ms var(--ease),
+    box-shadow 160ms var(--ease),
+    background-color 160ms var(--ease),
+    color 160ms var(--ease);
 }
 
 .modes button:hover,
 .actions button:hover,
 .modeActive {
-  border-color: var(--ink) !important;
   background: var(--ink) !important;
   color: var(--paper) !important;
 }
 
+.modes button:active,
+.actions button:active,
+.modeActive {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--ink);
+}
+
 .actions button:first-child { padding-inline: var(--s4); }
 
-.reset { border-color: transparent !important; }
+.reset {
+  border-color: var(--rule-strong) !important;
+  box-shadow: none !important;
+}
 
 .note {
   letter-spacing: 0.08em;

@@ -111,3 +111,84 @@
     width: min(940px, calc(100vw - 32px));
   }
 }
+
+/* ---------- Post-hero studio board ----------
+
+   The gate and hero are intentionally outside this wrapper. Their scrapbook
+   treatment is the welcome; everything after it is the workbench. The workbench
+   can carry the research pack's neobrutalist depth without changing the first
+   impression: square ink frames, zero-blur displacement, and controls that feel
+   like things a visitor can actually operate. */
+.postHero {
+  --neo-border: 3px solid var(--ink);
+  --neo-shadow: 7px 7px 0 var(--ink);
+  --neo-shadow-sm: 4px 4px 0 var(--ink);
+}
+
+.postHero :global(.wrap) {
+  width: min(1040px, calc(100vw - 48px));
+}
+
+.postHero :global(h2) {
+  font-size: var(--t-post-h2);
+  line-height: 0.96;
+  letter-spacing: -0.05em;
+}
+
+.postHero :global(h3) {
+  font-size: var(--t-post-h3);
+  line-height: 1.08;
+}
+
+/* Hairline action links are too quiet against the new workbench. The border is
+   the affordance; the press state is the interaction. */
+.postHero :global(.link) {
+  min-height: 48px;
+  padding: 0 var(--s4);
+  border: var(--neo-border);
+  box-shadow: var(--neo-shadow-sm);
+  background: var(--paper);
+  font-size: var(--t-post-link);
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    transform 160ms var(--ease),
+    box-shadow 160ms var(--ease),
+    background-color 160ms var(--ease),
+    color 160ms var(--ease);
+}
+
+.postHero :global(.link:hover),
+.postHero :global(.link:focus-visible) {
+  color: var(--ink);
+  background: var(--panel);
+  border-color: var(--ink);
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+.postHero :global(.link:active) {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 var(--ink);
+}
+
+@media (max-width: 900px) {
+  .postHero :global(.wrap) {
+    width: min(1040px, calc(100vw - 32px));
+  }
+
+  .postHero {
+    --neo-shadow: 5px 5px 0 var(--ink);
+    --neo-shadow-sm: 3px 3px 0 var(--ink);
+  }
+}
+
+@media (max-width: 640px) {
+  .postHero :global(h2) {
+    font-size: var(--t-post-h2);
+  }
+
+  .postHero :global(.wrap) {
+    width: min(1040px, calc(100vw - 28px));
+  }
+}
