@@ -221,6 +221,142 @@
   border-color: var(--home-purple, var(--ink));
 }
 
+/* ---------- CTA bling ----------
+   Scoped to the hero on purpose. `.btn` is a global control used by the case
+   studies and the footer too; putting the shine on the class itself would opt
+   every button on the site into a looping animation to decorate two. */
+
+.bling {
+  position: relative;
+  display: inline-flex;
+}
+
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+/* The specular sheen. Skewed so the leading edge rakes rather than wipes, and
+   genuinely continuous -- there is a gleam on the control at all times.
+
+   A single travelling band cannot do that. However it is timed, it has to leave
+   the right edge before it can re-enter at the left, which left a ~0.7s dead
+   stretch every cycle. So this is a *repeating* gradient wider than the button,
+   translated by exactly one period: as one gleam exits, the next is already
+   arriving, and at the end of the cycle the image is pixel-identical to the
+   start, so the wrap is invisible.
+
+   The two constants are a pair. The 168px travel must equal the gradient's
+   period (its last stop), or the loop jumps -- the same failure the section
+   divider's marquee had. Change one, change the other.
+
+   90deg, not an angled gradient: a repeating gradient at an angle repeats along
+   *its own* axis, so an X translation of one period would no longer land on an
+   identical image. The rake comes from skewX on the element instead, which is
+   constant and therefore harmless to the seam.
+
+   `linear` is load-bearing. An ease curve decelerates into the end and
+   accelerates out of the start; with no dwell to hide it, the sheen would lurch
+   once per cycle. Constant speed is what makes it read as one continuous drift.
+
+   It paints above the label rather than under it: a positioned child with
+   z-index auto comes after inline content in paint order, and lifting the text
+   over it would mean wrapping the label in another span. At 0.30 alpha the
+   crossing reads as gloss on the words instead of washing them out. */
+.shimmer::before {
+  position: absolute;
+  top: -60%;
+  bottom: -60%;
+  left: -50%;
+  width: 200%;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0,
+    transparent 96px,
+    rgba(255, 255, 255, 0.3) 132px,
+    transparent 168px
+  );
+  transform: translateX(0) skewX(-18deg);
+  animation: hero-shine 3s linear infinite;
+  content: "";
+  pointer-events: none;
+}
+
+.flare {
+  position: absolute;
+  z-index: 1;
+  color: #fff;
+  font-size: 1rem;
+  line-height: 1;
+  opacity: 0;
+  text-shadow: 0 0 7px rgba(255, 255, 255, 0.95);
+  pointer-events: none;
+  animation: hero-flare 3s var(--ease, ease-in-out) infinite;
+}
+
+/* Proud of the corners, diagonally opposed -- the poster never centres them.
+
+   Offset by half a cycle so the two never fire together. Deliberately not
+   frame-synced to a particular gleam: the sheen now repeats on a fixed pixel
+   period while the two buttons are different widths, so no single delay can
+   line a flare up with a band on both. Once per cycle there is always a gleam
+   somewhere on the face, which is all the coincidence the effect needs. */
+.flareA {
+  top: -8px;
+  right: 9px;
+  animation-delay: 1.5s;
+}
+
+.flareB {
+  bottom: -7px;
+  left: 13px;
+  font-size: 0.76rem;
+}
+
+/* Must equal the gradient period above. */
+@keyframes hero-shine {
+  from {
+    transform: translateX(0) skewX(-18deg);
+  }
+  to {
+    transform: translateX(168px) skewX(-18deg);
+  }
+}
+
+/* Fires just behind the band, so the flare reads as struck by the light
+   rather than as an independent blinking dot. */
+@keyframes hero-flare {
+  0%,
+  22%,
+  100% {
+    opacity: 0;
+    transform: scale(0.4) rotate(0deg);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1) rotate(22deg);
+  }
+  44% {
+    opacity: 0;
+    transform: scale(0.5) rotate(44deg);
+  }
+}
+
+/* The flares hold at full opacity rather than inheriting the keyframe's 0%:
+   killing the animation on a decoration whose resting state is invisible would
+   silently delete it for anyone who asked for less motion. */
+@media (prefers-reduced-motion: reduce) {
+  .shimmer::before {
+    display: none;
+  }
+
+  .flare {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
+
 @media (max-width: 900px) {
   .heroGrid {
     grid-template-columns: minmax(0, 1fr);
@@ -290,6 +426,14 @@
     flex-direction: column;
     width: 100%;
     max-width: 100%;
+  }
+
+  /* The bling wrapper is the flex item now, so the full-width rule below acts
+     on the control inside it rather than on the row. Stated rather than left to
+     `align-items: stretch`, so the buttons do not silently collapse to content
+     width if that ever changes. */
+  .bling {
+    width: 100%;
   }
 
   .actions :global(.btn) {
