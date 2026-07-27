@@ -8,6 +8,10 @@ export function Hero() {
       <div className="wrap">
         <div className={styles.heroGrid}>
           <div className={styles.copy}>
+            <div className={styles.heroStamp} aria-hidden="true">
+              <span className={styles.spark}>✦</span>
+              <span className={styles.sticker}>made<br />to ship</span>
+            </div>
             <div className={styles.name} data-reveal="display">
               <p className={styles.eyebrow}>Kyrstin Kauchak / 2026</p>
               <h1>
@@ -17,8 +21,7 @@ export function Hero() {
             </div>
             <p className={styles.tagline} data-reveal>
               <span className={styles.glamCopy}>
-                {site.kind} in {site.location}. Building useful things with a
-                small surface area and a point of view.
+                {site.kind} in {site.location}. Small tools. Clear intent.
               </span>
               <span className={styles.grindCopy}>
                 {site.kind} / {site.location}. Useful software, kept close to the
@@ -34,10 +37,10 @@ export function Hero() {
             </div>
             <div className={styles.actions} data-reveal>
               <Link className="btn" href={`${HOME_ROUTE}#extension`}>
-                Explore CoffeeCat
+                View CoffeeCat
               </Link>
               <Link className="btn secondary" href={`${HOME_ROUTE}#cremeai`}>
-                Meet CrèmeAI
+                View CrèmeAI
               </Link>
             </div>
           </div>
@@ -47,7 +50,7 @@ export function Hero() {
                 supplied portrait is a static-export LCP asset and already
                 ships at the exact crop used by this composition. */}
             <img
-              src="/art/hero-cat.png"
+              src="/art/hero-cat-cool.png"
               alt="Illustrated long-haired cat looking directly at the viewer"
               width={1024}
               height={1536}
@@ -55,8 +58,8 @@ export function Hero() {
               decoding="async"
             />
             <figcaption>
-              <span>01 / studio mascot</span>
-              <span>good ideas, better coffee</span>
+              <span>01 / studio cat</span>
+              <span>good ideas / better coffee</span>
             </figcaption>
           </figure>
         </div>

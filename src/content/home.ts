@@ -1,4 +1,3 @@
-import { site } from "./identity";
 import { featuredProject } from "./projects";
 import type {
   BackgroundEntry,
@@ -64,7 +63,7 @@ export const tldr: Tldr = {
    agentic work, and naming it is more specific than naming the technology. */
 export const hero = {
   statement: [
-    "Privacy-first tools and small services for people who think in systems.",
+    "Small tools for people who think in systems.",
   ],
 } as const;
 
@@ -85,7 +84,7 @@ export const hero = {
 export const heroFacts: readonly HeroFact[] = [
   { key: "Extension", value: "CoffeeCat", status: true },
   { key: "Service", value: "CrèmeAI" },
-  { key: "Based in", value: site.location },
+  { key: "Based in", value: "New York" },
 ];
 
 /* The heading was "Kyrstin Kauchak." -- redundant now that the name is the h1,
@@ -106,7 +105,7 @@ export const about = {
 
 /* Hardcoded in WorkAct.tsx until now, same drift as the hero fact row. */
 export const work = {
-  heading: "More things I built.",
+  heading: "One more thing.",
 } as const;
 
 export const background = [
@@ -194,7 +193,10 @@ export const homeSections = [
     navLabel: "Extension",
     number: "01",
     eyebrow: featuredProject.eyebrow,
-    tone: featuredProject.tone,
+    /* The hero owns the pink ground; the first project needs to cut to a new
+       ground so the work begins as a distinct chapter instead of extending
+       the masthead. */
+    tone: "sage",
   },
   {
     kind: "act",

@@ -179,7 +179,8 @@ Five saturated grounds and one universal ink, drawn from a silkscreen palette wh
 - **Ink 2** (per-ground, ~7.0:1): Body copy. The page's default text colour, never full ink.
 - **Ink 3** (per-ground, ~4.55:1): Mono labels, act numerals, deemphasised nav links. Exists only on sage, pink and forest.
 - **Rule** (`rgba(30, 43, 22, 0.18)`) and **Rule Strong** (`rgba(30, 43, 22, 0.32)`): Hairlines and control borders. The only drawn lines in the system.
-- **Espresso** (`#35241d` → `#1a120e`): The figure interior — the ground inside project figures that depict a screen. Deliberately theme-constant and deliberately warm-brown: these represent something being *looked at*, not site chrome, so they do not adopt an act's ground, and the brown keeps the mug sprites and the ginger cat in their own shadow family.
+- **Espresso** (`#35241d` → `#1a120e`): The Glam figure interior — the ground inside project figures that depict a screen. It represents something being *looked at*, not site chrome, so it keeps its own surface treatment.
+- **Grind night-terminal palette** (`#15163d`, `#25265c`, `#d8ff63`, `#e8eaff`, `#ff668f`): A separate mode palette with midnight indigo surfaces, acid-lime signal ink, lavender reading text, and coral status accents. Grind remaps the figure interiors too, so the mode reads as an intentional workspace rather than a brown filter.
 
 ### Named Rules
 
@@ -288,7 +289,7 @@ The recurring silhouette is the portrait cutout: the cat mark is a real alpha-tr
 - The interlude. One display-size line (max 12ch, −0.045em, line-height 0.96) left, poster-scale cat mark (`min(260px, 24vw)`) right, on lilac or ginger. The only place outside the hero that uses the display tier, which is what makes a panel read as a cover rather than a section. Line-height stays at 0.96 rather than 0.86 because GSAP masks each split line with `overflow: hidden` and the tighter value clipped descenders.
 
 ### Figures
-- Project figures depicting screens: espresso interior (`--demo-top` → `--demo-bot`), 18px radius, theme-constant across every act. They carry the coffee-mug pixel sprites, and the warm brown keeps that art in its own shadow family.
+- Project figures depicting screens: espresso interior in Glam and a midnight-indigo interior in Grind (`--demo-top` → `--demo-bot`), 18px radius. They carry the coffee-mug pixel sprites, and the mode-specific surface keeps the figure legible without making Grind feel like a brown recolour.
 
 ## Do's and Don'ts
 

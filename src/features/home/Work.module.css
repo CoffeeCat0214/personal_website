@@ -1,7 +1,20 @@
 .projectHead {
+  position: relative;
   display: grid;
   gap: var(--s4);
   max-width: 52ch;
+}
+
+.projectHead::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: var(--home-purple, var(--ink));
+  content: "↗";
+  font-family: var(--font-mono);
+  font-size: var(--t-h2);
+  line-height: 1;
+  transform: rotate(-10deg);
 }
 
 .tools {
@@ -10,8 +23,8 @@
 
 .tool {
   display: grid;
-  grid-template-columns: minmax(0, 1.12fr) minmax(280px, 0.88fr);
-  gap: var(--s8);
+  grid-template-columns: minmax(0, 1.08fr) minmax(240px, 0.92fr);
+  gap: var(--s7);
   align-items: start;
   padding-block: var(--s7);
   border-top: 1px solid var(--rule);
@@ -27,7 +40,7 @@
 }
 
 .subtitle {
-  max-width: 58ch;
+  max-width: 42ch;
   color: var(--ink-2);
   font-size: var(--t-small);
   line-height: 1.6;

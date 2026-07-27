@@ -1,7 +1,19 @@
 .projectHead {
+  position: relative;
   display: grid;
   gap: var(--s4);
   max-width: 52ch;
+}
+
+.projectHead::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: var(--home-orange, var(--accent-bright));
+  content: "✦";
+  font-size: var(--t-h2);
+  line-height: 1;
+  transform: rotate(12deg);
 }
 
 .showcase {
@@ -17,7 +29,7 @@
 }
 
 .positioning {
-  max-width: 20ch;
+  max-width: 25ch;
   color: var(--ink);
   font-size: var(--t-statement);
   line-height: 1.2;

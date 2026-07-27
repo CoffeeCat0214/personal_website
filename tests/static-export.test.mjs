@@ -38,20 +38,20 @@ test("home page export contains core anchors and assets", () => {
     assert.match(html, new RegExp(`id="${anchor}"`));
   }
 
-  assert.match(html, /\/art\/hero-cat\.png/);
-  assert.equal(existsSync("out/art/hero-cat.png"), true);
+  assert.match(html, /\/art\/hero-cat-cool\.png/);
+  assert.equal(existsSync("out/art/hero-cat-cool.png"), true);
   assert.match(html, /aria-label="Visual mode"/);
   assert.match(html, /aria-pressed="true"/);
   assert.match(html, />Glam<\/button>/);
   assert.match(html, />Grind<\/button>/);
-  assert.match(html, /data-transition="sakura-pixel"/);
-  assert.match(html, /data-transition-target="cremeai"/);
   assert.match(html, /data-separator="projects"/);
+  assert.match(html, /data-separator="bubble"/);
+  assert.match(html, /EVEN IN THE AGE/);
   assert.match(html, /Focus without network access\./);
-  assert.match(html, /A Discord bot built like a service\./);
+  assert.match(html, /Serverless Discord assistant\./);
   assert.match(html, /Hero_[^\"]+ tone-pink/);
-  assert.match(html, /Explore CoffeeCat/);
-  assert.match(html, /System pulse/);
+  assert.match(html, /View CoffeeCat/);
+  assert.match(html, /Request path/);
   assert.match(html, /Start focus/);
   assert.match(html, /class="Confetti_[^"]+" aria-hidden="true"/);
   assert.doesNotMatch(html, /Testing/);

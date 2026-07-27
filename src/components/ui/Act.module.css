@@ -14,7 +14,7 @@
    subtractive move the rest of the system makes: the rule was only ever there
    because the old page had one paper colour and needed something to divide it. */
 .act {
-  padding-block: calc(var(--u) * 8);
+  padding-block: calc(var(--u) * 5);
 }
 
 /* The act's nameplate. Numeral and eyebrow on the left, the mark stamped at the
@@ -73,7 +73,7 @@
 
 @media (max-width: 900px) {
   .act {
-    padding-block: calc(var(--u) * 7);
+    padding-block: calc(var(--u) * 5);
   }
 
   .bar {

@@ -30,7 +30,7 @@ export function FlagshipAct({ section }: { section: FlagshipSection }) {
       <div className={styles.showcase}>
         <div className={styles.claim}>
           <p className={styles.positioning} data-split>
-            {project.positioning ?? project.summary}
+            No backend. No analytics. No host permissions.
           </p>
           <ProjectMetrics metrics={project.metrics} />
           <FocusTimer />
@@ -41,8 +41,8 @@ export function FlagshipAct({ section }: { section: FlagshipSection }) {
       </div>
 
       <ProjectFooter tech={project.tech}>
-        <ArrowLink href={`/work/${project.slug}/`}>Read the case study</ArrowLink>
-        <ArrowLink href={project.repoHref}>{project.name} on GitHub</ArrowLink>
+        <ArrowLink href={`/work/${project.slug}/`}>Case study</ArrowLink>
+        <ArrowLink href={project.repoHref}>GitHub</ArrowLink>
       </ProjectFooter>
     </Act>
   );

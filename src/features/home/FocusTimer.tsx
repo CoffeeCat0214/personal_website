@@ -50,13 +50,13 @@ export function FocusTimer() {
         <span className={styles.status}>{status}</span>
       </div>
       <div className={styles.readout}>
-        <p id="focus-timer-title">A little focus, right here.</p>
+        <p id="focus-timer-title">Focus, right here.</p>
         <time dateTime={`PT${secondsLeft}S`} aria-label={`${minutes} minutes ${seconds} seconds remaining`}>
           {minutes}:{seconds}
         </time>
       </div>
       <div className={styles.progress} aria-hidden="true">
-        <span style={{ width: `${progress}%` }} />
+        <span style={{ transform: `scaleX(${progress / 100})` }} />
       </div>
       <div className={styles.controls}>
         <div className={styles.modes} aria-label="Timer length">
@@ -79,7 +79,7 @@ export function FocusTimer() {
           <button type="button" className={styles.reset} onClick={reset}>Reset</button>
         </div>
       </div>
-      <p className={styles.note}>No account. No request leaves this browser.</p>
+      <p className={styles.note}>No account. Runs in this browser.</p>
     </section>
   );
 }

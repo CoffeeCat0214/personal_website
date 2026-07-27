@@ -1,0 +1,100 @@
+/* Home-only visual direction. The entry gate and project routes keep their
+   original palette and measure. */
+.homeShell {
+  --home-purple: #32123f;
+  --home-purple-soft: #5a356a;
+  --home-orange: #f47b45;
+  --home-orange-dark: #d85b31;
+  --home-pink: #ffc8df;
+  --home-pink-panel: #ffe0ec;
+  --home-green: #d9efb0;
+  --home-green-panel: #eaf5cd;
+  --home-lilac: #c7b7ff;
+  --home-yellow: #ffe37c;
+  overflow: clip;
+}
+
+.homeShell :global(.wrap) {
+  width: min(940px, calc(100vw - 40px));
+}
+
+.homeShell :global(.tone-pink) {
+  --paper: var(--home-pink);
+  --panel: var(--home-pink-panel);
+  --ink: var(--home-purple);
+  --ink-2: #4d2b59;
+  --ink-3: #704c79;
+  --rule: rgba(50, 18, 63, 0.22);
+  --rule-strong: rgba(50, 18, 63, 0.38);
+  --accent: var(--home-purple);
+  --accent-hover: var(--home-purple-soft);
+  --accent-text: var(--home-purple);
+  --on-accent: var(--home-pink);
+  --accent-bright: var(--home-orange);
+  --forest-panel: var(--home-purple);
+  --sage: var(--home-yellow);
+}
+
+.homeShell :global(.tone-sage) {
+  --paper: var(--home-green);
+  --panel: var(--home-green-panel);
+  --ink: var(--home-purple);
+  --ink-2: #4d2b59;
+  --ink-3: #704c79;
+  --rule: rgba(50, 18, 63, 0.22);
+  --rule-strong: rgba(50, 18, 63, 0.38);
+  --accent: var(--home-purple);
+  --accent-hover: var(--home-purple-soft);
+  --accent-text: var(--home-purple);
+  --on-accent: var(--home-green);
+  --accent-bright: var(--home-orange);
+}
+
+.homeShell :global(.tone-forest) {
+  --paper: var(--home-purple);
+  --panel: #482354;
+  --ink: var(--home-yellow);
+  --ink-2: #f6d99a;
+  --ink-3: #d3ae77;
+  --rule: rgba(255, 227, 124, 0.24);
+  --rule-strong: rgba(255, 227, 124, 0.4);
+  --accent: var(--home-yellow);
+  --accent-hover: #fff0aa;
+  --accent-text: var(--home-yellow);
+  --on-accent: var(--home-purple);
+  --accent-bright: var(--home-orange);
+}
+
+.homeShell :global(.tone-lilac) {
+  --paper: var(--home-lilac);
+  --panel: #d8ceff;
+  --ink: var(--home-purple);
+  --ink-2: var(--home-purple);
+  --ink-3: var(--home-purple);
+  --rule: rgba(50, 18, 63, 0.26);
+  --rule-strong: rgba(50, 18, 63, 0.42);
+  --accent: var(--home-purple);
+  --accent-hover: var(--home-purple-soft);
+  --accent-text: var(--home-purple);
+  --on-accent: var(--home-lilac);
+}
+
+.homeShell :global(.tone-orange) {
+  --paper: var(--home-orange);
+  --panel: #ff9a6e;
+  --ink: var(--home-purple);
+  --ink-2: var(--home-purple);
+  --ink-3: var(--home-purple);
+  --rule: rgba(50, 18, 63, 0.28);
+  --rule-strong: rgba(50, 18, 63, 0.44);
+  --accent: var(--home-purple);
+  --accent-hover: var(--home-purple-soft);
+  --accent-text: var(--home-purple);
+  --on-accent: var(--home-orange);
+}
+
+@media (max-width: 900px) {
+  .homeShell :global(.wrap) {
+    width: min(940px, calc(100vw - 32px));
+  }
+}

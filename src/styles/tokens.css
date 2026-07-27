@@ -105,13 +105,10 @@
 
   --focus: var(--ink);
 
-  /* The figure surface -- the ground inside project figures that depict a
-     screen. Deliberately theme-constant, and deliberately still brown after the
-     repalette: these represent something being looked at, not site chrome, so
-     they do not adopt an act's ground. The figures carry the coffee-mug pixel
-     sprites, and the brown keeps that art in its own shadow family -- the same
-     reason the ginger cat reads correctly against them. Do not push these
-     cooler without looking at the mug. */
+  /* The Glam figure surface -- the ground inside project figures that depict a
+     screen. These represent something being looked at, not site chrome, so
+     they keep their own surface treatment. Grind remaps them to its cooler
+     night-terminal palette below. */
   --demo-top: #35241d;
   --demo-bot: #1a120e;
   --on-demo: rgba(255, 246, 240, 0.34);
@@ -249,11 +246,30 @@
   --on-accent: #e8734a;
 }
 
-/* Grind is the same palette after hours: forest ink and espresso surfaces, a
-   mono-led hierarchy, and tighter readable type. These overrides intentionally
+/* Grind is a separate visual world: a night-terminal palette with midnight
+   indigo surfaces, acid-lime signal ink, lavender reading text, and a coral
+   status accent. The mono-led hierarchy and tighter type reinforce the mode;
+   the colours make it feel like a deliberate alternate workspace rather than
+   the Glam palette viewed through a brown filter. These overrides intentionally
    sit after the ground definitions so one document-level mode can restyle every
    act without changing the static Glam fallback. */
 html[data-mode="grind"] {
+  --paper: #15163d;
+  --panel: #25265c;
+  --ink: #d8ff63;
+  --ink-2: #e8eaff;
+  --ink-3: #aeb3e6;
+  --rule: rgba(216, 255, 99, 0.22);
+  --rule-strong: rgba(216, 255, 99, 0.4);
+  --accent: #d8ff63;
+  --accent-hover: #efffa2;
+  --accent-text: #d8ff63;
+  --on-accent: #15163d;
+  --accent-bright: #ff668f;
+  --demo-top: #25265c;
+  --demo-bot: #0b0d27;
+  --on-demo: rgba(232, 234, 255, 0.38);
+  --on-demo-faint: rgba(232, 234, 255, 0.08);
   --font-display: var(--font-mono);
   --t-display: min(calc(var(--u) * 11), 17vw);
   --t-h2: clamp(1.95rem, 3.8vw, 3.125rem);
@@ -268,25 +284,57 @@ html[data-mode="grind"].tone-forest,
 html[data-mode="grind"] .tone-sage,
 html[data-mode="grind"] .tone-pink,
 html[data-mode="grind"] .tone-forest {
-  --paper: #35241d;
-  --panel: #2b3d20;
-  --ink: #b8eb96;            /* 8.23:1 on espresso */
-  --ink-2: #c9f0ad;          /* 10.11:1 on espresso */
-  --ink-3: #95bf79;          /* 5.90:1 on espresso */
-  --rule: rgba(184, 235, 150, 0.22);
-  --rule-strong: rgba(184, 235, 150, 0.38);
-  --accent: #b8eb96;
-  --accent-hover: #c9f0ad;
-  --accent-text: #b8eb96;
-  --on-accent: #35241d;
+  --paper: #15163d;
+  --panel: #25265c;
+  --ink: #d8ff63;            /* 15.16:1 on midnight indigo */
+  --ink-2: #e8eaff;          /* 14.53:1 on midnight indigo */
+  --ink-3: #aeb3e6;          /*  8.56:1 on midnight indigo */
+  --rule: rgba(216, 255, 99, 0.22);
+  --rule-strong: rgba(216, 255, 99, 0.4);
+  --accent: #d8ff63;
+  --accent-hover: #efffa2;
+  --accent-text: #d8ff63;
+  --on-accent: #15163d;
   --focus: var(--ink);
   background: var(--paper);
   color: var(--ink-2);
 }
 
+html[data-mode="grind"] .tone-lilac {
+  --paper: #7568ff;
+  --panel: #9289ff;
+  --ink: #15163d;             /* 4.27:1; display-size mark panel only */
+  --ink-2: var(--ink);
+  --ink-3: var(--ink);
+  --rule: rgba(21, 22, 61, 0.26);
+  --rule-strong: rgba(21, 22, 61, 0.44);
+  --accent: #15163d;
+  --accent-hover: #0b0d27;
+  --accent-text: #15163d;
+  --on-accent: #7568ff;
+  --focus: var(--ink);
+}
+
+html[data-mode="grind"] .tone-orange {
+  --paper: #ff668f;
+  --panel: #ff8eaa;
+  --ink: #15163d;             /* 6.22:1 on coral */
+  --ink-2: var(--ink);
+  --ink-3: var(--ink);
+  --rule: rgba(21, 22, 61, 0.26);
+  --rule-strong: rgba(21, 22, 61, 0.44);
+  --accent: #15163d;
+  --accent-hover: #0b0d27;
+  --accent-text: #15163d;
+  --on-accent: #ff668f;
+  --focus: var(--ink);
+}
+
 .tone-sage,
 .tone-pink,
-.tone-forest {
+.tone-forest,
+.tone-lilac,
+.tone-orange {
   transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
 }
 

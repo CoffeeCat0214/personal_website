@@ -1,7 +1,7 @@
 .timer {
   display: grid;
   gap: var(--s4);
-  max-width: 38rem;
+  max-width: 32rem;
   padding-top: var(--s5);
   border-top: 1px solid var(--rule);
 }
@@ -54,7 +54,9 @@
   display: block;
   height: 100%;
   background: var(--ink);
-  transition: width 500ms var(--ease);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 500ms var(--ease);
 }
 
 .controls { align-items: center; }
@@ -68,7 +70,7 @@
 
 .modes button,
 .actions button {
-  min-height: 36px;
+  min-height: 44px;
   padding: 0 var(--s3);
   border: 1px solid var(--rule-strong);
   border-radius: 999px;
