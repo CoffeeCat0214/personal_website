@@ -2,6 +2,19 @@ import Link from "next/link";
 import { hero, heroFacts, HOME_ROUTE, site } from "@/content";
 import styles from "./Hero.module.css";
 
+/*
+THESIS: Cutealism for serious software — a bright, sticker-covered studio wall
+instead of a polite portfolio hero.
+OWN-WORLD: Bubblegum pink, ink-purple, lemon yellow, courier labels, hard outlines,
+and a transparent pixel-cat portrait treated like a physical sticker.
+STORY: Kyrstin makes small, inspectable systems; the visitor sees the flagship tool,
+then chooses a project to inspect.
+FIRST VIEWPORT: Copy and actions left; the cat sticker sits in a compact framed
+stage right, with the primary CoffeeCat action under the thesis.
+FORM: Asymmetric editorial grid, staged as a playful noticeboard; the full-page
+colour cuts and moving type band carry the scroll.
+*/
+
 export function Hero() {
   return (
     <section id="top" className={`${styles.hero} tone-pink`} data-tone="pink">
@@ -50,13 +63,14 @@ export function Hero() {
                 supplied portrait is a static-export LCP asset and already
                 ships at the exact crop used by this composition. */}
             <img
-              src="/art/hero-cat-cool.png"
+              src="/art/hero-cat-cutout.png"
               alt="Illustrated long-haired cat looking directly at the viewer"
               width={1024}
               height={1536}
               fetchPriority="high"
               decoding="async"
             />
+            <span className={styles.artSticker} aria-hidden="true">✦ CAT / BUILT IN NYC</span>
             <figcaption>
               <span>01 / studio cat</span>
               <span>good ideas / better coffee</span>

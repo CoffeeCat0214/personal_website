@@ -1,16 +1,16 @@
 ---
 name: Kyrstin Kauchak — Portfolio
-description: A five-ground colour-block portfolio set in acts, where one cat mark is restated across every ground.
+description: A cutealist, five-ground portfolio where serious engineering work is presented as bright studio ephemera.
 colors:
   forest: "#1e2b16"
-  sage: "#b8eb96"
-  sage-panel: "#c9f0ad"
-  pink: "#f4c2da"
-  pink-panel: "#f9d9e8"
-  lilac: "#9a95dd"
-  lilac-panel: "#b0abe6"
-  ginger: "#e8734a"
-  ginger-panel: "#ed8a68"
+  sage: "#c9f5a5"
+  sage-panel: "#e5f8c9"
+  pink: "#ff9bd7"
+  pink-panel: "#ffc2e6"
+  lilac: "#bcaaff"
+  lilac-panel: "#bcaaff"
+  ginger: "#ff7048"
+  ginger-panel: "#ff9a6e"
   forest-panel: "#2b3d20"
   ink-2-on-sage: "#374a2a"
   ink-3-on-sage: "#4f683f"
@@ -29,6 +29,12 @@ typography:
     fontWeight: 600
     lineHeight: 0.92
     letterSpacing: "-0.02em"
+  home-display:
+    fontFamily: "Inter, system-ui, sans-serif"
+    fontSize: "clamp(4.5rem, 7.6vw, 7.4rem)"
+    fontWeight: 850
+    lineHeight: 0.82
+    letterSpacing: "-0.075em"
   headline:
     fontFamily: "Fraunces, Iowan Old Style, Georgia, serif"
     fontSize: "clamp(2.125rem, 4.4vw, 3.5rem)"
@@ -68,6 +74,12 @@ typography:
     fontWeight: 500
     lineHeight: 1.2
     letterSpacing: "0.12em"
+  courier-note:
+    fontFamily: "Courier Prime, Courier New, ui-monospace, monospace"
+    fontSize: "0.6875rem"
+    fontWeight: 700
+    lineHeight: 1.2
+    letterSpacing: "0.08em"
   display-mono:
     fontFamily: "Geist Mono, ui-monospace, SFMono-Regular, Menlo, monospace"
     fontSize: "max(3rem, min(25vw, 50dvh, 22rem))"
@@ -142,6 +154,13 @@ components:
 # Design System: Kyrstin Kauchak — Portfolio
 
 ## Overview
+
+The homepage is the cutealist surface: bright pink and mint grounds, ink-purple
+type, hard outlines, courier build notes, compact sticker-like art stages, and a
+transparent grey-cat portrait. It keeps the portfolio's evidence-first content
+and static-export constraints while replacing polite editorial restraint with a
+playful noticeboard energy. The project routes retain the same tokens and
+evidence conventions, but the homepage owns the louder treatment.
 
 **Creative North Star: "The Silkscreened Playbill"**
 

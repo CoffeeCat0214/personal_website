@@ -22,13 +22,12 @@ export function Footer() {
             no longer has is worse than none, because it is the one paragraph
             asserting the whole thing was deliberate. */}
         <small className={styles.colophon}>
-          Set in Fraunces, Inter and Geist Mono, self-hosted — a display serif
-          for headings, a grotesque for reading, and a monospace for labels.
-          Five grounds, no box shadows — a section is a block of colour, and
-          grouping comes from alignment rather than enclosure. Built with
-          Next.js as a static export; the design system is plain CSS custom
-          properties. Scroll motion is GSAP and Lenis, and none of it runs under
-          prefers-reduced-motion.
+          Set in Inter, Courier Prime and Geist Mono, self-hosted — a heavy
+          grotesque for the big ideas, a typewriter voice for the build notes,
+          and a mono utility face for the metadata. Built with Next.js as a
+          static export; the colour blocks, cat stickers and small interactive
+          demos are all plain CSS and React. Scroll motion is GSAP and Lenis,
+          and none of it runs under prefers-reduced-motion.
         </small>
       </div>
     </footer>

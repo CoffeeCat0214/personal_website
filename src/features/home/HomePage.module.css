@@ -3,15 +3,23 @@
 .homeShell {
   --home-purple: #32123f;
   --home-purple-soft: #5a356a;
-  --home-orange: #f47b45;
-  --home-orange-dark: #d85b31;
-  --home-pink: #ffc8df;
-  --home-pink-panel: #ffe0ec;
-  --home-green: #d9efb0;
-  --home-green-panel: #eaf5cd;
-  --home-lilac: #c7b7ff;
-  --home-yellow: #ffe37c;
+  --home-orange: #ff7048;
+  --home-orange-dark: #df4f2c;
+  --home-pink: #ff9bd7;
+  --home-pink-panel: #ffc2e6;
+  --home-green: #c9f5a5;
+  --home-green-panel: #e5f8c9;
+  --home-lilac: #bcaaff;
+  --home-yellow: #fff06d;
   overflow: clip;
+}
+
+.homeShell :global(h2),
+.homeShell :global(h3),
+.homeShell :global(h4) {
+  font-family: var(--font);
+  font-weight: 800;
+  letter-spacing: -0.045em;
 }
 
 .homeShell :global(.wrap) {
@@ -33,6 +41,7 @@
   --accent-bright: var(--home-orange);
   --forest-panel: var(--home-purple);
   --sage: var(--home-yellow);
+  --focus: var(--ink);
 }
 
 .homeShell :global(.tone-sage) {
@@ -48,6 +57,7 @@
   --accent-text: var(--home-purple);
   --on-accent: var(--home-green);
   --accent-bright: var(--home-orange);
+  --focus: var(--ink);
 }
 
 .homeShell :global(.tone-forest) {
@@ -63,6 +73,7 @@
   --accent-text: var(--home-yellow);
   --on-accent: var(--home-purple);
   --accent-bright: var(--home-orange);
+  --focus: var(--ink);
 }
 
 .homeShell :global(.tone-lilac) {
@@ -77,6 +88,7 @@
   --accent-hover: var(--home-purple-soft);
   --accent-text: var(--home-purple);
   --on-accent: var(--home-lilac);
+  --focus: var(--ink);
 }
 
 .homeShell :global(.tone-orange) {
@@ -91,6 +103,7 @@
   --accent-hover: var(--home-purple-soft);
   --accent-text: var(--home-purple);
   --on-accent: var(--home-orange);
+  --focus: var(--ink);
 }
 
 @media (max-width: 900px) {

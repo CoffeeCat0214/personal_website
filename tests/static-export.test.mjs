@@ -38,8 +38,8 @@ test("home page export contains core anchors and assets", () => {
     assert.match(html, new RegExp(`id="${anchor}"`));
   }
 
-  assert.match(html, /\/art\/hero-cat-cool\.png/);
-  assert.equal(existsSync("out/art/hero-cat-cool.png"), true);
+  assert.match(html, /\/art\/hero-cat-cutout\.png/);
+  assert.equal(existsSync("out/art/hero-cat-cutout.png"), true);
   assert.match(html, /aria-label="Visual mode"/);
   assert.match(html, /aria-pressed="true"/);
   assert.match(html, />Glam<\/button>/);

@@ -32,6 +32,7 @@
      falling through to the sans would silently undo the pairing. */
   --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
   --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-courier: "Courier Prime", "Courier New", ui-monospace, monospace;
 
   /* The display unit. Reference editorial sites set `html { font-size: ~0.694vw }`
      so the whole composition scales as one object -- and in doing so they

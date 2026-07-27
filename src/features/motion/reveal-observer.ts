@@ -19,6 +19,12 @@ export function startRevealObserver() {
   };
 
   const timers: number[] = [];
+  // A layout shift, a slow font, or an embedded browser can occasionally delay
+  // an initial IntersectionObserver notification. Never leave a static-export
+  // page with its runtime-only hidden state in that case.
+  const visibilityFallback = window.setTimeout(() => {
+    for (const el of targets) show(el);
+  }, 1600);
   const observer = new IntersectionObserver(
     (entries, self) => {
       let step = 0;
@@ -57,6 +63,7 @@ export function startRevealObserver() {
 
   return () => {
     observer.disconnect();
+    window.clearTimeout(visibilityFallback);
     reduceMotion.removeEventListener("change", onPreferenceChange);
     for (const id of timers) window.clearTimeout(id);
     for (const el of targets) el.classList.remove("is-hidden");

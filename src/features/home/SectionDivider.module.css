@@ -1,13 +1,16 @@
+/* Matched to BubblePanel: same band thickness, same display face. The two are
+   the page's only moving bands, so reading as one device matters more than each
+   being individually tuned -- they keep their own palettes, nothing else. */
 .divider {
   position: relative;
   z-index: 1;
   overflow: hidden;
-  min-height: 72px;
+  min-height: clamp(76px, 8vw, 112px);
   display: flex;
   align-items: center;
-  background: #3b2750;
-  color: #f4c2da;
-  border-block: 1px solid rgba(244, 194, 218, 0.28);
+  background: var(--home-purple, #32123f);
+  color: var(--home-pink, #ff9bd7);
+  border-block: 3px solid color-mix(in srgb, var(--home-pink, #ff9bd7) 34%, transparent);
 }
 
 .track {
@@ -22,28 +25,36 @@
   align-items: center;
   gap: clamp(16px, 2.4vw, 36px);
   flex: none;
-  padding-inline: clamp(20px, 3.2vw, 48px);
-  font-family: var(--font-mono);
-  font-size: var(--t-label);
-  font-weight: 600;
-  letter-spacing: 0.16em;
+  padding-inline: clamp(22px, 3vw, 48px);
+  font-family: var(--font);
+  /* 0.95x of BubblePanel's clamp, held at that ratio across the whole range.
+     Not a taste call: CRÈMEAI's grave accent puts 106px of ink above the
+     baseline at 112px Inter Black, and the band's content box is 106px, so the
+     accent lands under the top border. BubblePanel can run the full size only
+     because "EVEN IN THE AGE OF AI." has no accent and no descender. Matching
+     its size exactly here would mean shipping a clipped diacritic. */
+  font-size: clamp(3.2rem, 7.4vw, 6.6rem);
+  font-weight: 900;
+  letter-spacing: -0.075em;
+  line-height: 0.82;
   white-space: nowrap;
+  -webkit-text-stroke: clamp(2px, 0.2vw, 4px) var(--home-purple);
+  paint-order: stroke fill;
 }
 
 .unit b,
 .unit i {
-  color: #b8eb96;
+  color: var(--home-green, #c9f5a5);
   font-style: normal;
-  font-weight: 400;
+  font-weight: 900;
 }
 
-.unit b {
-  font-size: 1.25em;
-}
-
+/* The loop is seamless only when the travel is a whole number of units --
+   the track holds REPEATS units, so the shift must be exactly 1/REPEATS.
+   -25% against 6 units moved 1.5 units and snapped back mid-phrase. */
 @keyframes section-drift {
   from { transform: translateX(0); }
-  to { transform: translateX(-25%); }
+  to { transform: translateX(-20%); }
 }
 
 @media (prefers-reduced-motion: reduce) {

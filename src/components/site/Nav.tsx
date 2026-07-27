@@ -191,6 +191,19 @@ export function Nav() {
               );
             })}
           </ul>
+          <div className={styles.panelMode} role="group" aria-label="Visual mode">
+            <span>Mode</span>
+            {(["glam", "grind"] as const).map((option) => (
+              <button
+                key={option}
+                type="button"
+                aria-pressed={mode === option}
+                onClick={() => setMode(option)}
+              >
+                {option === "glam" ? "Glam" : "Grind"}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </header>
