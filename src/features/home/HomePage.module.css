@@ -127,7 +127,19 @@
    can carry the research pack's neobrutalist depth without changing the first
    impression: square ink frames, zero-blur displacement, and controls that feel
    like things a visitor can actually operate. */
-.postHero {
+/* These are declared on the grounds, not on .postHero, and that is the same
+   trap tokens.css documents for --focus. A custom property is substituted where
+   it is *declared*: `--neo-border: 3px solid var(--ink)` sitting on .postHero
+   resolves against the --ink .postHero inherits -- :root's forest #1e2b16 --
+   and then hands that fixed forest green to every act beneath it. The homepage
+   runs a purple ink (#32123f), so every frame and every offset shadow on the
+   workbench was drawing in the old palette's green. Declaring them on the same
+   elements that declare --ink is what makes them re-resolve per ground. */
+.postHero :global(.tone-sage),
+.postHero :global(.tone-pink),
+.postHero :global(.tone-forest),
+.postHero :global(.tone-lilac),
+.postHero :global(.tone-orange) {
   --neo-border: 3px solid var(--ink);
   --neo-shadow: 7px 7px 0 var(--ink);
   --neo-shadow-sm: 4px 4px 0 var(--ink);
@@ -211,7 +223,13 @@
     width: min(1040px, calc(100vw - 32px));
   }
 
-  .postHero {
+  /* Must repeat the ground selectors, not .postHero: a declaration on the
+     ancestor can no longer win against the per-ground one above. */
+  .postHero :global(.tone-sage),
+  .postHero :global(.tone-pink),
+  .postHero :global(.tone-forest),
+  .postHero :global(.tone-lilac),
+  .postHero :global(.tone-orange) {
     --neo-shadow: 5px 5px 0 var(--ink);
     --neo-shadow-sm: 3px 3px 0 var(--ink);
   }

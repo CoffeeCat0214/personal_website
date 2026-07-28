@@ -1,32 +1,67 @@
-.channels {
+/* The mail window takes the wider column and the three remaining channels stack
+   beside it. Previously all four ran the full 1040px measure, which put a
+   nineteen-character address and a two-word city on identical 1000px slabs --
+   the layout equivalent of saying both at the same volume. */
+.desk {
   display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: var(--s6);
+  align-items: stretch;
+}
+
+/* A rail, not a stack. The window is a tall object and the two secondary links
+   will never match its height, so the column is anchored at both ends instead
+   of left trailing off: links at the top, the location pinned to the bottom
+   edge, air between them. Absorbing the difference deliberately reads as a
+   margin; letting it pile up under the last row reads as an unfinished list. */
+.channels {
+  display: flex;
+  flex-direction: column;
   gap: var(--s4);
+  height: 100%;
   margin: 0;
 }
 
-/* Contact only has one short sentence. Keep it as a note-sized surface so the
-   final act has a resting point without turning a four-word message into a
-   second hero panel. */
-.note {
-  max-width: 48ch;
-  padding: var(--s4) var(--s6);
-  box-shadow: 4px 4px 0 var(--ink);
+/* The act's lede, inside the nameplate. It carries no frame of its own -- the
+   section-head already is the surface, and a box inside a box is the thing this
+   restructure exists to remove. */
+.lede {
+  max-width: 42ch;
+  font-size: var(--t-post-lede);
+  line-height: 1.35;
 }
 
-.note p {
-  font-size: var(--t-body);
-  line-height: 1.5;
-}
-
+/* Stacked rather than two-column: in a ~460px sidebar a 200px key column left
+   "kyrstin-mariko-kauchak" fighting for the remainder. The key reads as a
+   caption above its value instead. */
 .row {
   display: grid;
-  grid-template-columns: minmax(0, 200px) minmax(0, 1fr);
-  gap: var(--s4);
-  align-items: baseline;
-  padding: var(--s5);
+  gap: var(--s1);
+  padding: var(--s4) var(--s5);
   border: var(--neo-border);
   background: var(--panel);
   box-shadow: var(--neo-shadow-sm);
+}
+
+/* Unframed and compact. It keeps the `<dl>` semantics -- "Based in" really is a
+   term and a definition -- while dropping to the weight of a caption, so the
+   column reads as "two places to go, and one thing to know". */
+.rowPlain {
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+  gap: var(--s3);
+  align-items: baseline;
+  /* Pins to the foot of the rail, level with the window's bottom edge. */
+  margin-top: auto;
+  padding: var(--s2) var(--s5) 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.rowPlain .value {
+  font-size: var(--t-body);
+  font-weight: 500;
+  color: var(--ink-2);
 }
 
 .key {
@@ -59,9 +94,9 @@
   background: var(--paper);
 }
 
-@media (max-width: 640px) {
-  .row {
-    grid-template-columns: 1fr;
-    gap: var(--s1);
+@media (max-width: 900px) {
+  .desk {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s5);
   }
 }
