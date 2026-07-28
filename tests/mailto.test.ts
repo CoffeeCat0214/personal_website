@@ -40,6 +40,25 @@ test("an empty message omits body entirely rather than sending body=", () => {
   }
 });
 
+test("a cleared subject is omitted, never sent as an empty header", () => {
+  /* The subject is a visitor-editable field, so it can arrive blank. `subject=`
+     is not the same request as no subject at all -- it asks the mail client for
+     an empty Subject header rather than for none. */
+  for (const empty of ["", "   ", "\n\t "]) {
+    assert.equal(composeMailto(EMAIL, empty, "hi"), `mailto:${EMAIL}?body=hi`);
+  }
+});
+
+test("both fields empty leaves a bare mailto with no query at all", () => {
+  assert.equal(composeMailto(EMAIL, "", ""), `mailto:${EMAIL}`);
+});
+
+test("a subject the visitor typed is percent-encoded like any other", () => {
+  const url = composeMailto(EMAIL, "cats & dogs?", "hi");
+
+  assert.match(url, /^mailto:[^?]+\?subject=cats%20%26%20dogs%3F&body=hi$/);
+});
+
 test("the address is always the mailto target", () => {
   assert.ok(composeMailto(EMAIL, SUBJECT, "hi").startsWith(`mailto:${EMAIL}?`));
 });

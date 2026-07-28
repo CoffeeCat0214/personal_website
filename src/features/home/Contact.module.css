@@ -48,20 +48,26 @@
   text-transform: uppercase;
 }
 
-/* 4ch, which breaks "Say hello." after the first word.
+/* min-content, which breaks "Say hello." after the first word by making the box
+   exactly as wide as its longest word -- and no narrower, in any face.
 
-   Not only a typographic preference -- it is also what gives the copy block
-   enough mass to hold its half of the panel. On one line the heading is ~62px
-   against a mail window running ~700px, and the whole difference falls to the
-   index below it. Two lines of a 72px serif doubles the top block, and it is
-   the treatment About's copy panel already uses at 7ch, which is what makes the
-   two acts read as a pair.
+   Not only a typographic preference: two lines of display type is what gives
+   the copy block enough mass to hold its half of the panel against the mail
+   window opposite, and it is the treatment About's copy panel already uses,
+   which is what makes the two acts read as a pair.
 
-   Note that ch resolves against the display serif's zero, which is wide: 6ch
-   measured ~276px here and "Say hello." fits in 275px, so that cap did nothing
-   at all. Check the rendered break rather than trusting the number. */
+   It was `max-width: 4ch`, and that is a font-dependent number pretending to be
+   a layout rule. `ch` resolves against the *current* face's zero, and Grind mode
+   re-points --font-display from Fraunces to Geist Mono: 4ch fell to 173px while
+   "hello." set in mono needs ~240px. Nothing warned, because the overflow is
+   invisible until you look -- the [data-split] reveal wraps each line in a
+   `mask` element with `overflow: hidden`, so in Grind the heading rendered as
+   "Say / hell" with the final glyph sliced down the middle, and h2.scrollWidth
+   still reported no overflow because the mask had already absorbed it.
+
+   min-content asks the question the 4ch was estimating an answer to. */
 .card h2 {
-  max-width: 4ch;
+  max-width: min-content;
   color: var(--ink);
   font-size: var(--t-post-h2);
   line-height: 0.86;

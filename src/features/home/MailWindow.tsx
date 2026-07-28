@@ -24,10 +24,22 @@ const COPIED = "Address copied";
    is the one that sets the status bar's width budget. */
 const BLOCKED = "Copy blocked — select it above";
 
-/* Prefilled so an arriving message is filterable instead of landing with an
-   empty subject. The visitor still sees it in their own mail client and can
-   change it before sending, so this is a starting point, not a claim. */
+/* Prefilled, and visible. It used to be a `<input type="hidden">`: the window
+   put a TO row and a MESSAGE well on screen, called itself a mail composer, and
+   then attached a subject line nobody could read or change. That is the thing
+   about this window that did not make sense -- not the styling of any one row,
+   but a composer showing two of the three fields every mail client shows and
+   silently filling the third.
+
+   Editable rather than fixed, because a subject is the visitor's sentence, not
+   the site's. The default is only a starting point so a message sent without
+   touching it still arrives filterable. */
 const SUBJECT = "Hello from your site";
+
+/* Long enough for a real subject, short enough that it cannot quietly become
+   the message. Mail clients truncate the header in list view somewhere around
+   70-80 characters anyway. */
+const SUBJECT_MAX = 90;
 
 /* A mailto: URL has no spec'd length limit, but real mail clients truncate
    somewhere north of ~2000 characters and they do it silently. 1000 characters
@@ -71,6 +83,19 @@ function PixelHeart({ className }: { className?: string }) {
   );
 }
 
+/* The window's app icon, and the only place it appears.
+
+   It used to sit inline in the TO row at 46px: a pale, thinly-outlined
+   rectangle immediately under a label reading "TO" and immediately above a
+   framed message well. Every signal in that position says "input" -- pale fill,
+   visible frame, roughly field height, sitting where a field goes -- so the row
+   read as three boxes in a line with no way to tell which one you were meant to
+   type in. Nothing about it was wrong as drawing; it was wrong as *placement*.
+
+   In the title bar the same drawing is unambiguous, because that is where an
+   application's icon lives and nothing in a title bar accepts typing. The
+   kawaii moment survives at full strength and the form below it goes back to
+   having exactly one thing per row. */
 function PixelEnvelope({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 22 15" aria-hidden="true" focusable="false">
@@ -110,8 +135,16 @@ function PixelEnvelope({ className }: { className?: string }) {
 }
 
 export function MailWindow({ email }: { email: string }) {
+  const [subject, setSubject] = useState(SUBJECT);
   const [message, setMessage] = useState("");
-  const [copyState, setCopyState] = useState<string | null>(null);
+  /* The press counter is not decoration. A live region announces on DOM
+     mutation, not on state assignment -- so pressing Copy twice inside the 2.6s
+     hold set `copyState` to the string it already held, React skipped the text
+     node, no mutation fired, and a screen reader said nothing at all for the
+     second press. The visible bar has the same problem and the same fix. Every
+     press gets a distinct seq, which is what makes the render differ. */
+  const [copyState, setCopyState] = useState<{ text: string; seq: number } | null>(null);
+  const presses = useRef(0);
   /* The copy button is the one control here that cannot work without JS, so it
      is not rendered until the client has mounted. Under static export a button
      printed into the HTML that never gains a handler is a dead control for
@@ -125,11 +158,13 @@ export function MailWindow({ email }: { email: string }) {
 
   const copy = async () => {
     window.clearTimeout(resetTimer.current);
+    presses.current += 1;
+    const seq = presses.current;
     try {
       await navigator.clipboard.writeText(email);
-      setCopyState(COPIED);
+      setCopyState({ text: COPIED, seq });
     } catch {
-      setCopyState(BLOCKED);
+      setCopyState({ text: BLOCKED, seq });
     }
     resetTimer.current = window.setTimeout(() => setCopyState(null), 2600);
   };
@@ -159,20 +194,35 @@ export function MailWindow({ email }: { email: string }) {
      A button for it duplicated something the platform already gives away, and
      it cost a second copy control in a window that only has room for one idea
      per row. The address is the opposite case and is why the one remaining copy
-     button is up there: static text inside a link, which nobody can select
-     cleanly without catching the envelope or the trailing space. Copy controls
-     are for values you cannot easily select, not for the ones you can. */
+     button is up there: static text inside a link, where a drag-select catches
+     the surrounding whitespace and a double-click stops at the "@". Copy
+     controls are for values you cannot easily select, not for the ones you can.
+
+     Both fields survive with no JS at all. React serialises the controlled
+     `value` into the SSR markup, so the subject arrives prefilled and natively
+     editable, and the browser's own form submission serialises subject and body
+     into the mailto: query. The only thing script adds to this window is Copy
+     -- which is why Copy is the only thing gated on having it. */
   const submit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    window.location.assign(composeMailto(email, SUBJECT, message));
+    window.location.assign(composeMailto(email, subject, message));
   };
 
-  const status = copyState ?? (message.length > 0 ? `Draft · ${message.length}/${MAX}` : IDLE);
+  const status =
+    copyState?.text ?? (message.length > 0 ? `Draft · ${message.length}/${MAX}` : IDLE);
+
+  /* The address stays a link, and once JS is up it carries the draft rather
+     than pointing at a bare `mailto:`. A visitor who has typed three paragraphs
+     and then clicks the address -- the most conventional target on the row --
+     should not be handed an empty compose window. Before mount it is the plain
+     address, which is both the correct no-JS behaviour and identical to what
+     the server rendered, so hydration has nothing to reconcile. */
+  const href = mounted ? composeMailto(email, subject, message) : `mailto:${email}`;
 
   return (
     <div className={styles.window}>
       <div className={styles.titleBar}>
-        <PixelHeart className={styles.titleHeart} />
+        <PixelEnvelope className={styles.titleIcon} />
         <span className={styles.title}>say_hello.exe</span>
         <span className={styles.chrome} aria-hidden="true">
           <span />
@@ -181,9 +231,14 @@ export function MailWindow({ email }: { email: string }) {
         </span>
       </div>
 
+      {/* Three rows in the order every mail client puts them, and one rule for
+          how each is dressed: a value you cannot change is plain text on the
+          paper; a value you can change sits in a framed, one-step-darker well.
+          That is the whole grammar of this form, it is visible at a glance, and
+          it is what the window was missing -- previously the only editable
+          thing was also the only framed thing, but the unframed row above it
+          still carried an icon shaped like a field. */}
       <form className={styles.body} action={`mailto:${email}`} method="get" onSubmit={submit}>
-        <input type="hidden" name="subject" value={SUBJECT} />
-
         {/* The To row is a fixed value, so it is dressed as one: a plain strip
             with a rule under the address and a copy control on the right end.
 
@@ -204,8 +259,7 @@ export function MailWindow({ email }: { email: string }) {
             To
           </p>
           <div className={styles.field}>
-            <PixelEnvelope className={styles.envelope} />
-            <a className={styles.address} href={`mailto:${email}`} aria-describedby="mail-window-to">
+            <a className={styles.address} href={href} aria-describedby="mail-window-to">
               {email}
             </a>
             {mounted ? (
@@ -218,15 +272,39 @@ export function MailWindow({ email }: { email: string }) {
                    the button became a different control. The result itself is
                    announced by the status line's live region. */
                 aria-label={`Copy ${email}`}
-                data-state={copyState === COPIED ? "done" : undefined}
+                data-state={copyState?.text === COPIED ? "done" : undefined}
               >
-                {copyState === COPIED ? "Copied" : "Copy"}
+                {copyState?.text === COPIED ? "Copied" : "Copy"}
               </button>
             ) : null}
           </div>
         </div>
 
         <div className={styles.group}>
+          <label className={styles.fieldLabel} htmlFor="mail-window-subject">
+            Subject
+          </label>
+          <input
+            id="mail-window-subject"
+            name="subject"
+            type="text"
+            className={styles.subject}
+            maxLength={SUBJECT_MAX}
+            /* Not a browser-fillable field -- there is no "subject" the visitor
+               has stored anywhere, and an autofill dropdown over a prefilled
+               value is pure noise. */
+            autoComplete="off"
+            value={subject}
+            onChange={(event) => setSubject(event.target.value)}
+          />
+        </div>
+
+        {/* The row that takes the window's spare height: `.body` puts this group
+            on the flexible track, so if the panel opposite ever grows taller the
+            surplus lands inside the writing area rather than above the status
+            bar. A mail window whose message box is the part that grows is also
+            just how a mail window behaves. */}
+        <div className={`${styles.group} ${styles.messageGroup}`}>
           <label className={styles.fieldLabel} htmlFor="mail-window-body">
             Message
           </label>
@@ -257,11 +335,19 @@ export function MailWindow({ email }: { email: string }) {
           <button type="submit" className={styles.compose}>
             Open draft in mail app <span aria-hidden="true">↗</span>
           </button>
+          {/* Two blocks, not one paragraph left to wrap. The two sentences
+              together measure just over the window's inner width at every size
+              this act is seen at, so free wrapping broke them mid-clause --
+              "…in your own mail / app." -- and `text-wrap: balance` only made
+              the two ragged halves equal, not sensible. Each sentence is short
+              enough to hold its own line unaided, so giving each one a line is
+              both the honest markup and the only break that never lands
+              somewhere embarrassing. */}
+          <p className={styles.hint}>
+            <span>Your draft opens in your own mail app.</span>
+            <span>Nothing is sent from this page.</span>
+          </p>
         </div>
-
-        <p className={styles.hint}>
-          Your draft opens in your own mail app. Nothing is sent from this page.
-        </p>
       </form>
 
       {/* The status line carries three different things -- the idle state, a
@@ -280,8 +366,13 @@ export function MailWindow({ email }: { email: string }) {
         {status}
         <PixelHeart className={styles.statusHeart} />
       </p>
+      {/* The trailing space is the mutation, and it is load-bearing. Two
+          presses of Copy produce the same sentence; a live region that receives
+          the same sentence twice announces it once, because it is watching the
+          DOM rather than the state. Alternating one trailing space per press
+          changes the text node without changing a single spoken word. */}
       <span className={styles.announce} aria-live="polite">
-        {copyState ?? ""}
+        {copyState ? `${copyState.text}${copyState.seq % 2 ? " " : ""}` : ""}
       </span>
     </div>
   );

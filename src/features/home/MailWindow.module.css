@@ -8,8 +8,14 @@
    the mug sprites together, and it is never asked to carry text. */
 
 .window {
+  /* `position: relative` for the visually-hidden live region at the end, which
+     is absolutely positioned and would otherwise resolve against whatever
+     ancestor happens to be positioned -- a 1px node parked at an arbitrary
+     scroll offset is harmless until the day it is not. */
+  position: relative;
   display: grid;
   grid-template-rows: auto 1fr auto;
+  min-width: 0;
   border: var(--neo-border);
   background: var(--panel);
   box-shadow: var(--neo-shadow);
@@ -28,11 +34,14 @@
   color: var(--on-accent);
 }
 
-.titleHeart {
-  width: 13px;
+/* 22px against a 22-unit viewBox, so the drawing renders at exactly 1:1 and
+   every stroke lands on a whole pixel. Any other size makes the 1-unit strokes
+   fractional and the antialiasing turns a pixel icon into a smudge -- the one
+   thing a pixel icon must never look like. */
+.titleIcon {
+  width: 22px;
   height: auto;
   flex: none;
-  fill: currentColor;
 }
 
 .title {
@@ -109,10 +118,30 @@
 
 /* ---------- Body ---------- */
 
+/* Four blocks: To, Subject, Message, Actions, with Message on the flexible
+   track so any height this window is stretched to lands inside the writing area
+   rather than pooling as empty paper above the status bar.
+
+   Measured today the track never engages: the window is the taller of the two
+   panels at every width, so it sets the row's height and the copy panel is the
+   one being stretched (its `.channels` rows absorb that slack the same way).
+   This is insurance, not an active fix, and it is worth the one line -- the
+   panels trade places the moment either side's copy changes, and the failure it
+   prevents is silent. */
 .body {
   display: grid;
-  gap: var(--s4);
-  padding: var(--s6);
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  gap: var(--s5);
+  min-height: 0;
+  /* Tracks the copy panel opposite, which runs clamp(28px, 3.6vw, 48px). A flat
+     24px here read as a different system: at 1440 the card's first word started
+     48px inside its frame and the window's started 24px inside its own, and two
+     panels sharing a row with inset margins 2x apart look like two components
+     that were designed separately. Deliberately a step tighter than the card
+     rather than equal to it -- window chrome sits closer to its edge than
+     editorial copy does, and matching exactly would have cost the window the
+     one thing that makes it read as an instrument. */
+  padding: clamp(var(--s4), 2.2vw, var(--s7));
 }
 
 /* A label and the control it names are one thing; the gap between two such
@@ -121,6 +150,12 @@
 .group {
   display: grid;
   gap: var(--s2);
+  min-width: 0;
+}
+
+.messageGroup {
+  grid-template-rows: auto minmax(0, 1fr);
+  min-height: 0;
 }
 
 .fieldLabel {
@@ -133,29 +168,47 @@
 }
 
 /* A value strip, not a field. No frame and no fill -- the inset well and the
-   one-step-darker paper are reserved for the message box, which is the only
-   thing in this window a visitor can type into, and spending them on a fixed
-   address is what made the To row read as an empty input.
+   one-step-darker paper are reserved for the two boxes a visitor can type into,
+   and spending them on a fixed address is what made the To row read as an empty
+   input.
 
-   The rule underneath is the whole treatment: it says "this is a value" without
-   promising entry. */
+   A hairline, not the 2px ink rule it used to carry. Now that Subject sits
+   directly below in a 2px-framed well, an ink rule here put two heavy
+   horizontals 20px apart and the eye could not tell which one belonged to the
+   control. The hairline is also the exact weight the copy panel opposite uses
+   to separate its GitHub / LinkedIn / Based-in rows, so the two panels
+   separate fixed values the same way -- which is the rhyme that makes them
+   read as one document rather than two components. */
 .field {
   display: flex;
+  /* Wraps, and the order that fails is the point. Flex decides to break a line
+     from the items' hypothetical (unshrunk) sizes, before any shrinking -- so
+     below ~360px, where the address and Copy no longer fit side by side, Copy
+     drops to its own line and the address keeps its string intact. Without this
+     the address is the flexible item and it loses: it shrank and broke inside
+     the TLD, so the one value this act exists to hand over rendered as
+     "kauchakmk@gmail.c / om" on a 320px phone. An address that wraps mid-string
+     is not a layout nit, it is a value a reader can no longer trust they read
+     correctly. */
+  flex-wrap: wrap;
   align-items: center;
-  gap: var(--s4);
+  gap: var(--s3);
+  min-width: 0;
   padding-bottom: var(--s3);
-  border-bottom: 2px solid var(--ink);
+  border-bottom: 1px solid var(--rule-strong);
 }
 
-.envelope {
-  width: 46px;
-  height: auto;
-  flex: none;
-}
+/* Drawn from the bar's own two colours, not from currentColor.
 
+   currentColor would collapse the fold into the body: both would paint in the
+   title bar's text colour and the envelope would be a blank rectangle. The
+   light body / dark fold split is what makes it read as an envelope at 22px,
+   and taking those from --on-accent and --ink means it re-resolves correctly on
+   every ground and in Grind mode, where the title bar's fill and text swap
+   places entirely. */
 .envelopeBody {
-  fill: var(--paper);
-  stroke: var(--ink);
+  fill: var(--on-accent);
+  stroke: var(--on-accent);
   stroke-width: 1;
 }
 
@@ -165,28 +218,34 @@
   stroke-width: 1;
 }
 
+/* The window's one saturated mark, and it sits on the envelope's light body
+   rather than directly on the title bar -- so it keeps a legible ground in both
+   modes instead of depending on whatever colour the bar happens to be. */
 .envelopeSeal {
   fill: var(--accent-bright, var(--ink));
 }
 
-/* Left-set, with Copy sitting immediately after it rather than pushed to the
-   far end by an auto margin. Right-aligning the button looked tidy at the
-   two-column width and fell apart the moment the panels stacked: in an 850px
-   window the control ended up ~700px from the address it copies, which is the
-   proximity failure that moving it into this row was meant to fix. */
+/* Left-set, with Copy anchored to the far end of the strip.
+
+   The note this replaces argued for parking Copy immediately after the address
+   instead, on the grounds that an 850px stacked window would strand it ~700px
+   from what it copies. That window no longer exists: the act stacks at 820px,
+   so the strip is at most ~630px wide on desktop and ~330px on a phone, and the
+   button is never more than a glance away. What the auto margin buys is a strip
+   with content at both ends -- the previous row left the whole right third of
+   its own rule empty, which is what made the address look like it had been
+   dropped into the window rather than laid out in it. */
 .address {
   min-width: 0;
   color: var(--ink);
   font-family: var(--font-mono);
   /* Both endpoints are documented ramp steps rather than hand-picked numbers:
-     the link tier at the floor, the lead tier at the ceiling. The address is
-     the largest mono string on the page and it should read like one. */
-  /* The floor is --t-body, not --t-post-link. At the smaller step the clamp
-     bottomed out at 15.2px while the GitHub and LinkedIn handles in the panel
-     opposite run 17px semibold and underlined -- so below 1280 the address this
-     act exists to hand over was the quietest value on screen, and the comment
-     here claimed the opposite. Never let the primary target's floor sit under a
-     secondary's fixed size. */
+     --t-body at the floor, --t-lead at the ceiling.
+     The floor is --t-body and not the smaller --t-post-link, because at that
+     step the clamp bottomed out at 15.2px while the GitHub and LinkedIn handles
+     in the panel opposite run 17px semibold and underlined -- so below 1280 the
+     address this act exists to hand over was the quietest value on screen.
+     Never let the primary target's floor sit under a secondary's fixed size. */
   font-size: clamp(var(--t-body), 1.35vw, var(--t-lead));
   font-weight: 500;
   letter-spacing: -0.02em;
@@ -196,28 +255,30 @@
 }
 
 /* The underline arrives on hover rather than sitting there permanently: the
-   strip's own 2px rule is 12px below the baseline, and a second hairline that
-   close reads as a printing error. The address is still a link -- it is exposed
-   as one, focusable as one, and the primary path to a draft is the button
-   below either way. */
+   strip's own rule is 12px below the baseline, and a second line that close
+   reads as a printing error. The address is still a link -- it is exposed as
+   one, focusable as one, and once JS is up its href carries the draft, so it
+   goes to the same place the button does. */
 .address:hover {
   color: var(--accent-text, var(--ink));
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
-/* The message well, and the only thing in this window that takes typing -- so
-   it is the only thing that gets the frame and the one-step-darker fill.
+/* The two wells, and between them the whole of what this window lets a visitor
+   change -- so they are the only two things that get the frame and the
+   one-step-darker fill.
 
-   That asymmetry with the To strip above is the point, not an oversight. The
-   two used to share this treatment on the theory that they were the same kind
-   of thing; they are not, and dressing a fixed address as a field is what made
-   the window lie about what it does. Depth here means "you can put something
-   in this", and it is spent once. Set in the reading face rather than mono --
-   this is prose a person writes, and mono here would be costume. */
+   That asymmetry with the To strip above is the point, not an oversight. Depth
+   here means "you can put something in this". A fixed address that borrowed it
+   is what made the window lie about what it does; the rule now reads cleanly in
+   both directions, which is the only way a visitor learns it without being
+   told. Both are set in the reading face rather than mono -- these are
+   sentences a person writes, and mono here would be costume. The address stays
+   mono because an address is a string you check character by character. */
+.subject,
 .message {
   width: 100%;
-  min-height: 104px;
   padding: var(--s3) var(--s4);
   border: 2px solid var(--ink);
   background: var(--paper);
@@ -225,6 +286,22 @@
   font-family: var(--font);
   font-size: var(--t-post-body);
   line-height: 1.5;
+}
+
+/* One line, and it stays one line: a subject that wrapped would be claiming the
+   header field can hold a paragraph. SUBJECT_MAX in the component is the real
+   guard; this is what it looks like. */
+.subject {
+  min-height: 48px;
+  text-overflow: ellipsis;
+}
+
+.message {
+  /* Fills the body's flexible track. The floor is what it falls back to once
+     the act stacks and there is no surplus height to inherit -- four lines of
+     the reading face, which is a message rather than a note. */
+  height: 100%;
+  min-height: 132px;
   resize: vertical;
 }
 
@@ -239,6 +316,7 @@
   opacity: 1;
 }
 
+.subject:focus-visible,
 .message:focus-visible {
   outline: 2px solid var(--focus);
   outline-offset: 3px;
@@ -246,9 +324,13 @@
 
 /* ---------- Actions ---------- */
 
+/* The button and its disclaimer are one block, not two rows that happen to be
+   adjacent. Previously the hint was a sibling of the groups above it and
+   inherited their gap, then pulled itself back up with a negative margin --
+   which is the shape of a spacing system being argued with rather than used. */
 .actions {
-  display: flex;
-  margin-top: var(--s2);
+  display: grid;
+  gap: var(--s3);
 }
 
 /* Says what the control does, and what it does not: a mailto hands a draft to
@@ -256,10 +338,16 @@
    backend should be explicit about that rather than let "Compose" imply a form
    post. */
 .hint {
-  margin-top: calc(var(--s1) * -1);
   color: var(--ink-2);
   font-size: var(--t-small);
   line-height: 1.45;
+  text-wrap: pretty;
+}
+
+/* One sentence per line. See the note on the markup: this is the break the
+   window wants, and free wrapping never once produced it. */
+.hint span {
+  display: block;
 }
 
 /* The window's one primary control, so it takes the full width of the body.
@@ -294,15 +382,20 @@
 /* Sized to the strip it sits in, not to the primary control. A second 46px
    filled button in this window is what made Copy read as an alternative to
    sending rather than as a utility on the address -- the size *was* the claim.
-   Still a 44px hit target once the strip's padding is counted. */
+
+   36 x 78px measured. That clears WCAG 2.5.8 (24px, the AA bar) with room and
+   does not reach 2.5.5's 44px AAA target, which is a deliberate trade: the
+   address it copies is right beside it, the draft button below is 52px, and
+   growing this control back toward 44 is exactly what re-stages it as the
+   window's second primary action. Nothing here is reachable only through it. */
 .copy {
   flex: none;
-  margin-left: var(--s1);
+  margin-left: auto;
   /* Sized to hold "Copied", so confirming does not resize the control that was
      just pressed. A button that grows under the cursor at the moment it
      succeeds reads as a glitch rather than as an acknowledgement. */
   min-width: 6.5em;
-  min-height: 32px;
+  min-height: 36px;
   padding: 0 var(--s3);
   border: 2px solid var(--ink);
   background: var(--panel);
@@ -357,7 +450,12 @@
   gap: var(--s2);
   padding: var(--s3) var(--s5);
   border-top: var(--neo-border);
-  background: var(--paper);
+  /* --panel, not --paper. --paper is the act's ground, which is the colour of
+     the page *behind* this window -- so the status bar was painting itself the
+     one colour guaranteed to make the window's bottom edge dissolve into the
+     background it sits on. The 3px ink rule above it is what separates the bar
+     from the body; the fill only has to not be the page. */
+  background: var(--panel);
   color: var(--ink-2);
   font-family: var(--font-mono);
   font-size: var(--t-post-label);
@@ -397,15 +495,14 @@
 }
 
 @media (max-width: 640px) {
+  /* Only the gap. The padding is a clamp that has already reached its own floor
+     by this width; restating it here is how a stylesheet ends up with two
+     sources of truth that drift. */
   .body {
-    padding: var(--s4);
+    gap: var(--s4);
   }
 
   .status {
     padding: var(--s3) var(--s4);
-  }
-
-  .envelope {
-    width: 34px;
   }
 }

@@ -13,10 +13,19 @@
    client that reads that literally puts plus signs through the subject line.
    encodeURIComponent is the correct tool here and URLSearchParams is not. */
 export function composeMailto(email: string, subject: string, body: string): string {
+  /* Both fields are visitor-editable now, so both can arrive empty, and an
+     empty one is omitted rather than sent as `subject=`. A mail client handed
+     `subject=` does not fall back to its own blank-subject handling -- it sets
+     an empty subject header, which is why a cleared field would otherwise
+     produce a draft that cannot be given a subject by typing in the client's
+     own field on some builds. Omit means "not specified"; empty means
+     "specified as nothing", and only the first is true here. */
+  const params = [];
+  const line = subject.trim();
   const message = body.trim();
-  const query =
-    `subject=${encodeURIComponent(subject)}` +
-    (message ? `&body=${encodeURIComponent(message)}` : "");
 
-  return `mailto:${email}?${query}`;
+  if (line) params.push(`subject=${encodeURIComponent(line)}`);
+  if (message) params.push(`body=${encodeURIComponent(message)}`);
+
+  return params.length ? `mailto:${email}?${params.join("&")}` : `mailto:${email}`;
 }
