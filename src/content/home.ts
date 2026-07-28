@@ -146,6 +146,28 @@ export const skills = [
   "Data Systems",
 ] as const;
 
+/* The skills stay in their intentional order, but the About act needs to show
+   how they relate rather than presenting fourteen equal-weight tiles. These
+   are editorial groupings, not new claims or a second taxonomy. */
+export const skillGroups = [
+  {
+    label: "Agentic systems",
+    skills: [skills[0], skills[1]],
+  },
+  {
+    label: "Languages",
+    skills: [skills[2], skills[6], skills[7]],
+  },
+  {
+    label: "Data + cloud",
+    skills: [skills[4], skills[5], skills[3], skills[12], skills[13]],
+  },
+  {
+    label: "Service craft",
+    skills: [skills[8], skills[9], skills[10], skills[11]],
+  },
+] as const;
+
 export const contact = {
   heading: "Say hello.",
   body: "Email is fastest.",

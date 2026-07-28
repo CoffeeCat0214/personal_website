@@ -1,63 +1,309 @@
-.copy {
-  position: relative;
+.intro {
   display: grid;
-  gap: var(--s5);
-  max-width: 62ch;
-  padding: clamp(24px, 3.2vw, 40px);
+  grid-template-columns: minmax(0, 1.08fr) minmax(280px, 0.92fr);
+  gap: var(--s6);
+  align-items: stretch;
+  min-width: 0;
+}
+
+.introCopy,
+.stamp {
+  min-width: 0;
   border: var(--neo-border);
   background: var(--panel);
   box-shadow: var(--neo-shadow);
 }
 
-.copy p {
-  max-width: 58ch;
-  color: var(--ink-2);
-  font-size: var(--t-post-body);
-  line-height: 1.68;
+.introCopy {
+  display: grid;
+  align-content: space-between;
+  gap: clamp(32px, 4vw, 56px);
+  min-height: 520px;
+  padding: clamp(28px, 4vw, 52px);
 }
 
-.skills {
+.kicker,
+.sectionIndex,
+.mottoLabel {
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: var(--t-post-label);
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.introCopy h2 {
+  max-width: 7ch;
+  color: var(--ink);
+  font-size: var(--t-post-h2);
+  line-height: 0.86;
+  letter-spacing: -0.055em;
+}
+
+.story {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--s5);
+  width: 100%;
+  max-width: 38ch;
+  padding-top: var(--s5);
+  border-top: 1px solid var(--rule-strong);
+}
+
+.story p {
+  max-width: 100%;
+  color: var(--ink-2);
+  font-size: var(--t-post-body);
+  line-height: 1.62;
+}
+
+.stamp {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 520px;
+  padding: clamp(20px, 3vw, 32px);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--paper) 38%, transparent), transparent 52%),
+    var(--panel);
+}
+
+.stampMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s4);
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: var(--t-post-label);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.stampArt {
+  align-self: center;
+  justify-self: center;
+  width: min(190px, 62%);
+  padding-top: var(--s6);
+}
+
+.stampArt :global(img) {
+  filter: drop-shadow(8px 8px 0 color-mix(in srgb, var(--ink) 22%, transparent));
+}
+
+.stampCaption {
+  max-width: 100%;
+  padding-top: var(--s5);
+  border-top: 1px solid var(--rule-strong);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--t-post-h3);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+
+.motto {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.24fr) minmax(0, 1fr);
+  gap: var(--s7);
+  align-items: center;
+  min-width: 0;
+  padding: var(--s7) var(--s5);
+  border-block: 1px solid var(--rule-strong);
+}
+
+.mottoLabel {
+  color: var(--ink);
+}
+
+.motto p {
+  min-width: 0;
+  width: 100%;
+  max-width: 28ch;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--t-post-h3);
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+.indexSection {
+  display: grid;
+  gap: var(--s6);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s6);
+  padding-inline: var(--s5);
+  min-width: 0;
+}
+
+.sectionHeader > div {
+  display: grid;
   gap: var(--s3);
+}
+
+.sectionHeader h3,
+.capabilityIntro h3 {
+  color: var(--ink);
+  font-size: var(--t-post-h3);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+}
+
+.sectionIndex {
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+
+.capabilities {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1.3fr);
+  gap: var(--s8);
+  min-width: 0;
+  padding: var(--s7) var(--s5) 0;
+  border-top: 3px solid var(--ink);
+}
+
+.capabilityIntro {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  gap: var(--s4);
+}
+
+.capabilityIntro > p:last-child {
+  max-width: 27ch;
+  color: var(--ink-3);
+  font-size: var(--t-small);
+  line-height: 1.5;
+}
+
+.skillGroups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s7) var(--s8);
+  min-width: 0;
+}
+
+.group {
+  min-width: 0;
+}
+
+.groupLabel {
+  margin-bottom: var(--s2);
+  padding-bottom: var(--s3);
+  border-bottom: 1px solid var(--rule-strong);
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: var(--t-post-label);
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.group ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.skills li {
+.group li {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s3);
+  padding-block: var(--s2);
+  border-bottom: 1px solid var(--rule);
   color: var(--ink);
-  padding: var(--s3) var(--s4);
-  border: 2px solid var(--ink);
-  background: var(--paper);
-  box-shadow: 3px 3px 0 var(--ink);
   font-size: var(--t-post-body);
-  font-weight: 600;
+  line-height: 1.4;
 }
 
-.group {
-  display: grid;
-  gap: var(--s5);
-}
-
-.groupLabel {
+.group li span {
+  flex: 0 0 auto;
+  color: var(--accent-bright);
   font-family: var(--font-mono);
-  font-size: var(--t-post-label);
   font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-  margin: 0;
 }
 
 @media (max-width: 900px) {
-  .skills {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .introCopy,
+  .stamp {
+    min-height: 0;
+  }
+
+  .introCopy {
+    min-height: 480px;
+  }
+
+  .stamp {
+    min-height: 420px;
+  }
+
+  .capabilities {
+    grid-template-columns: 1fr;
+    gap: var(--s7);
+  }
+
+  .capabilityIntro > p:last-child {
+    max-width: 42ch;
   }
 }
 
 @media (max-width: 640px) {
-  .skills {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .intro {
+    grid-template-columns: 1fr;
+    gap: var(--s6);
+  }
+
+  .introCopy {
+    min-height: 0;
+    gap: var(--s8);
+    padding: var(--s6);
+  }
+
+  .story,
+  .motto p {
+    max-width: 100%;
+  }
+
+  .introCopy h2 {
+    font-size: var(--t-post-h2);
+  }
+
+  .stamp {
+    min-height: 390px;
+    padding: var(--s5);
+  }
+
+  .stampArt {
+    width: min(160px, 52%);
+  }
+
+  .motto {
+    grid-template-columns: 1fr;
+    gap: var(--s3);
+    padding: var(--s6) var(--s4);
+  }
+
+  .sectionHeader {
+    align-items: start;
+    flex-direction: column;
+    gap: var(--s3);
+    padding-inline: var(--s4);
+  }
+
+  .capabilities {
+    padding-inline: var(--s4);
+  }
+
+  .skillGroups {
+    grid-template-columns: 1fr;
+    gap: var(--s6);
   }
 }
