@@ -4,6 +4,20 @@
   margin: 0;
 }
 
+/* Contact only has one short sentence. Keep it as a note-sized surface so the
+   final act has a resting point without turning a four-word message into a
+   second hero panel. */
+.note {
+  max-width: 48ch;
+  padding: var(--s4) var(--s6);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.note p {
+  font-size: var(--t-body);
+  line-height: 1.5;
+}
+
 .row {
   display: grid;
   grid-template-columns: minmax(0, 200px) minmax(0, 1fr);

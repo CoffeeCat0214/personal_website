@@ -1,10 +1,17 @@
 .copy {
+  position: relative;
   display: grid;
   gap: var(--s5);
   max-width: 62ch;
+  padding: clamp(24px, 3.2vw, 40px);
+  border: var(--neo-border);
+  background: var(--panel);
+  box-shadow: var(--neo-shadow);
 }
 
 .copy p {
+  max-width: 58ch;
+  color: var(--ink-2);
   font-size: var(--t-post-body);
   line-height: 1.68;
 }

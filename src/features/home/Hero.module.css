@@ -57,11 +57,11 @@
   max-width: 100%;
   overflow-wrap: break-word;
   color: var(--ink);
-  font-family: var(--font);
-  font-size: clamp(4.5rem, 7.6vw, 7.4rem);
-  font-weight: 850;
-  line-height: 0.82;
-  letter-spacing: -0.075em;
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 7vw, 6.5rem);
+  font-weight: 600;
+  line-height: 0.88;
+  letter-spacing: -0.03em;
   text-wrap: balance;
 }
 

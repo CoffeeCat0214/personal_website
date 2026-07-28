@@ -147,6 +147,8 @@
      beside the protected opening without making metadata do the reading. */
   --t-post-h2: clamp(2.5rem, 5vw, 4.5rem);
   --t-post-h3: clamp(1.45rem, 2.1vw, 1.85rem);
+  --t-case-h2: clamp(2rem, 3.2vw, 3.25rem);
+  --t-case-h2-mobile: clamp(1.8rem, 8vw, 2.6rem);
   --t-post-body: 1.08rem;
   --t-post-body-mobile: 1rem;
   --t-post-link: 0.95rem;
@@ -258,6 +260,39 @@
   --accent-hover: #16200f;
   --accent-text: #1e2b16;
   --on-accent: #e8734a;
+}
+
+/* Project routes use a quieter reading-room palette. The local route sections
+   own their surfaces; these values mirror them onto html so shared nav and
+   footer chrome do not revert to the homepage green between sections. */
+html:has([data-project-tone="sage"]) {
+  --paper: #c7bbed;
+  --panel: #ded6f7;
+  --ink: #2d1938;
+  --ink-2: #493653;
+  --ink-3: #6e5d79;
+  --rule: rgba(45, 25, 56, 0.2);
+  --rule-strong: rgba(45, 25, 56, 0.38);
+  --accent: #2d1938;
+  --accent-hover: #472356;
+  --accent-text: #2d1938;
+  --on-accent: #c7bbed;
+  --focus: var(--ink);
+}
+
+html:has([data-project-tone="forest"]) {
+  --paper: #2a1c35;
+  --panel: #3d2b4c;
+  --ink: #f3d8a4;
+  --ink-2: #e8c9b8;
+  --ink-3: #c09aa6;
+  --rule: rgba(243, 216, 164, 0.22);
+  --rule-strong: rgba(243, 216, 164, 0.42);
+  --accent: #f3d8a4;
+  --accent-hover: #ffe7bf;
+  --accent-text: #f3d8a4;
+  --on-accent: #2a1c35;
+  --focus: var(--ink);
 }
 
 /* Grind is a separate visual world: a night-terminal palette with midnight

@@ -17,7 +17,7 @@ export function ContactAct({ section }: { section: ContactSection }) {
       <div className="section-head">
         <h2 data-split>{contact.heading}</h2>
       </div>
-      <div className={aboutStyles.copy} data-reveal>
+      <div className={`${aboutStyles.copy} ${styles.note}`} data-reveal>
         <p>{contact.body}</p>
       </div>
       <dl className={styles.channels} data-reveal>

@@ -17,9 +17,17 @@
 .homeShell :global(h2),
 .homeShell :global(h3),
 .homeShell :global(h4) {
-  font-family: var(--font);
-  font-weight: 800;
-  letter-spacing: -0.045em;
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.homeShell :global(h2) {
+  line-height: 0.98;
+}
+
+.homeShell :global(h3) {
+  line-height: 1.08;
 }
 
 .homeShell :global(.wrap) {
@@ -138,6 +146,32 @@
 .postHero :global(h3) {
   font-size: var(--t-post-h3);
   line-height: 1.08;
+}
+
+/* A heading needs a surface to announce that it starts a new piece of work.
+   This keeps About and Contact from becoming beautiful type stranded on a
+   colour field, and gives every post-hero act one consistent nameplate rhythm. */
+.postHero :global(.section-head) {
+  position: relative;
+  display: grid;
+  gap: var(--s4);
+  max-width: 52ch;
+  padding: clamp(24px, 3.2vw, 40px);
+  border: var(--neo-border);
+  background: var(--panel);
+  box-shadow: var(--neo-shadow);
+}
+
+.postHero :global(.section-head)::after {
+  position: absolute;
+  top: clamp(18px, 2.4vw, 28px);
+  right: clamp(18px, 2.4vw, 28px);
+  color: var(--accent-bright, var(--ink));
+  content: "✦";
+  font-family: var(--font-mono);
+  font-size: 1.25rem;
+  line-height: 1;
+  transform: rotate(10deg);
 }
 
 /* Hairline action links are too quiet against the new workbench. The border is

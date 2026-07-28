@@ -8,7 +8,7 @@ import styles from "./ProjectPage.module.css";
 
 export function ProjectPage({ project }: { project: Project }) {
   return (
-    <>
+    <div data-project-tone={project.tone}>
       <section className={`tone-${project.tone} ${styles.hero}`} data-tone={project.tone}>
         <div className={`wrap ${styles.heroGrid}`}>
           <div className={styles.copy}>
@@ -56,6 +56,6 @@ export function ProjectPage({ project }: { project: Project }) {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }
