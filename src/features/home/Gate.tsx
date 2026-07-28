@@ -123,12 +123,36 @@ export function Gate() {
           page sets its standfirst in columns, and the reason this band can hold
           the full width without padding the type out to reach it.
 
-          The markers come from CSS counters rather than the native list marker
-          so they can sit above their column in the mono label voice instead of
-          on the text baseline in the text's own colour. */}
+          Each column is a small window rather than a ruled text column. Three
+          paragraphs separated by hairlines is the correct editorial answer and it
+          was the wrong one here: on a full-bleed ground a hairline is the only
+          thing standing between the type and the colour, so the band read as
+          three sentences printed on green rather than as three objects the page
+          put there. Giving each one a surface, a border and a displaced shadow is
+          what makes it an object.
+
+          The chrome is not new vocabulary -- it is the project figures' frame
+          (Figure.module.css) at card scale: --r-panel, a 3px ink border, a
+          zero-blur displacement, and a title bar with hairline furniture. That
+          file's radius comment is the licence for the radius here too: these
+          depict a screen, which is the one thing in this system allowed to be
+          round.
+
+          The bar is aria-hidden and loses nothing by it. The numeral still comes
+          from a CSS counter rather than the markup, so it was never in the
+          accessibility tree; the ordinal a screen reader announces comes from the
+          <ol>, which is the whole reason this is one. */}
       <ol className={`${styles.rail} ${styles.items}`}>
         {tldr.items.map((runs, index) => (
           <li key={index} className={styles.item}>
+            <div className={styles.itemBar} aria-hidden="true">
+              <span className={styles.itemIndex} />
+              <span className={styles.dots}>
+                <span className={styles.dot} />
+                <span className={styles.dot} />
+                <span className={styles.dot} />
+              </span>
+            </div>
             <p className={styles.itemBody}>
               {runs.map((run, runIndex) =>
                 run.emphasis ? (
@@ -154,7 +178,25 @@ export function Gate() {
           the colophon inherit sage-on-forest without either one declaring a
           colour of its own. */}
       <div className={`${styles.footer} tone-forest`} data-tone="forest">
-        <div className={`${styles.rail} ${styles.footerInner}`}>
+        {/* A dock on a desktop, which is the whole idea of this band now.
+
+            The forest ground carries a faint sage dot-grid, so it reads as a
+            surface something is sitting on rather than as a stripe of paint with
+            two pieces of text on it; the bar floats on that surface with its own
+            fill, its own hairline and its own footprint. It is the same argument
+            the columns above make, in the one place on this page that could not
+            use the same answer: a displaced ink shadow is invisible on a dark
+            ground, because on forest --ink IS the light colour. The lift here is
+            a fill change and a displacement at hairline strength instead --
+            still zero-blur, just the only weight this ground can carry.
+
+            The way out is the one saturated object on the screen after the cat --
+            filled sage, forest label -- which is the system's control doctrine
+            (fill = --ink, label = --paper) and inherits the ground's body-text
+            ratio for free. Its shadow is the ginger already declared as this
+            palette's one theme-constant colour, because a sage shadow under a
+            sage button would just make the button taller. */}
+        <div className={`${styles.rail} ${styles.dock}`}>
           {/* next/link, so the site is prefetched while the visitor is still
               reading. The gate is a page someone sits on for a few seconds,
               which is exactly the budget needed to have /home/ ready before they
@@ -168,6 +210,8 @@ export function Gate() {
               →
             </span>
           </Link>
+
+          <span className={styles.dockRule} aria-hidden="true" />
 
           <p className={styles.closer}>{tldr.closer}</p>
         </div>

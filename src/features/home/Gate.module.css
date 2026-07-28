@@ -274,49 +274,154 @@
 .items {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--s8);
+  /* Narrower than the --s8 the ruled columns used. A hairline needs air on both
+     sides to read as a divider rather than as a crease; a bordered card supplies
+     its own edge, so the same 48px now reads as three objects that drifted
+     apart. */
+  gap: var(--s6);
   /* margin-block, never the `margin` shorthand. This is the one rule that also
      carries .rail, and .rail's centring lives in `margin-inline: auto` -- a
      shorthand here has the same specificity, wins on order, and silently resets
      it, which drops the whole band to the viewport's left edge while every other
      band stays on the rail. */
   margin-block: 0;
-  padding: var(--s6) 0;
+  /* Asymmetric, and the bottom value is not a taste decision: the cards throw a
+     5px displaced shadow and sit on a 0.6deg tilt, so their real footprint is
+     several pixels past the box the grid measures. A symmetric pad let the
+     bottom-right corner of the shadow touch the colour cut. */
+  padding: var(--s6) 0 calc(var(--s6) + 8px);
   counter-reset: tldr;
   list-style: none;
 }
 
+/* One window per point.
+
+   The frame is Figure.module.css's, at card scale: --r-panel, a 3px ink border,
+   a zero-blur 5px displacement. Reusing it rather than inventing a card style is
+   deliberate -- the project figures are the only other thing on this site that
+   depicts a screen, and two different window chromes in one system is two
+   systems.
+
+   The tilt is the smallest amount that reads. At 1deg the three cards look
+   thrown; under 0.3 they look like a rendering error. The value alternates sign
+   so the row reads as hand-placed rather than as a consistently skewed grid, and
+   the middle card sits straightest because it is the one the eye uses as the
+   baseline. */
 .item {
+  --tilt: -0.6deg;
   counter-increment: tldr;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 3px solid var(--ink);
+  border-radius: var(--r-panel);
+  background: var(--panel);
+  box-shadow: 5px 5px 0 var(--ink);
+  transform: rotate(var(--tilt));
+  /* Not `transform` as a whole: the tilt lives in the same property, so
+     transitioning it would spin every card on hover. Only the offset moves. */
+  transition:
+    translate 160ms var(--ease),
+    box-shadow 160ms var(--ease);
 }
 
-/* Column rules, which is the one place this page draws a line that is not a band
-   boundary. Three columns of prose with nothing between them read as one
-   paragraph that wrapped strangely; the rule is what makes them three entries.
-   On the first column it would be a stray mark against the gutter, so only the
-   second and third carry one. */
-.item + .item {
-  border-left: 1px solid var(--rule);
-  padding-left: var(--s6);
+.item:nth-child(2) {
+  --tilt: 0.3deg;
+}
+
+.item:nth-child(3) {
+  --tilt: -0.35deg;
+}
+
+/* A lift, not a press. These are not controls and must not offer the button
+   language the rest of the site uses for things you can actually operate -- the
+   post-hero links press *into* the page (translate toward the shadow), so a card
+   that moves the other way is legible as an object responding rather than as an
+   affordance being triggered.
+
+   `translate` rather than a transform, so it composes with the rotation above
+   instead of replacing it. */
+.item:hover {
+  translate: -2px -2px;
+  box-shadow: 8px 8px 0 var(--ink);
+}
+
+/* The title bar, filled rather than tinted.
+
+   It carried --paper first -- the ground's own colour against the card's lighter
+   panel -- and at that weight it was a strip rather than a bar: two values one
+   step apart on a card that is already outlined in full ink, so the numeral
+   floated in a space with no job. Filling it with --ink makes the same 34px read
+   as chrome, and it is not a new idea in this system either. It is the control
+   doctrine (fill = --ink, label = --paper) applied to a title bar, which is why
+   nothing here declares a colour that is not already the ground's. */
+.itemBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s3);
+  min-height: 34px;
+  padding: 0 var(--s4);
+  background: var(--ink);
 }
 
 /* Leading zeros. "01" sets a two-character column the way "1." cannot, and the
    pair of digits is what makes the numeral read as an index entry rather than as
-   a bullet that lost its dot. */
-.item::before {
+   a bullet that lost its dot.
+
+   Still a counter and not markup: the numerals have to stay out of the
+   accessibility tree, because the <ol> already announces the ordinal and a
+   screen reader should not hear "one, oh-one". */
+.itemIndex::before {
   content: counter(tldr, decimal-leading-zero);
-  display: block;
-  margin-bottom: var(--s3);
-  color: var(--ink-3);
+  color: var(--on-accent);
   font-family: var(--font-mono);
-  font-size: var(--t-label);
-  font-weight: 500;
-  letter-spacing: 0.14em;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
   font-variant-numeric: tabular-nums;
 }
 
+.dots {
+  display: flex;
+  gap: 6px;
+}
+
+/* Hairline outlines rather than filled discs, matching the project figures: at
+   this size a solid dot reads as three loud bullets instead of as window
+   furniture. --on-accent rather than a literal, so the furniture inverts with
+   the bar on any ground the gate is ever set on.
+
+   The opacity here is safe where Footer.module.css's was not: that one sat on
+   text and silently broke a measured 4.54:1 into 3.17:1. These are aria-hidden
+   decoration inside a bar with no other content -- nothing about them is a
+   contrast claim, so there is no measurement for the multiplier to invalidate. */
+.dot {
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--on-accent);
+  border-radius: 50%;
+  opacity: 0.55;
+}
+
+/* Centred in whatever height the row settles on, not hung from the title bar.
+
+   The three points are 2, 3 and 2 lines long, and the grid stretches every card
+   to the tallest. Top-aligned that put a visible void under the two short ones
+   -- the exact failure the flat version of this band did not have, introduced by
+   giving it surfaces. Centring spends the difference as equal air above and
+   below, which is what a window with less content in it actually looks like.
+
+   Auto margins on a block, not a centred grid. `display: grid` centres it too,
+   and it also turns every run inside the paragraph into a grid item -- which
+   silently broke point 03 onto three lines, one per <span>/<strong>. Any display
+   type that establishes a new formatting context for children will do that to
+   mixed inline content; the auto margin changes nothing about the paragraph's
+   own layout. */
 .itemBody {
-  margin: 0;
+  margin-block: auto;
+  margin-inline: 0;
+  padding: var(--s5);
   color: var(--ink-2);
   font-size: var(--t-body);
   line-height: 1.5;
@@ -340,36 +445,152 @@
    its own full-bleed ground the colour change IS the boundary, and a hairline on
    top of it is a second, weaker statement of the same thing. */
 .footer {
-  padding-block: var(--s5);
+  position: relative;
+  /* The dock has to have air on both sides or it is a bar wedged into a stripe
+     rather than a thing sitting on a surface. */
+  padding-block: var(--s6);
+  /* So ::before can paint above the band's own background while staying under
+     the content: a negative z-index child escapes to the nearest stacking
+     context, and without this that is the root -- which would put the grid
+     behind the page itself and render nothing. */
+  isolation: isolate;
 }
 
-.footerInner {
+/* The desktop the dock sits on.
+
+   A pseudo-element rather than a background on .footer itself, and that is a
+   cascade decision rather than a stylistic one: this element also carries
+   .tone-forest, whose `background: var(--paper)` shorthand resets
+   background-image. Both selectors are one class, so which one wins depends on
+   stylesheet order -- which is a build detail, not something to stake a layout
+   on. A pseudo-element cannot be reset by the class on its host.
+
+   The dots are --rule, the same token the hairlines elsewhere use, so the
+   texture re-tints with the ground instead of being a colour this file invented.
+   22px spacing at 1px reads as a surface at arm's length; tighter looks like a
+   halftone and wider looks like a mistake in the export. */
+.footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(circle at 1px 1px, var(--rule) 1px, transparent 0);
+  background-size: 22px 22px;
+}
+
+/* The dock.
+
+   A pill, which is the one shape decision here worth defending: everything above
+   it on this screen is square or lightly rounded, and the site's own chrome
+   (Nav) is already pill-shaped. Repeating the cards' radius would make the
+   footer a fourth window; the pill makes it an instrument.
+
+   The displacement is --rule rather than --ink. On every light ground the
+   system's zero-blur shadow is forest against colour and reads immediately -- on
+   forest, --ink is the sage, so the same rule would draw a bright duplicate edge
+   under a dark bar. A hairline-strength offset keeps the physical language (no
+   blur, real displacement) at the only weight this ground can carry it.
+
+   One contrast note, because the token comments cannot carry it: every ratio in
+   tokens.css is measured against --paper, and the colophon inside this bar sits
+   on --panel instead. --ink-2 on forest's panel is 5.58:1 rather than the
+   documented 7.08 -- still clear of AA for the 15px it is set at, but it is the
+   floor for anything that ever moves into this surface. Small type here needs
+   --ink-2, not --ink-3. */
+.dock {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--s7);
+  align-items: center;
+  gap: var(--s5);
+  padding: var(--s3) var(--s5) var(--s3) var(--s3);
+  border: 1px solid var(--rule-strong);
+  border-radius: 999px;
+  background: var(--panel);
+  box-shadow: 4px 4px 0 var(--rule);
 }
 
-/* Set at body scale, not caption scale. It was the smallest text on the screen
-   while it was one of several small things; it is the last instruction the page
-   gives, and on the forest ground it is now the brightest. */
+/* A leader, not a divider. Set between two things it connects them into one
+   instrument; set as a single stroke beside the text it would just be a mark.
+   `flex: 1` is what pushes the button hard left and the colophon hard right, so
+   this also replaces the space-between the old flat bar used. */
+.dockRule {
+  flex: 1 1 auto;
+  /* 2px dots, not a 1px hairline. At hairline weight on a dark ground the leader
+     disappeared entirely and the dock read as a button and a paragraph with a
+     void between them -- which is the thing the dock was added to fix. A leader
+     either connects the two ends or it should not be there. */
+  height: 2px;
+  min-width: var(--s5);
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--ink-3) 0 2px,
+    transparent 2px 8px
+  );
+}
+
+/* The way out, and now the one saturated object on the screen after the cat.
+
+   Filled rather than set in link colour. The system's control doctrine is
+   fill = --ink, label = --paper, which on this ground is sage on forest and
+   inherits the band's own body-text ratio (10.88:1) without declaring a colour.
+   As plain text on the flat bar it was the brightest thing in the footer and
+   still read as a caption; as a button it reads as the instruction it is.
+
+   The shadow is --accent-bright, the ginger declared in tokens.css as this
+   palette's one theme-constant colour. It has to be a third hue: a sage shadow
+   under a sage button is invisible, and a forest one on forest is a hole. The
+   ginger is also the cat's colour, which is the joke -- the button is wearing
+   the only other thing on the page that is not green. */
 .enter {
   display: inline-flex;
   align-items: center;
   gap: var(--s3);
-  min-height: 44px;
-  color: var(--ink);
+  flex: none;
+  min-height: 48px;
+  padding: 0 var(--s6);
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--on-accent);
   font-family: var(--font-mono);
-  font-size: var(--t-body);
-  font-weight: 500;
+  font-size: var(--t-small);
+  font-weight: 700;
   letter-spacing: 0.12em;
   text-decoration: none;
   text-transform: uppercase;
-  transition: color var(--dur) var(--ease);
+  /* `translate` rather than transform, so the arrow's own transform inside is
+     never the thing being animated here. */
+  transition:
+    translate 160ms var(--ease),
+    box-shadow 160ms var(--ease),
+    background-color 160ms var(--ease);
+  box-shadow: 4px 4px 0 var(--accent-bright);
 }
 
-.enter:hover {
-  color: var(--ink-2);
+/* Presses into the page -- toward the shadow, the same direction every other
+   control on this site moves. The cards above lift the other way on purpose:
+   one language for things you operate, another for things that are simply
+   there. */
+.enter:hover,
+.enter:focus-visible {
+  background: var(--accent-hover);
+  translate: 2px 2px;
+  box-shadow: 2px 2px 0 var(--accent-bright);
+}
+
+.enter:active {
+  translate: 4px 4px;
+  box-shadow: 0 0 0 var(--accent-bright);
+}
+
+/* Defending the shape against the global focus rule. base.css sets
+   `border-radius: 2px` on the focused element itself so a ring around a square
+   link is not a square with sharp corners -- correct for the site's hairline
+   links, and it also wins here on specificity (a:focus-visible beats .enter),
+   which snapped this pill into a rectangle the instant a keyboard reached it.
+   The ring itself needs no help: outline-offset puts it 3px outside the button,
+   on the dock's panel rather than on the sage fill, where it is 8.7:1 -- well
+   clear of the 3.0 that WCAG 1.4.11 asks of a focus indicator. */
+.enter:focus-visible {
+  border-radius: 999px;
 }
 
 .arrow {
@@ -393,13 +614,21 @@
 }
 
 /* The colophon. Right-aligned against the way out so the bar has two ends rather
-   than one label floating on a coloured stripe. */
+   than one label floating on a coloured stripe.
+
+   64ch, where the flat bar used 46. The old cap wrapped this into two lines,
+   which was right when it was a block of colophon text sitting in a corner and
+   wrong inside a dock: two lines make the bar 20px taller than its own button
+   and turn the leader into a line pointing at a paragraph. On a 1440 rail it now
+   sets on one line, and the cap still catches it before the measure gets long
+   enough to be hard to read on a narrower window. */
 .closer {
+  flex: none;
   margin: 0;
-  max-width: 46ch;
+  max-width: 64ch;
   color: var(--ink-2);
   font-size: var(--t-small);
-  line-height: 1.5;
+  line-height: 1.45;
   text-align: right;
   text-wrap: pretty;
 }
@@ -411,25 +640,67 @@
    width breakpoint below restacks the columns, which is the wrong answer for a
    wide-but-short window.
 
+   The ceiling is 860 and used to be 760, which meant it never actually covered
+   the 1280x800 in its own first line. That was survivable while the bands were
+   type on a ground: 800px had exactly enough room for the full-size paddings and
+   the page fitted by 0px. It stopped being survivable when the columns gained
+   chrome -- at 1280 the rail is narrow enough to wrap every column to three
+   lines, so the same 58px of card is spent three times and the composition
+   overflowed by 53. A breakpoint that is one pixel from failing is not a
+   breakpoint, and the honest fix is to make the query cover the viewport its
+   comment always claimed it did.
+
    Everything here is subtraction against one budget: four bands have to clear
-   667px without the composition scrolling. The 46dvh caps on the headline and
-   the cat do most of that work already; these are the band paddings, which are
-   the only other place the height is spent. */
-@media (min-width: 901px) and (max-height: 760px) {
+   667px without the composition scrolling. The dvh caps on the headline and the
+   cat do most of that work already; these are the band paddings, which are the
+   only other place the height is spent.
+
+   Re-tuned when the columns became windows and the footer became a dock. Those
+   two changes cost 45px of height between them -- chrome, card padding and a
+   48px control where there had been a 44px text link -- and 45px is most of a
+   band on this viewport. The measured overflow afterwards was 35px, and it is
+   worth naming where it came back from, because "make everything smaller" is
+   what this block must not become: 16px from the cards' own padding, 20px from
+   the dock, 8px from the display band's gutter, and not one pixel from the
+   display type. A gate that fits by shrinking its headline has not fitted, it
+   has surrendered.
+
+   The body step to --t-small below is older than any of that and is the one type
+   change here; raising the ceiling does now apply it at 1280x800, where the
+   columns wrap to three lines and the smaller step is the better setting
+   regardless. */
+@media (min-width: 901px) and (max-height: 860px) {
   .display {
-    padding-block: var(--s5) var(--s4);
+    padding-block: var(--s4) var(--s3);
   }
 
   .items {
-    padding: var(--s5) 0;
+    padding: var(--s3) 0 calc(var(--s3) + 8px);
+    gap: var(--s5);
+  }
+
+  .itemBar {
+    min-height: 28px;
   }
 
   .itemBody {
+    padding: var(--s3) var(--s4);
     font-size: var(--t-small);
   }
 
   .footer {
-    padding-block: var(--s4);
+    padding-block: var(--s3);
+  }
+
+  /* The dock tightens around its button rather than losing it: 8px of padding
+     on a 40px control still reads as a bar the button sits in, which is the
+     whole point of the surface. */
+  .dock {
+    padding: var(--s2) var(--s5) var(--s2) var(--s2);
+  }
+
+  .enter {
+    min-height: 40px;
   }
 }
 
@@ -479,36 +750,55 @@
   }
 
   .items {
-    /* One column, and therefore no column rules -- a vertical rule needs a
-       neighbour to divide from. Horizontal rules take over the job. */
+    /* One column. The cards keep their own frames, so unlike the ruled version
+       this needs no substitute divider -- just a gap wide enough to clear the
+       displacement below each one. */
     grid-template-columns: minmax(0, 1fr);
-    gap: 0;
-    padding-block: 0 var(--s5);
+    gap: var(--s5);
+    padding-block: var(--s5) calc(var(--s5) + 6px);
   }
 
   .item {
-    padding-block: var(--s5);
-    border-top: 1px solid var(--rule);
+    /* Straightened. Stacked at full width the alternating tilt stopped reading
+       as hand-placement and started reading as three misaligned edges against
+       the gutter -- the effect depends on the cards being side by side. */
+    --tilt: 0deg;
+    box-shadow: 4px 4px 0 var(--ink);
   }
 
-  .item + .item {
-    border-left: 0;
-    padding-left: 0;
+  .item:nth-child(2),
+  .item:nth-child(3) {
+    --tilt: 0deg;
   }
 
-  .item::before {
-    margin-bottom: var(--s2);
-  }
-
-  .footerInner {
+  /* The dock unrolls into a panel. A 999px radius on a two-line stacked block
+     bows its short edges into arcs and the bar stops being a bar; the window
+     radius is the honest shape once it is tall rather than wide. */
+  .dock {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     gap: var(--s4);
+    padding: var(--s4);
+    border-radius: var(--r-panel);
+  }
+
+  /* The dock's `align-items: stretch` is what makes this run the full width of
+     the panel -- a pill sitting in the corner of a stacked block with the
+     colophon under it reads as a chip rather than as the way out. This rule only
+     re-centres the label inside the wider button. */
+  .enter {
+    justify-content: center;
+  }
+
+  /* The leader connects two ends of a horizontal bar. Stacked there are no two
+     ends, and a dotted line across a panel is just a line. */
+  .dockRule {
+    display: none;
   }
 
   .closer {
     max-width: none;
-    text-align: left;
+    text-align: center;
   }
 }
 
