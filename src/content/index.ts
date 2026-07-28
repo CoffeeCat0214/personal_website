@@ -19,7 +19,6 @@ export {
   markPanels,
   navSections,
   runners,
-  skillGroups,
   skills,
   tldr,
   work,

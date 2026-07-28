@@ -4,18 +4,30 @@
 
 .index {
   display: grid;
-  gap: var(--s6);
 }
 
+/* Hairline rows, not framed cards.
+
+   Each row used to carry its own 3px border, panel fill and offset shadow. That
+   was right when the list sat directly on the act's ground and had to supply
+   its own surface; it is wrong now that About wraps the list in a panel, where
+   it produced a framed box inside a framed box for every entry. The enclosing
+   surface is the frame -- these only need to be separated from each other. */
 .row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: baseline;
   gap: var(--s2) var(--s5);
-  padding: var(--s5);
-  border: var(--neo-border);
-  background: var(--panel);
-  box-shadow: var(--neo-shadow-sm);
+  padding-block: var(--s5);
+  border-bottom: 1px solid var(--rule);
+}
+
+/* Standalone-safe: a list that ends on a rule leaves it dangling with nothing
+   under it. Consumers that follow the list with their own block (About's
+   working-set strip) supply their own top rule instead. */
+.row:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
 }
 
 /* The leader lives inside the <dt> because a <dl> row admits only dt/dd -- a

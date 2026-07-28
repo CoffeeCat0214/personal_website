@@ -146,27 +146,12 @@ export const skills = [
   "Data Systems",
 ] as const;
 
-/* The skills stay in their intentional order, but the About act needs to show
-   how they relate rather than presenting fourteen equal-weight tiles. These
-   are editorial groupings, not new claims or a second taxonomy. */
-export const skillGroups = [
-  {
-    label: "Agentic systems",
-    skills: [skills[0], skills[1]],
-  },
-  {
-    label: "Languages",
-    skills: [skills[2], skills[6], skills[7]],
-  },
-  {
-    label: "Data + cloud",
-    skills: [skills[4], skills[5], skills[3], skills[12], skills[13]],
-  },
-  {
-    label: "Service craft",
-    skills: [skills[8], skills[9], skills[10], skills[11]],
-  },
-] as const;
+/* `skillGroups` used to live here -- four editorial groupings that rendered as
+   a four-column capability index in the About act. The act now runs the flat
+   list above as a single strip, so the groupings had no consumer and are gone
+   rather than left as content nothing reads. The ordering in `skills` is what
+   survived and it is still load-bearing: it opens on the claim the masthead
+   makes. */
 
 export const contact = {
   heading: "Say hello.",

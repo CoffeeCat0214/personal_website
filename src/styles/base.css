@@ -174,13 +174,6 @@ code {
   }
 }
 
-/* 52ch keeps a heading to roughly two lines at --t-h2, which is where a display
-   line stops reading as a statement and starts reading as a paragraph. */
-.section-head {
-  display: grid;
-  gap: var(--s4);
-  max-width: 52ch;
-}
 
 /* Scoped to .btn. Styling the bare `a` element turns every link on the page
    into a 46px filled button, footer and prose included. */

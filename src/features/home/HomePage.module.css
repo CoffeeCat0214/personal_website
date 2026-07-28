@@ -160,31 +160,12 @@
   line-height: 1.08;
 }
 
-/* A heading needs a surface to announce that it starts a new piece of work.
-   This keeps About and Contact from becoming beautiful type stranded on a
-   colour field, and gives every post-hero act one consistent nameplate rhythm. */
-.postHero :global(.section-head) {
-  position: relative;
-  display: grid;
-  gap: var(--s4);
-  max-width: 52ch;
-  padding: clamp(24px, 3.2vw, 40px);
-  border: var(--neo-border);
-  background: var(--panel);
-  box-shadow: var(--neo-shadow);
-}
-
-.postHero :global(.section-head)::after {
-  position: absolute;
-  top: clamp(18px, 2.4vw, 28px);
-  right: clamp(18px, 2.4vw, 28px);
-  color: var(--accent-bright, var(--ink));
-  content: "✦";
-  font-family: var(--font-mono);
-  font-size: 1.25rem;
-  line-height: 1;
-  transform: rotate(10deg);
-}
+/* The `.section-head` frame that used to live here is gone with its only
+   consumer. Contact was the sole act using it, and the rule gave a two-line
+   heading a 3px frame, a 7px shadow and a 52ch cap -- which in a 1040px measure
+   painted a 555px box with a lonely ✦ in its corner and 485px of ground beside
+   it. Both post-hero acts now put their heading inside the panel that carries
+   their content, which is where a heading earns a surface. */
 
 /* Hairline action links are too quiet against the new workbench. The border is
    the affordance; the press state is the interaction. */

@@ -132,17 +132,19 @@
   text-transform: uppercase;
 }
 
-/* The inset field. One step darker than the window body plus a 2px frame --
-   2px because this is a control inside a 3px surface, and the step down is what
-   says "inside". No inset shadow: depth in this system is displacement, and a
-   sunken well is atmosphere. */
+/* A value strip, not a field. No frame and no fill -- the inset well and the
+   one-step-darker paper are reserved for the message box, which is the only
+   thing in this window a visitor can type into, and spending them on a fixed
+   address is what made the To row read as an empty input.
+
+   The rule underneath is the whole treatment: it says "this is a value" without
+   promising entry. */
 .field {
   display: flex;
   align-items: center;
   gap: var(--s4);
-  padding: var(--s4);
-  border: 2px solid var(--ink);
-  background: var(--paper);
+  padding-bottom: var(--s3);
+  border-bottom: 2px solid var(--ink);
 }
 
 .envelope {
@@ -167,52 +169,52 @@
   fill: var(--accent-bright, var(--ink));
 }
 
+/* Left-set, with Copy sitting immediately after it rather than pushed to the
+   far end by an auto margin. Right-aligning the button looked tidy at the
+   two-column width and fell apart the moment the panels stacked: in an 850px
+   window the control ended up ~700px from the address it copies, which is the
+   proximity failure that moving it into this row was meant to fix. */
 .address {
+  min-width: 0;
   color: var(--ink);
   font-family: var(--font-mono);
   /* Both endpoints are documented ramp steps rather than hand-picked numbers:
      the link tier at the floor, the lead tier at the ceiling. The address is
      the largest mono string on the page and it should read like one. */
-  font-size: clamp(var(--t-post-link), 1.5vw, var(--t-lead));
+  /* The floor is --t-body, not --t-post-link. At the smaller step the clamp
+     bottomed out at 15.2px while the GitHub and LinkedIn handles in the panel
+     opposite run 17px semibold and underlined -- so below 1280 the address this
+     act exists to hand over was the quietest value on screen, and the comment
+     here claimed the opposite. Never let the primary target's floor sit under a
+     secondary's fixed size. */
+  font-size: clamp(var(--t-body), 1.35vw, var(--t-lead));
   font-weight: 500;
   letter-spacing: -0.02em;
   text-decoration: none;
-  border-bottom: 1px solid var(--rule-strong);
-  transition: border-color var(--dur) var(--ease);
+  overflow-wrap: anywhere;
+  transition: color var(--dur) var(--ease);
 }
 
+/* The underline arrives on hover rather than sitting there permanently: the
+   strip's own 2px rule is 12px below the baseline, and a second hairline that
+   close reads as a printing error. The address is still a link -- it is exposed
+   as one, focusable as one, and the primary path to a draft is the button
+   below either way. */
 .address:hover {
-  border-color: var(--ink);
+  color: var(--accent-text, var(--ink));
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
-/* A terminal caret, and the window's only loop. It sits at opacity 1 by default
-   and animates *away* from that, so the global reduced-motion rule -- which
-   collapses the duration and reverts the element to its unanimated state --
-   leaves a solid caret rather than an invisible one. */
-.caret {
-  width: 9px;
-  height: 1.15em;
-  margin-right: auto;
-  flex: none;
-  background: var(--ink);
-  animation: blink 1.1s steps(1, end) infinite;
-}
+/* The message well, and the only thing in this window that takes typing -- so
+   it is the only thing that gets the frame and the one-step-darker fill.
 
-@keyframes blink {
-  0%,
-  49% {
-    opacity: 1;
-  }
-  50%,
-  100% {
-    opacity: 0;
-  }
-}
-
-/* The message well. Same 2px frame and same one-step-darker fill as the address
-   field, because they are the same kind of thing: somewhere you put content
-   inside a surface. Set in the reading face rather than mono -- this is prose a
-   person writes, and mono here would be costume. */
+   That asymmetry with the To strip above is the point, not an oversight. The
+   two used to share this treatment on the theory that they were the same kind
+   of thing; they are not, and dressing a fixed address as a field is what made
+   the window lie about what it does. Depth here means "you can put something
+   in this", and it is spent once. Set in the reading face rather than mono --
+   this is prose a person writes, and mono here would be costume. */
 .message {
   width: 100%;
   min-height: 104px;
@@ -246,8 +248,6 @@
 
 .actions {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--s3);
   margin-top: var(--s2);
 }
 
@@ -262,19 +262,27 @@
   line-height: 1.45;
 }
 
-.compose,
-.copy {
+/* The window's one primary control, so it takes the full width of the body.
+   A 190px button under a 460px message well left a ragged shelf of dead paper
+   beside it; matching the well's edges makes the pair read as one instrument.
+   It also gives the act a decisive bottom edge to end on. */
+.compose {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--s2);
-  min-height: 46px;
+  width: 100%;
+  min-height: 52px;
   padding: 0 var(--s5);
   border: var(--neo-border);
   box-shadow: var(--neo-shadow-sm);
+  /* Inverts its act, like every other primary control on the site. */
+  background: var(--ink);
+  color: var(--on-accent);
   font-family: var(--font);
   font-size: var(--t-post-link);
   font-weight: 700;
+  letter-spacing: 0.01em;
   text-decoration: none;
   cursor: pointer;
   transition:
@@ -283,29 +291,62 @@
     background-color 160ms var(--ease);
 }
 
-/* Inverts its act, like every other primary control on the site. */
-.compose {
+/* Sized to the strip it sits in, not to the primary control. A second 46px
+   filled button in this window is what made Copy read as an alternative to
+   sending rather than as a utility on the address -- the size *was* the claim.
+   Still a 44px hit target once the strip's padding is counted. */
+.copy {
+  flex: none;
+  margin-left: var(--s1);
+  /* Sized to hold "Copied", so confirming does not resize the control that was
+     just pressed. A button that grows under the cursor at the moment it
+     succeeds reads as a glitch rather than as an acknowledgement. */
+  min-width: 6.5em;
+  min-height: 32px;
+  padding: 0 var(--s3);
+  border: 2px solid var(--ink);
+  background: var(--panel);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: var(--t-post-label);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background-color 160ms var(--ease),
+    color 160ms var(--ease);
+}
+
+.copy:hover {
   background: var(--ink);
   color: var(--on-accent);
 }
 
-.copy {
-  background: var(--paper);
-  color: var(--ink);
+/* Confirmed state. Inverted and held for the same 2.6s the status line holds
+   its message, so the two confirmations start and end together instead of the
+   button snapping back while the status bar still reads "Address copied". */
+.copy[data-state="done"] {
+  background: var(--ink);
+  color: var(--on-accent);
 }
 
 .compose:hover,
-.compose:focus-visible,
-.copy:hover,
-.copy:focus-visible {
+.compose:focus-visible {
   transform: translate(2px, 2px);
   box-shadow: 2px 2px 0 var(--ink);
 }
 
-.compose:active,
-.copy:active {
+.compose:active {
   transform: translate(4px, 4px);
   box-shadow: 0 0 0 var(--ink);
+}
+
+.compose:focus-visible,
+.copy:focus-visible,
+.address:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
 }
 
 /* ---------- Status bar ---------- */
@@ -343,6 +384,18 @@
   fill: var(--accent-bright, var(--ink));
 }
 
+/* The announcement channel. Not `display: none` and not `visibility: hidden` --
+   both remove the node from the accessibility tree, which is the one thing it
+   exists to be in. */
+.announce {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 @media (max-width: 640px) {
   .body {
     padding: var(--s4);
@@ -352,8 +405,7 @@
     padding: var(--s3) var(--s4);
   }
 
-  .compose,
-  .copy {
-    flex: 1 1 auto;
+  .envelope {
+    width: 34px;
   }
 }

@@ -42,3 +42,9 @@ Keep the homepage as an editorial document with a neobrutalist studio-board laye
 - `npm test`
 - `node /Users/coffeecat0214/.agents/skills/impeccable/scripts/detect.mjs --json <changed targets>`
 - Real-browser screenshots at 1440×1100 and 390×844, including the Extension, CrèmeAI, About, and Contact anchors.
+
+### Agent handoff notes
+
+- Treat a full-page mobile crop as a lead, not proof of overflow. For responsive sign-off, set an exact 390×844 browser viewport, wait for hydration and font/art loading, settle the anchor scroll, then inspect the captured viewport and `document.documentElement.scrollWidth` together.
+- Never run `npm run build` or `npm run test:e2e` concurrently with a live dev-server screenshot session when both touch `out/`. The export can replace the development artifacts mid-request and create misleading 500s or missing-manifest errors.
+- Repeated capability labels are navigational structure, so render them as real subheadings (`h4` in the About groups), not styled paragraphs. Keep the skills themselves single-sourced and use editorial groups only for presentation.

@@ -18,7 +18,7 @@ import styles from "./MailWindow.module.css";
    invite a click are the failure mode of every OS-pastiche component. */
 
 const IDLE = "Channel open";
-const COPIED = "Copied to clipboard";
+const COPIED = "Address copied";
 /* Short enough to hold one line inside a 390px window once the label tier's
    uppercase and +0.1em tracking are applied -- the longest of the three states
    is the one that sets the status bar's width budget. */
@@ -116,7 +116,7 @@ export function MailWindow({ email }: { email: string }) {
      is not rendered until the client has mounted. Under static export a button
      printed into the HTML that never gains a handler is a dead control for
      anyone whose script fails. Everything else in this window -- the address,
-     the textarea, Compose -- works with no script at all. */
+     the textarea, the submit -- works with no script at all. */
   const [mounted, setMounted] = useState(false);
   const resetTimer = useRef<number | undefined>(undefined);
 
@@ -144,7 +144,24 @@ export function MailWindow({ email }: { email: string }) {
      draft in their own mail app before sending either way.
 
      With JS we build the URL in composeMailto instead, which percent-encodes
-     per RFC 6068. Same control, no second button, no dead affordance. */
+     per RFC 6068. Same control, no second button, no dead affordance.
+
+     What neither path can do is tell you it failed. Navigating to a scheme with
+     no registered handler -- Chrome on a machine that has never been given a
+     default mail client, a locked-down work desktop, anyone living in webmail
+     without the protocol handler installed -- is a silent no-op. No error, no
+     navigation, nothing.
+
+     There was briefly a "Copy message" button below the textarea to recover
+     from that, and it was the wrong instinct. When the handoff no-ops the
+     message is not lost: it is still sitting in a `<textarea>`, which is the
+     most copyable element on the page -- click, select all, copy, all native.
+     A button for it duplicated something the platform already gives away, and
+     it cost a second copy control in a window that only has room for one idea
+     per row. The address is the opposite case and is why the one remaining copy
+     button is up there: static text inside a link, which nobody can select
+     cleanly without catching the envelope or the trailing space. Copy controls
+     are for values you cannot easily select, not for the ones you can. */
   const submit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     window.location.assign(composeMailto(email, SUBJECT, message));
@@ -167,6 +184,21 @@ export function MailWindow({ email }: { email: string }) {
       <form className={styles.body} action={`mailto:${email}`} method="get" onSubmit={submit}>
         <input type="hidden" name="subject" value={SUBJECT} />
 
+        {/* The To row is a fixed value, so it is dressed as one: a plain strip
+            with a rule under the address and a copy control on the right end.
+
+            It used to be an inset well with a 2px frame, a one-step-darker fill
+            and a blinking terminal caret parked after the address -- every
+            signal a text input gives, on a field nobody can type in. The caret
+            was the worst of it: it said "you are mid-entry here" about the one
+            line of this window that is not editable, directly above the one that
+            is. Matching the message well's treatment made the lie symmetrical.
+
+            Copy lives here rather than down in the action row because it acts on
+            this address, not on the draft. In the old row it sat beside the
+            submit as an equal option, which framed the window as "pick one of
+            two things to do with your message" -- and then one of the two
+            ignored the message entirely. */}
         <div className={styles.group}>
           <p className={styles.fieldLabel} id="mail-window-to">
             To
@@ -176,7 +208,21 @@ export function MailWindow({ email }: { email: string }) {
             <a className={styles.address} href={`mailto:${email}`} aria-describedby="mail-window-to">
               {email}
             </a>
-            <span className={styles.caret} aria-hidden="true" />
+            {mounted ? (
+              <button
+                type="button"
+                className={styles.copy}
+                onClick={copy}
+                /* The visible label changes to confirm at the point of action;
+                   the accessible name stays fixed so a screen reader is not told
+                   the button became a different control. The result itself is
+                   announced by the status line's live region. */
+                aria-label={`Copy ${email}`}
+                data-state={copyState === COPIED ? "done" : undefined}
+              >
+                {copyState === COPIED ? "Copied" : "Copy"}
+              </button>
+            ) : null}
           </div>
         </div>
 
@@ -199,28 +245,44 @@ export function MailWindow({ email }: { email: string }) {
           />
         </div>
 
+        {/* "Open draft in mail app", not "Compose" and not "Open in mail app".
+
+            "Compose" names the gesture the *mail app* performs after this button
+            hands the draft over. "Open in mail app" fixed that but named only the
+            destination, which reads as "launch my mail client" -- a blank compose
+            window. Someone who has just typed two hundred words needs the label
+            to say their words are what travels, and "draft" is the word that
+            carries it. */}
         <div className={styles.actions}>
           <button type="submit" className={styles.compose}>
-            Compose <span aria-hidden="true">↗</span>
+            Open draft in mail app <span aria-hidden="true">↗</span>
           </button>
-          {mounted ? (
-            <button type="button" className={styles.copy} onClick={copy}>
-              Copy address
-            </button>
-          ) : null}
         </div>
 
-        <p className={styles.hint}>Opens in your mail app. Nothing is sent from this page.</p>
+        <p className={styles.hint}>
+          Your draft opens in your own mail app. Nothing is sent from this page.
+        </p>
       </form>
 
-      {/* The status line doubles as the live region for the copy result, so the
-          confirmation lands where a desktop app would put it instead of in a
-          toast that covers something else. */}
-      <p className={styles.status} aria-live="polite">
+      {/* The status line carries three different things -- the idle state, a
+          live character count, and the copy result -- and only the last of them
+          is an announcement.
+
+          It used to be one node with `aria-live="polite"` on it, which meant the
+          counter was inside the live region: every keystroke re-rendered it and
+          queued "Draft · 1/1000", "Draft · 2/1000", … at a screen reader. That
+          made the textarea unusable with AT while nominally being an
+          accessibility feature. The visible bar keeps all three states and no
+          longer announces; a hidden region beside it announces the copy result
+          only, which is the one event a person needs told rather than shown. */}
+      <p className={styles.status}>
         <span className={styles.dot} aria-hidden="true" />
         {status}
         <PixelHeart className={styles.statusHeart} />
       </p>
+      <span className={styles.announce} aria-live="polite">
+        {copyState ?? ""}
+      </span>
     </div>
   );
 }

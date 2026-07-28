@@ -22,9 +22,14 @@
   padding: clamp(28px, 4vw, 52px);
 }
 
+.introHead {
+  display: grid;
+  gap: var(--s4);
+  min-width: 0;
+}
+
 .kicker,
-.sectionIndex,
-.mottoLabel {
+.sectionIndex {
   color: var(--ink-3);
   font-family: var(--font-mono);
   font-size: var(--t-post-label);
@@ -56,6 +61,21 @@
   color: var(--ink-2);
   font-size: var(--t-post-body);
   line-height: 1.62;
+}
+
+/* Deliberately identical to .stampCaption opposite: same display face, same
+   rule above, same size step. The two panels are a pair, and closing both on
+   the same device is what makes the row read as one composition rather than as
+   two boxes that happen to be the same height. */
+.creed {
+  max-width: 26ch;
+  padding-top: var(--s5);
+  border-top: 1px solid var(--rule-strong);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--t-post-h3);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
 }
 
 .stamp {
@@ -103,52 +123,39 @@
   letter-spacing: -0.025em;
 }
 
-.motto {
+/* The record: heading, entries and working set on one surface.
+
+   This replaces `.motto`, `.indexSection`/`.sectionHeader` and
+   `.capabilities`/`.skillGroups` -- three blocks that between them owned two
+   hairline `border-block` rules, one 3px `border-top`, and no background at
+   all. On a saturated ground an unbacked block does not read as restraint, it
+   reads as content that has not been laid out yet, which is what put raw type
+   directly on the purple for two thirds of this act. */
+.record {
   display: grid;
-  grid-template-columns: minmax(120px, 0.24fr) minmax(0, 1fr);
-  gap: var(--s7);
-  align-items: center;
   min-width: 0;
-  padding: var(--s7) var(--s5);
-  border-block: 1px solid var(--rule-strong);
+  padding: clamp(28px, 4vw, 52px);
+  border: var(--neo-border);
+  background: var(--panel);
+  box-shadow: var(--neo-shadow);
 }
 
-.mottoLabel {
-  color: var(--ink);
-}
-
-.motto p {
-  min-width: 0;
-  width: 100%;
-  max-width: 28ch;
-  color: var(--ink);
-  font-family: var(--font-display);
-  font-size: var(--t-post-h3);
-  line-height: 1;
-  letter-spacing: -0.035em;
-}
-
-.indexSection {
-  display: grid;
-  gap: var(--s6);
-}
-
-.sectionHeader {
+.recordHead {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   gap: var(--s6);
-  padding-inline: var(--s5);
   min-width: 0;
+  padding-bottom: var(--s5);
+  border-bottom: 1px solid var(--rule-strong);
 }
 
-.sectionHeader > div {
+.recordHead > div {
   display: grid;
   gap: var(--s3);
 }
 
-.sectionHeader h3,
-.capabilityIntro h3 {
+.recordHead h3 {
   color: var(--ink);
   font-size: var(--t-post-h3);
   line-height: 0.98;
@@ -160,51 +167,60 @@
   white-space: nowrap;
 }
 
-.capabilities {
+/* Same two-column figure the old motto used -- a mono label against a flowing
+   right column. Keeping that rhythm is what lets the strip read as a row of
+   the record above it rather than as a fourth section wearing a disguise. */
+.workingSet {
   display: grid;
-  grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1.3fr);
-  gap: var(--s8);
+  grid-template-columns: minmax(120px, 0.2fr) minmax(0, 1fr);
+  gap: var(--s4) var(--s7);
+  align-items: baseline;
   min-width: 0;
-  padding: var(--s7) var(--s5) 0;
-  border-top: 3px solid var(--ink);
+  padding-top: var(--s5);
+  border-top: 1px solid var(--rule);
 }
 
-.capabilityIntro {
+.skillLine {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2) var(--s3);
   min-width: 0;
-  display: grid;
-  align-content: start;
-  gap: var(--s4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.capabilityIntro > p:last-child {
-  max-width: 27ch;
-  color: var(--ink-3);
-  font-size: var(--t-small);
-  line-height: 1.5;
-}
-
-.skillGroups {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--s7) var(--s8);
-  min-width: 0;
-}
-
-.group {
-  min-width: 0;
-}
-
-.groupLabel {
-  margin: 0 0 var(--s2);
-  padding-bottom: var(--s3);
-  border-bottom: 1px solid var(--rule-strong);
-  color: var(--ink-3);
+.skillLine li {
+  color: var(--ink);
   font-family: var(--font-mono);
-  font-size: var(--t-post-label);
-  font-weight: 700;
-  letter-spacing: 0.11em;
-  line-height: 1.2;
-  text-transform: uppercase;
+  font-size: var(--t-post-link);
+  letter-spacing: -0.01em;
+}
+
+/* The separator rides on the item rather than living in the gap, so it wraps
+   with the word it follows instead of stranding a lone interpunct at the start
+   of a line. */
+.skillLine li:not(:last-child)::after {
+  margin-left: var(--s2);
+  color: var(--ink-3);
+  content: "·";
+}
+
+@media (max-width: 640px) {
+  .workingSet {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s3);
+  }
+
+  /* The heading wraps to two lines at this width, and `space-between` then
+     parks the numeral hard against "from." on the second line. Stacking it puts
+     the index back where it reads as a caption on the section rather than as a
+     word competing with the sentence. */
+  .recordHead {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s3);
+  }
 }
 
 .group ul {

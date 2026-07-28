@@ -14,43 +14,55 @@ export function ContactAct({ section }: { section: ContactSection }) {
       eyebrow={section.eyebrow}
       tone={section.tone}
     >
-      {/* The lede lives inside the nameplate rather than in a framed slab of its
-          own. Four words do not need a 3px frame, a hard shadow and 100px of
-          height -- as a separate box it read as a third heading between the
-          heading and the content, and the act opened with three stacked
-          containers before it said anything. */}
-      <div className="section-head">
-        <h2 data-split>{contact.heading}</h2>
-        <p className={styles.lede}>{contact.body}</p>
-      </div>
-      {/* Email leaves the list and becomes an object. Four channels rendered as
-          four identical slabs stated "Based in: New York" at the same volume as
-          the one action this act exists for; promoting the primary channel by
-          form is the only promotion left in a system where everything already
-          carries a 3px frame. */}
+      {/* One row of two equal-height panels, which is the shape the About act
+          directly above already uses: a copy panel and an object panel, same
+          top, same bottom, nothing floating between them.
+
+          What this replaces: a 555px nameplate slab stranded in a 1040px
+          measure, ~90px of pink under it, then a desk whose right rail held two
+          short cards and ~370px of nothing before "Based in" was pinned to the
+          floor by `margin-top: auto`. Three framed boxes stacked at three
+          different right edges, two of them near-empty. The hole in the rail was
+          not a margin -- it was the layout admitting the two columns had nothing
+          to do with each other's height.
+
+          Stretching one panel against the window instead means the leftover
+          height lands *inside* a surface, where `space-between` reads as
+          composition, rather than between surfaces, where it reads as a gap. */}
       <div className={styles.desk} data-reveal>
+        <div className={styles.card}>
+          <div className={styles.intro}>
+            <p className={styles.kicker}>Direct line / {section.number}</p>
+            <h2 data-split>{contact.heading}</h2>
+            <p className={styles.lede}>{contact.body}</p>
+          </div>
+          {/* An index inside the panel, not three more framed slabs. The panel
+              is already the frame; re-framing each row made a nineteen-character
+              handle and a two-word city into objects the same size as the thing
+              this act exists for. Hairlines separate them now, which is the
+              weight a list of secondary destinations should carry. */}
+          <dl className={styles.channels}>
+            <div className={styles.row}>
+              <dt className={styles.key}>GitHub</dt>
+              <dd className={styles.value}>
+                <a href={site.github}>CoffeeCat0214</a>
+              </dd>
+            </div>
+            <div className={styles.row}>
+              <dt className={styles.key}>LinkedIn</dt>
+              <dd className={styles.value}>
+                <a href={site.linkedin}>kyrstin-mariko-kauchak</a>
+              </dd>
+            </div>
+            {/* A fact, not a channel -- so it keeps the `<dl>` semantics and
+                loses the link treatment. */}
+            <div className={styles.row}>
+              <dt className={styles.key}>Based in</dt>
+              <dd className={`${styles.value} ${styles.valuePlain}`}>{site.location}</dd>
+            </div>
+          </dl>
+        </div>
         <MailWindow email={site.email} />
-        <dl className={styles.channels}>
-          <div className={styles.row}>
-            <dt className={styles.key}>GitHub</dt>
-            <dd className={styles.value}>
-              <a href={site.github}>CoffeeCat0214</a>
-            </dd>
-          </div>
-          <div className={styles.row}>
-            <dt className={styles.key}>LinkedIn</dt>
-            <dd className={styles.value}>
-              <a href={site.linkedin}>kyrstin-mariko-kauchak</a>
-            </dd>
-          </div>
-          {/* A fact, not a channel. GitHub and LinkedIn are places to go;
-              "Based in" is something to know, and giving it the same frame as
-              the two links made the column read as three equal destinations. */}
-          <div className={`${styles.row} ${styles.rowPlain}`}>
-            <dt className={styles.key}>Based in</dt>
-            <dd className={styles.value}>{site.location}</dd>
-          </div>
-        </dl>
       </div>
     </Act>
   );
