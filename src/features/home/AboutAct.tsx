@@ -60,7 +60,7 @@ export function AboutAct({ section }: { section: AboutSection }) {
         <div className={styles.skillGroups}>
           {skillGroups.map((group) => (
             <div className={styles.group} key={group.label}>
-              <p className={styles.groupLabel}>{group.label}</p>
+              <h4 className={styles.groupLabel}>{group.label}</h4>
               <ul>
                 {group.skills.map((skill) => (
                   <li key={skill}>

@@ -195,7 +195,7 @@
 }
 
 .groupLabel {
-  margin-bottom: var(--s2);
+  margin: 0 0 var(--s2);
   padding-bottom: var(--s3);
   border-bottom: 1px solid var(--rule-strong);
   color: var(--ink-3);
