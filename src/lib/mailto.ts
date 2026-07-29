@@ -29,3 +29,18 @@ export function composeMailto(email: string, subject: string, body: string): str
 
   return params.length ? `mailto:${email}?${params.join("&")}` : `mailto:${email}`;
 }
+
+/* Gmail is the explicit web fallback for visitors whose browser has no
+   registered mailto: handler. Keep the same RFC-style percent encoding as the
+   mailto composer; Gmail accepts `%20` cleanly and this avoids the literal `+`
+   spaces produced by URLSearchParams. */
+export function composeGmail(email: string, subject: string, body: string): string {
+  const params = [`view=cm`, `fs=1`, `to=${encodeURIComponent(email)}`];
+  const line = subject.trim();
+  const message = body.trim();
+
+  if (line) params.push(`su=${encodeURIComponent(line)}`);
+  if (message) params.push(`body=${encodeURIComponent(message)}`);
+
+  return `https://mail.google.com/mail/?${params.join("&")}`;
+}

@@ -57,63 +57,17 @@
   text-overflow: ellipsis;
 }
 
-/* Decoration, not controls. No hover, no cursor change, no pointer target --
-   the moment these look clickable the window has lied about what it does. */
+/* A label, not a control. The old three-square OS chrome looked like three
+   buttons even though none of them did anything. Naming the surface keeps the
+   Y2K window cue without adding three false affordances. */
 .chrome {
-  display: flex;
   flex: none;
-  gap: 5px;
-}
-
-.chrome span {
-  position: relative;
-  width: 15px;
-  height: 13px;
-  border: 2px solid currentColor;
-}
-
-.chrome span::before,
-.chrome span::after {
-  position: absolute;
-  background: currentColor;
-  content: "";
-}
-
-/* Minimise: one bar on the floor of the box. */
-.chrome span:nth-child(1)::before {
-  right: 1px;
-  bottom: 1px;
-  left: 1px;
-  height: 2px;
-}
-
-/* Maximise: an inset outline, drawn with a border rather than a fill so the
-   box reads as a frame the way the real control did. */
-.chrome span:nth-child(2)::before {
-  top: 1px;
-  right: 1px;
-  bottom: 1px;
-  left: 1px;
-  border: 2px solid currentColor;
-  background: none;
-}
-
-/* Close: two crossed bars. */
-.chrome span:nth-child(3)::before,
-.chrome span:nth-child(3)::after {
-  top: 50%;
-  left: 50%;
-  width: 13px;
-  height: 2px;
-  margin: -1px 0 0 -6.5px;
-}
-
-.chrome span:nth-child(3)::before {
-  transform: rotate(45deg);
-}
-
-.chrome span:nth-child(3)::after {
-  transform: rotate(-45deg);
+  color: var(--on-accent);
+  font-family: var(--font-mono);
+  font-size: var(--t-post-label);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 /* ---------- Body ---------- */
@@ -181,18 +135,9 @@
    read as one document rather than two components. */
 .field {
   display: flex;
-  /* Wraps, and the order that fails is the point. Flex decides to break a line
-     from the items' hypothetical (unshrunk) sizes, before any shrinking -- so
-     below ~360px, where the address and Copy no longer fit side by side, Copy
-     drops to its own line and the address keeps its string intact. Without this
-     the address is the flexible item and it loses: it shrank and broke inside
-     the TLD, so the one value this act exists to hand over rendered as
-     "kauchakmk@gmail.c / om" on a 320px phone. An address that wraps mid-string
-     is not a layout nit, it is a value a reader can no longer trust they read
-     correctly. */
-  flex-wrap: wrap;
+  /* Keep the address intact on narrow screens; it is the one value this act
+     exists to hand over and should never become visually ambiguous. */
   align-items: center;
-  gap: var(--s3);
   min-width: 0;
   padding-bottom: var(--s3);
   border-bottom: 1px solid var(--rule-strong);
@@ -225,16 +170,7 @@
   fill: var(--accent-bright, var(--ink));
 }
 
-/* Left-set, with Copy anchored to the far end of the strip.
-
-   The note this replaces argued for parking Copy immediately after the address
-   instead, on the grounds that an 850px stacked window would strand it ~700px
-   from what it copies. That window no longer exists: the act stacks at 820px,
-   so the strip is at most ~630px wide on desktop and ~330px on a phone, and the
-   button is never more than a glance away. What the auto margin buys is a strip
-   with content at both ends -- the previous row left the whole right third of
-   its own rule empty, which is what made the address look like it had been
-   dropped into the window rather than laid out in it. */
+/* The recipient is a readable value, not a competing action. */
 .address {
   min-width: 0;
   color: var(--ink);
@@ -249,20 +185,7 @@
   font-size: clamp(var(--t-body), 1.35vw, var(--t-lead));
   font-weight: 500;
   letter-spacing: -0.02em;
-  text-decoration: none;
   overflow-wrap: anywhere;
-  transition: color var(--dur) var(--ease);
-}
-
-/* The underline arrives on hover rather than sitting there permanently: the
-   strip's own rule is 12px below the baseline, and a second line that close
-   reads as a printing error. The address is still a link -- it is exposed as
-   one, focusable as one, and once JS is up its href carries the draft, so it
-   goes to the same place the button does. */
-.address:hover {
-  color: var(--accent-text, var(--ink));
-  text-decoration: underline;
-  text-underline-offset: 3px;
 }
 
 /* The two wells, and between them the whole of what this window lets a visitor
@@ -333,10 +256,8 @@
   gap: var(--s3);
 }
 
-/* Says what the control does, and what it does not: a mailto hands a draft to
-   the visitor's mail app, it does not send anything, and a static page with no
-   backend should be explicit about that rather than let "Compose" imply a form
-   post. */
+/* Says what the control does, and what it does not: Gmail opens a draft, but
+   the visitor still has to review and send it. */
 .hint {
   color: var(--ink-2);
   font-size: var(--t-small);
@@ -350,10 +271,8 @@
   display: block;
 }
 
-/* The window's one primary control, so it takes the full width of the body.
-   A 190px button under a 460px message well left a ragged shelf of dead paper
-   beside it; matching the well's edges makes the pair read as one instrument.
-   It also gives the act a decisive bottom edge to end on. */
+/* The window's one primary control takes the full width of the body and gives
+   the action a decisive bottom edge to end on. */
 .compose {
   display: inline-flex;
   align-items: center;
@@ -372,56 +291,11 @@
   font-weight: 700;
   letter-spacing: 0.01em;
   text-decoration: none;
-  cursor: pointer;
+  cursor: var(--cursor-paw-tap);
   transition:
     transform 160ms var(--ease),
     box-shadow 160ms var(--ease),
     background-color 160ms var(--ease);
-}
-
-/* Sized to the strip it sits in, not to the primary control. A second 46px
-   filled button in this window is what made Copy read as an alternative to
-   sending rather than as a utility on the address -- the size *was* the claim.
-
-   36 x 78px measured. That clears WCAG 2.5.8 (24px, the AA bar) with room and
-   does not reach 2.5.5's 44px AAA target, which is a deliberate trade: the
-   address it copies is right beside it, the draft button below is 52px, and
-   growing this control back toward 44 is exactly what re-stages it as the
-   window's second primary action. Nothing here is reachable only through it. */
-.copy {
-  flex: none;
-  margin-left: auto;
-  /* Sized to hold "Copied", so confirming does not resize the control that was
-     just pressed. A button that grows under the cursor at the moment it
-     succeeds reads as a glitch rather than as an acknowledgement. */
-  min-width: 6.5em;
-  min-height: 36px;
-  padding: 0 var(--s3);
-  border: 2px solid var(--ink);
-  background: var(--panel);
-  color: var(--ink);
-  font-family: var(--font-mono);
-  font-size: var(--t-post-label);
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition:
-    background-color 160ms var(--ease),
-    color 160ms var(--ease);
-}
-
-.copy:hover {
-  background: var(--ink);
-  color: var(--on-accent);
-}
-
-/* Confirmed state. Inverted and held for the same 2.6s the status line holds
-   its message, so the two confirmations start and end together instead of the
-   button snapping back while the status bar still reads "Address copied". */
-.copy[data-state="done"] {
-  background: var(--ink);
-  color: var(--on-accent);
 }
 
 .compose:hover,
@@ -435,9 +309,7 @@
   box-shadow: 0 0 0 var(--ink);
 }
 
-.compose:focus-visible,
-.copy:focus-visible,
-.address:focus-visible {
+.compose:focus-visible {
   outline: 2px solid var(--focus);
   outline-offset: 3px;
 }
@@ -462,8 +334,7 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  /* The copy result replaces "Channel open" in place; without a floor the whole
-     window would resize by a line when the longer error string arrives. */
+  /* Keep the status bar stable while the draft counter changes. */
   min-height: 2.4em;
 }
 
@@ -480,18 +351,6 @@
   flex: none;
   margin-left: auto;
   fill: var(--accent-bright, var(--ink));
-}
-
-/* The announcement channel. Not `display: none` and not `visibility: hidden` --
-   both remove the node from the accessibility tree, which is the one thing it
-   exists to be in. */
-.announce {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
 }
 
 @media (max-width: 640px) {

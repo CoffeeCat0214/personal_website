@@ -103,6 +103,85 @@ img {
   max-width: 100%;
 }
 
+/* ---------- Cursor ----------
+
+   Kyrstin's own ginger paw, tilted -25 degrees so the leading toe sits where an
+   arrow's tip would be. The tilt is the whole reason it works as a cursor: the
+   drawing is a blocky mitten with a flat top edge and no point of its own, so
+   upright it reads as a sticker parked on the page rather than as something
+   indicating a position. Steeper angles were worse, not better -- at -45 it
+   stops reading as a paw reaching and starts reading as a paw falling over.
+
+   The one modification to the artwork is the backdrop: the source render sits on
+   a grey vignette with a warm glow, which had to come off before it could be a
+   cursor at all. Cut by region-growing from the border rather than by colour
+   keying, because the backdrop is a gradient -- growth follows the gradient and
+   stops dead at the paw's dark outline, which a flat colour key cannot do.
+
+   Hotspot 4 3, measured rather than guessed: the opaque pixel nearest the
+   top-left of the box after rotation, which is the actual tip of the leading
+   toe. A symmetrical shape with a corner hotspot is what makes a custom cursor
+   feel like it clicks somewhere other than where it looks.
+
+   Files rather than inlined data URIs. At ~3KB and ~10KB these would add real
+   weight to a render-blocking stylesheet to describe something the browser does
+   not need until the pointer is already over the page; as files they are
+   fetched lazily and cost the first paint nothing.
+
+   The @2x file exists because a cursor is sized in CSS pixels: a 27px PNG on a
+   Retina display is upscaled by the compositor and goes soft. `image-set` is the
+   only way to hand the browser the denser file, and it is declared behind
+   @supports with a plain url() already in place -- a custom property resolving
+   to a value the browser cannot parse is invalid at computed-value time, which
+   does not fall back to the previous declaration, it drops `cursor` entirely.
+
+   Gated on a fine pointer: on a touch device this is two image requests
+   describing something nobody will ever see. */
+:root {
+  --cursor-paw: auto;
+  --cursor-paw-tap: pointer;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :root {
+    --cursor-paw: url("/cursor/paw.png") 4 3, auto;
+    /* Same paw on interactive elements -- but the keyword underneath it is
+       `pointer`, not `auto`, so anywhere the image cannot load a link still
+       degrades to a hand rather than to an arrow. */
+    --cursor-paw-tap: url("/cursor/paw.png") 4 3, pointer;
+  }
+
+  @supports (cursor: image-set(url("/cursor/paw.png") 1x)) {
+    :root {
+      --cursor-paw: image-set(url("/cursor/paw.png") 1x, url("/cursor/paw@2x.png") 2x) 4 3, auto;
+      --cursor-paw-tap: image-set(url("/cursor/paw.png") 1x, url("/cursor/paw@2x.png") 2x) 4 3,
+        pointer;
+    }
+  }
+
+  html {
+    cursor: var(--cursor-paw);
+  }
+
+  a,
+  button,
+  summary,
+  label,
+  [role="button"] {
+    cursor: var(--cursor-paw-tap);
+  }
+
+  /* Typing surfaces keep the native caret. The paw is a nice thing to hover a
+     page with and a bad thing to aim a text insertion point with -- and the
+     textarea's resize grip needs the UA's own cursor to advertise itself at
+     all, which `auto` is the only way to leave intact. */
+  input,
+  textarea,
+  select {
+    cursor: auto;
+  }
+}
+
 /* The display tier is Fraunces; everything below h3 stays Inter. Weights step
    up from the 500 the grotesque wanted: a high-contrast serif at 500 reads
    light against a saturated ground, because the thin strokes are genuinely

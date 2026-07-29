@@ -83,7 +83,7 @@
   font: 700 var(--t-post-label) / 1 var(--font-mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  cursor: pointer;
+  cursor: var(--cursor-paw-tap);
   box-shadow: 3px 3px 0 var(--ink);
   transition:
     transform 160ms var(--ease),

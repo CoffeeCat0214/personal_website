@@ -91,7 +91,7 @@
   font: inherit;
   letter-spacing: inherit;
   text-transform: inherit;
-  cursor: pointer;
+  cursor: var(--cursor-paw-tap);
   transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
 }
 
@@ -145,7 +145,7 @@
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  cursor: pointer;
+  cursor: var(--cursor-paw-tap);
   transition: border-color var(--dur) var(--ease);
 }
 
@@ -279,7 +279,7 @@
     font: inherit;
     letter-spacing: inherit;
     text-transform: inherit;
-    cursor: pointer;
+    cursor: var(--cursor-paw-tap);
   }
 
   .panelMode button[aria-pressed="true"],

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { composeMailto } from "../src/lib/mailto";
+import { composeGmail, composeMailto } from "../src/lib/mailto";
 
 const EMAIL = "kauchakmk@gmail.com";
 const SUBJECT = "Hello from your site";
@@ -61,4 +61,14 @@ test("a subject the visitor typed is percent-encoded like any other", () => {
 
 test("the address is always the mailto target", () => {
   assert.ok(composeMailto(EMAIL, SUBJECT, "hi").startsWith(`mailto:${EMAIL}?`));
+});
+
+test("the Gmail fallback carries the same draft fields", () => {
+  const url = composeGmail(EMAIL, "cats & dogs?", "line one\nline two");
+
+  assert.equal(
+    url,
+    "https://mail.google.com/mail/?view=cm&fs=1&to=kauchakmk%40gmail.com&su=cats%20%26%20dogs%3F&body=line%20one%0Aline%20two"
+  );
+  assert.ok(!url.includes("+"), `plus-encoding leaked into: ${url}`);
 });

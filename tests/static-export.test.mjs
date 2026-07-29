@@ -51,6 +51,8 @@ test("home page export contains core anchors and assets", () => {
   assert.match(html, /Serverless Discord assistant\./);
   assert.match(html, /Hero_[^\"]+ tone-pink/);
   assert.match(html, /View CoffeeCat/);
+  assert.match(html, /Open Gmail draft/);
+  assert.match(html, /https:\/\/mail\.google\.com\/mail\/\?view=cm/);
   assert.match(html, /Request path/);
   for (const control of ["15", "25", "50", "Start focus", "Reset"]) {
     assert.match(html, new RegExp(control));
