@@ -14,10 +14,10 @@
    and below it are full-width, which is what gives it permission to breathe. */
 
 .gate {
-  /* Cooler than the ginger used elsewhere: lilac carries the button's
-     displacement and pink carries the tiny sticker fill. Both are established
-     portfolio colors, but this gate now has its own little after-midnight cue. */
-  --gate-accent: #bcaaff;
+  /* Forest green carries the caret, punctuation, and physical action offsets;
+     pink remains the gate's sticker/action fill. This restores the original
+     green rhythm without changing the typewriter's size or timing. */
+  --gate-accent: #1e2b16;
   --gate-sticker: #ff9bd7;
   --gate-sticker-soft: #ffc2e6;
   --gate-dark: #1e2b16;
@@ -128,6 +128,7 @@
 }
 
 .displayCopy {
+  position: relative;
   min-width: 0;
 }
 
@@ -200,7 +201,7 @@
      0.78em down the line box at this line-height, so a caret on those numbers
      starts a hair above the cap line and lands on the baseline. Retune it by
      screenshot if the line-height moves. */
-  background-image: linear-gradient(var(--ink), var(--ink));
+  background-image: linear-gradient(var(--gate-accent), var(--gate-accent));
   background-repeat: no-repeat;
   background-size: var(--caret-w) 0.71em;
   background-position: right 0 top 0.07em;
@@ -239,6 +240,47 @@
    centred in what is left of its cell rather than sliding into a neighbour. */
 .punct {
   margin-inline: -0.16em;
+  color: var(--gate-accent);
+}
+
+/* Three tiny registration marks arrive with the final typed character. They
+   live outside the label's clipped box, so the typewriter's width and timing
+   remain exactly the same. */
+.labelSpark {
+  --spark-x: 0px;
+  --spark-y: -8px;
+  position: absolute;
+  z-index: 1;
+  color: var(--gate-accent);
+  font-family: var(--font-display);
+  line-height: 1;
+  opacity: 0;
+  pointer-events: none;
+  animation: gate-label-sparkle 620ms var(--ease) 2.05s both;
+}
+
+.labelSparkA {
+  top: 2%;
+  left: 48%;
+  font-size: var(--t-label);
+  --spark-x: -8px;
+  --spark-y: -8px;
+}
+
+.labelSparkB {
+  top: 8%;
+  right: 20%;
+  font-size: var(--t-label);
+  --spark-x: 8px;
+  --spark-y: -10px;
+}
+
+.labelSparkC {
+  top: 25%;
+  right: 6%;
+  font-size: var(--t-label);
+  --spark-x: 7px;
+  --spark-y: 7px;
 }
 
 /* Fraunces, and small. It is still the page's <h1> and still the document's
@@ -276,6 +318,21 @@
   flex: none;
   height: min(400px, 50dvh);
   width: auto;
+  transform-origin: bottom right;
+  transition:
+    transform 260ms var(--ease),
+    filter 260ms var(--ease);
+  animation: gate-cat-finish 700ms var(--ease) 2.05s both;
+}
+
+/* The cat's mischief stays discoverable rather than ambient: pointer proximity
+   gives it one small lift, while the completion state below gives keyboard and
+   touch visitors the same payoff after they engage with the notes. */
+@media (hover: hover) {
+  .cat:hover {
+    filter: saturate(1.05);
+    transform: translateY(-6px) rotate(-1deg);
+  }
 }
 
 /* ---------- Columns ---------- */
@@ -337,6 +394,32 @@
     box-shadow 160ms var(--ease);
 }
 
+/* The notes are content with a tiny, optional inspect action. Keeping the
+   button inside the existing window means the visible words, order, and
+   composition remain unchanged while keyboard and touch visitors get the same
+   response as a pointer visitor. */
+.itemButton {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.itemButton:focus-visible {
+  z-index: 3;
+  outline: 3px solid var(--gate-accent);
+  outline-offset: 5px;
+  border-radius: var(--r-panel);
+}
+
 .item:nth-child(2) {
   --tilt: 0.3deg;
 }
@@ -345,17 +428,28 @@
   --tilt: -0.35deg;
 }
 
-/* A lift, not a press. These are not controls and must not offer the button
-   language the rest of the site uses for things you can actually operate -- the
-   post-hero links press *into* the page (translate toward the shadow), so a card
-   that moves the other way is legible as an object responding rather than as an
-   affordance being triggered.
-
-   `translate` rather than a transform, so it composes with the rotation above
-   instead of replacing it. */
-.item:hover {
+/* A lift on inspection, followed by a small physical press on activation. The
+   post-hero links press into the page; these notes lift first because they are
+   discovered objects, then settle into their visited state. */
+.item:hover,
+.item:focus-within {
   translate: -2px -2px;
   box-shadow: 8px 8px 0 var(--gate-sticker);
+}
+
+.item:active {
+  translate: 1px 1px;
+  box-shadow: 3px 3px 0 var(--gate-sticker);
+}
+
+.itemVisited {
+  border-color: var(--gate-accent);
+  box-shadow: 5px 5px 0 var(--gate-accent);
+}
+
+.itemVisited:hover,
+.itemVisited:focus-within {
+  box-shadow: 8px 8px 0 var(--gate-accent);
 }
 
 /* The title bar, filled rather than tinted.
@@ -445,6 +539,29 @@
   line-height: 0.8;
 }
 
+.itemSpark {
+  position: absolute;
+  right: var(--s4);
+  bottom: var(--s3);
+  color: var(--gate-accent);
+  font-family: var(--font-display);
+  font-size: var(--t-small);
+  line-height: 1;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.45) rotate(-18deg);
+  transition:
+    opacity 160ms var(--ease),
+    transform 220ms var(--ease);
+}
+
+.item:hover .itemSpark,
+.item:focus-within .itemSpark,
+.itemVisited .itemSpark {
+  opacity: 1;
+  transform: scale(1) rotate(12deg);
+}
+
 /* Centred in whatever height the row settles on, not hung from the title bar.
 
    The three notes are 2, 3 and 2 lines long, and the grid stretches every card
@@ -491,8 +608,9 @@
 
 /* ---------- Footer ---------- */
 
-/* The dark green field is the footer's color cut; the pink dock supplies the
-   object edge without adding another pattern or competing treatment. */
+/* The dark green field is the footer's color cut, and the dock returns to the
+   forest panel used by the original gate. The pink action pill remains the
+   thing visitors press. */
 .footer {
   min-width: 0;
   /* The dock has to have air on both sides or it is a bar wedged into a stripe
@@ -507,8 +625,8 @@
    (Nav) is already pill-shaped. Repeating the cards' radius would make the
    footer a fourth window; the pill makes it an instrument.
 
-   The two pink surfaces carry their own zero-blur pink displacement. It keeps
-   the footer playful without adding a pattern to the dark ground.
+   The dock uses the forest panel and a measured green rule. The pink action
+   pill supplies the contrast and remains the one saturated control object.
 
    One contrast note, because the token comments cannot carry it: every ratio in
    tokens.css is measured against --paper, but the colophon sits on the light
@@ -519,10 +637,10 @@
   justify-content: space-between;
   gap: var(--s5);
   padding: var(--s3) var(--s5) var(--s3) var(--s3);
-  border: 1px solid var(--gate-sticker);
+  border: 1px solid var(--rule-strong);
   border-radius: 999px;
-  background: var(--gate-sticker-soft);
-  box-shadow: 4px 4px 0 var(--gate-sticker);
+  background: var(--panel);
+  box-shadow: 4px 4px 0 var(--rule);
 }
 
 /* The way out, and now the one saturated object on the screen after the cat.
@@ -707,6 +825,123 @@
   }
 }
 
+@keyframes gate-cat-celebrate {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  35% {
+    transform: translateY(-8px) rotate(-1.5deg);
+  }
+  70% {
+    transform: translateY(-3px) rotate(1deg);
+  }
+}
+
+@keyframes gate-cat-finish {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  35% {
+    translate: 0 -6px;
+  }
+  70% {
+    translate: 0 -2px;
+  }
+}
+
+@keyframes gate-label-sparkle {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.4) rotate(0deg);
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--spark-x), var(--spark-y)) scale(1) rotate(35deg);
+  }
+}
+
+.notesComplete .cat {
+  animation: gate-cat-celebrate 700ms var(--ease) both;
+}
+
+.notesComplete .enterSpark {
+  animation: gate-spark-celebrate 700ms var(--ease) both;
+}
+
+.completionParticle {
+  --particle-x: 0px;
+  --particle-y: -18px;
+  --particle-rotate: 20deg;
+  position: absolute;
+  z-index: 2;
+  width: 6px;
+  height: 10px;
+  opacity: 0;
+  pointer-events: none;
+  background: var(--gate-accent);
+  transform: translate(0, 0) rotate(0deg) scale(0.6);
+}
+
+.completionParticleA {
+  top: 12%;
+  left: 18%;
+  --particle-x: -14px;
+  --particle-y: -18px;
+  --particle-rotate: -40deg;
+}
+
+.completionParticleB {
+  top: 2%;
+  right: 21%;
+  background: var(--gate-sticker);
+  --particle-x: 12px;
+  --particle-y: -20px;
+  --particle-rotate: 48deg;
+}
+
+.completionParticleC {
+  right: 42%;
+  bottom: 2%;
+  background: var(--gate-sticker-soft);
+  --particle-x: 5px;
+  --particle-y: 16px;
+  --particle-rotate: 24deg;
+}
+
+.notesComplete .completionParticle {
+  animation: gate-confetti 700ms var(--ease) both;
+}
+
+@keyframes gate-confetti {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(0deg) scale(0.6);
+  }
+  22% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--particle-x), var(--particle-y))
+      rotate(var(--particle-rotate)) scale(1);
+  }
+}
+
+@keyframes gate-spark-celebrate {
+  0%,
+  100% {
+    transform: translateY(-1px) rotate(0deg) scale(1);
+  }
+  45% {
+    transform: translateY(-2px) rotate(24deg) scale(1.28);
+  }
+}
+
 /* The colophon. Right-aligned against the way out so the bar has two ends rather
    than one label floating on a coloured stripe.
 
@@ -721,7 +956,7 @@
   min-width: 0;
   margin: 0;
   max-width: 64ch;
-  color: var(--gate-dark);
+  color: var(--ink-2);
   font-size: var(--t-small);
   line-height: 1.45;
   text-align: right;
@@ -837,12 +1072,10 @@
   .cat {
     height: min(200px, 24dvh);
     align-self: flex-end;
-    /* Runs to the window edge rather than stopping at the rail. A portrait
-       cutout is narrow, so at this width it sat as a small object with a third
-       of the row empty beside it; cropped at the edge the same space reads as
-       composition. The section's overflow-x: clip is what keeps this from
-       handing every phone a horizontal scrollbar. */
-    margin-right: calc(var(--gutter) * -1);
+    /* Keep the full authored cutout visible on touch screens. The desktop
+       composition can afford a crop at the edge; on a phone that turns the
+       brand mark into an accidental partial image. */
+    margin-right: 0;
   }
 
   .items {
@@ -860,6 +1093,10 @@
        the gutter -- the effect depends on the cards being side by side. */
     --tilt: 0deg;
     box-shadow: 4px 4px 0 var(--gate-sticker);
+  }
+
+  .itemVisited {
+    box-shadow: 4px 4px 0 var(--gate-accent);
   }
 
   .item:nth-child(2),
@@ -897,6 +1134,45 @@
   }
 }
 
+/* ---------- Small phones ----------
+
+   The 900px layout is also the tablet layout. This last pass is intentionally
+   narrow: it protects the 390px scene from oversized gutters and decorative
+   chrome without touching the display label's size or typewriter geometry. */
+@media (max-width: 600px) {
+  .gate {
+    --gutter: var(--s4);
+  }
+
+  .display {
+    gap: var(--s4);
+    padding-block: var(--s4) var(--s5);
+  }
+
+  .cat {
+    height: min(180px, 23dvh);
+  }
+
+  .items {
+    gap: var(--s4);
+    padding-block: var(--s4) var(--s7);
+  }
+
+  .cardSticker {
+    top: -13px;
+    right: 10px;
+  }
+
+  .dock {
+    gap: var(--s4);
+    padding: var(--s4);
+  }
+
+  .enter {
+    min-height: 48px;
+  }
+}
+
 /* The gate is a held beat, and holding someone still is exactly what a reduced-
    motion preference is asking you not to do. This stops the section from
    claiming a full screen it no longer needs, stills the arrow, and -- most
@@ -926,9 +1202,23 @@
     display: none;
   }
 
+  .labelSpark,
+  .completionParticle {
+    display: none;
+  }
+
+  .cat {
+    animation: none;
+  }
+
   .enterFlare {
     opacity: 1;
     transform: none;
+    animation: none;
+  }
+
+  .notesComplete .cat,
+  .notesComplete .enterSpark {
     animation: none;
   }
 }

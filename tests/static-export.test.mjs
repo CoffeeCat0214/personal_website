@@ -83,14 +83,14 @@ test("the gate and the site are separate documents", () => {
   assert.doesNotMatch(home, /href="\/#/, 'site links must not target "/#"');
   assert.match(home, /href="\/home\/#cremeai"/);
 
-  // And the gate's only way forward is the site.
-  assert.match(gate, /href="\/home\/?"/);
+  // And the gate's way forward lands directly on the first work act.
+  assert.match(gate, /href="\/home\/#extension"/);
+  assert.match(gate, />View my work<\/span>/);
 });
 
-/* The gate is the one section on the site whose content is gambled on a client
-   component behaving: GateLock holds the page there, and Gate itself renders no
-   copy of its own that a crawler could not reach. This asserts the opposite --
-   that the TL;DR is in the shipped HTML, not assembled after hydration.
+/* The gate is the one section on the site with a small client interaction layer,
+   but its copy must remain in the shipped HTML. This asserts the opposite --
+   that the TL;DR is in the static document, not assembled after hydration.
 
    Worth having because the failure is silent. If the gate were ever refactored
    into a client component, or its copy moved behind an effect, the page would

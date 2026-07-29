@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
-import { HOME_ROUTE, site, tldr } from "@/content";
+import { useCallback, useState } from "react";
+import { featuredProject, HOME_ROUTE, site, tldr } from "@/content";
 import styles from "./Gate.module.css";
 
 /* Optical kerning for the display label, and the reason it needs code rather
@@ -47,8 +50,9 @@ function kern(label: string, className: string) {
    earlier pass at this screen either left that half empty or narrowed the text
    to justify the emptiness. Bands fill the width by construction.
 
-   A pure server component with no client JS at all. It held a scroll lock while
-   it was the first section of the long page -- freezing the document so a
+   The gate keeps its complete server-rendered document and adds only the small
+   client layer needed for the note cards' visited state. It held a scroll lock
+   while it was the first section of the long page -- freezing the document so a
    trackpad flick could not skip it. Becoming its own route deleted that problem
    rather than solving it: there is nothing below the gate to scroll to, so
    leaving is a navigation the visitor chooses.
@@ -66,8 +70,26 @@ function kern(label: string, className: string) {
    arrive reads as something that failed to load rather than as an entrance. */
 
 export function Gate() {
+  const [visitedNotes, setVisitedNotes] = useState<Set<number>>(new Set());
+
+  const visitNote = useCallback((index: number) => {
+    setVisitedNotes((current) => {
+      if (current.has(index)) return current;
+
+      const next = new Set(current);
+      next.add(index);
+      return next;
+    });
+  }, []);
+
+  const notesComplete = visitedNotes.size === tldr.items.length;
+
   return (
-    <section id="top" className={`${styles.gate} tone-sage`} data-tone="sage">
+    <section
+      id="top"
+      className={`${styles.gate} tone-sage${notesComplete ? ` ${styles.notesComplete}` : ""}`}
+      data-tone="sage"
+    >
       <header className={`${styles.rail} ${styles.masthead}`}>
         <p className={styles.name}>{site.name}</p>
         <p className={styles.meta}>
@@ -87,6 +109,9 @@ export function Gate() {
               disagree with the JSON-LD description. Its size here is a visual
               decision, not a semantic promotion. */}
           <p className={styles.label}>{kern(tldr.label, styles.punct)}</p>
+          <span className={`${styles.labelSpark} ${styles.labelSparkA}`} aria-hidden="true">✦</span>
+          <span className={`${styles.labelSpark} ${styles.labelSparkB}`} aria-hidden="true">✦</span>
+          <span className={`${styles.labelSpark} ${styles.labelSparkC}`} aria-hidden="true">✦</span>
           <h1 className={styles.heading}>{tldr.heading}</h1>
         </div>
 
@@ -144,25 +169,37 @@ export function Gate() {
           <ol>, which is the whole reason this is one. */}
       <ol className={`${styles.rail} ${styles.items}`}>
         {tldr.items.map((runs, index) => (
-          <li key={index} className={styles.item}>
-            <div className={styles.itemBar} aria-hidden="true">
-              <span className={styles.itemIndex} />
-            </div>
-            <span className={styles.cardSticker} aria-hidden="true">
-              <span className={styles.cardStickerStar}>✦</span>
-              <span>cat note</span>
-            </span>
-            <p className={styles.itemBody}>
-              {runs.map((run, runIndex) =>
-                run.emphasis ? (
-                  <strong key={runIndex} className={styles.emphasis}>
-                    {run.text}
-                  </strong>
-                ) : (
-                  <span key={runIndex}>{run.text}</span>
-                )
-              )}
-            </p>
+          <li
+            key={index}
+            className={`${styles.item}${visitedNotes.has(index) ? ` ${styles.itemVisited}` : ""}`}
+          >
+            <button
+              type="button"
+              className={styles.itemButton}
+              aria-pressed={visitedNotes.has(index)}
+              onFocus={() => visitNote(index)}
+              onClick={() => visitNote(index)}
+            >
+              <div className={styles.itemBar} aria-hidden="true">
+                <span className={styles.itemIndex} />
+              </div>
+              <span className={styles.cardSticker} aria-hidden="true">
+                <span className={styles.cardStickerStar}>✦</span>
+                <span>cat note</span>
+              </span>
+              <p className={styles.itemBody}>
+                {runs.map((run, runIndex) =>
+                  run.emphasis ? (
+                    <strong key={runIndex} className={styles.emphasis}>
+                      {run.text}
+                    </strong>
+                  ) : (
+                    <span key={runIndex}>{run.text}</span>
+                  )
+                )}
+              </p>
+              <span className={styles.itemSpark} aria-hidden="true">✦</span>
+            </button>
           </li>
         ))}
       </ol>
@@ -188,12 +225,17 @@ export function Gate() {
               spent on hiding its one cost.
 
               The label names the destination rather than making the visitor
-              infer whether this scrolls or navigates. The sparkle treatment is
-              decorative; the accessible name is the action. */}
+              infer whether this scrolls or navigates. It lands on the first
+              project act, so the way out is also a direct invitation to see the
+              work. The sparkle treatment is decorative; the accessible name is
+              the action. */}
           <span className={styles.enterBling}>
-            <Link className={`${styles.enter} ${styles.shimmer}`} href={HOME_ROUTE}>
+            <Link
+              className={`${styles.enter} ${styles.shimmer}`}
+              href={`${HOME_ROUTE}#${featuredProject.homeAnchorId}`}
+            >
               <span className={styles.enterSpark} aria-hidden="true">✦</span>
-              <span>Open the portfolio</span>
+              <span>View my work</span>
               <span className={styles.arrow} aria-hidden="true">↗</span>
             </Link>
             <span
@@ -208,6 +250,18 @@ export function Gate() {
             >
               ✦
             </span>
+            <span
+              className={`${styles.completionParticle} ${styles.completionParticleA}`}
+              aria-hidden="true"
+            />
+            <span
+              className={`${styles.completionParticle} ${styles.completionParticleB}`}
+              aria-hidden="true"
+            />
+            <span
+              className={`${styles.completionParticle} ${styles.completionParticleC}`}
+              aria-hidden="true"
+            />
           </span>
 
           <p className={styles.closer}>{tldr.closer}</p>
