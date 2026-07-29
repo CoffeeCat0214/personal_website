@@ -52,7 +52,9 @@ test("home page export contains core anchors and assets", () => {
   assert.match(html, /Hero_[^\"]+ tone-pink/);
   assert.match(html, /View CoffeeCat/);
   assert.match(html, /Request path/);
-  assert.match(html, /Start focus/);
+  for (const control of ["15", "25", "50", "Start focus", "Reset"]) {
+    assert.match(html, new RegExp(control));
+  }
   assert.match(html, /class="Confetti_[^"]+" aria-hidden="true"/);
   assert.doesNotMatch(html, /Testing/);
   assert.doesNotMatch(html, /whether a tool can be genuinely useful/);
@@ -83,8 +85,8 @@ test("the gate and the site are separate documents", () => {
   assert.doesNotMatch(home, /href="\/#/, 'site links must not target "/#"');
   assert.match(home, /href="\/home\/#cremeai"/);
 
-  // And the gate's way forward lands directly on the first work act.
-  assert.match(gate, /href="\/home\/#extension"/);
+  // And the gate's way forward opens the portfolio at its top-level introduction.
+  assert.match(gate, /href="\/home\/?"/);
   assert.match(gate, />View my work<\/span>/);
 });
 

@@ -38,6 +38,16 @@ export function FocusTimer() {
     setRunning(false);
   };
 
+  const toggleRunning = () => {
+    if (secondsLeft === 0) {
+      setSecondsLeft(duration);
+      setRunning(true);
+      return;
+    }
+
+    setRunning((value) => !value);
+  };
+
   const minutes = Math.floor(secondsLeft / 60).toString().padStart(2, "0");
   const seconds = (secondsLeft % 60).toString().padStart(2, "0");
   const progress = ((duration - secondsLeft) / duration) * 100;
@@ -47,7 +57,7 @@ export function FocusTimer() {
     <section className={styles.timer} aria-labelledby="focus-timer-title" data-reveal>
       <div className={styles.timerHeader}>
         <p className={styles.label}>Try it / local demo</p>
-        <span className={styles.status}>{status}</span>
+        <span className={styles.status} aria-live="polite">{status}</span>
       </div>
       <div className={styles.readout}>
         <p id="focus-timer-title">Focus, right here.</p>
@@ -73,7 +83,7 @@ export function FocusTimer() {
           ))}
         </div>
         <div className={styles.actions}>
-          <button type="button" onClick={() => setRunning((value) => !value)}>
+          <button type="button" onClick={toggleRunning}>
             {running ? "Pause" : secondsLeft === 0 ? "Restart" : "Start focus"}
           </button>
           <button type="button" className={styles.reset} onClick={reset}>Reset</button>

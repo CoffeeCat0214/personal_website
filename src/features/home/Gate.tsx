@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useState } from "react";
-import { featuredProject, HOME_ROUTE, site, tldr } from "@/content";
+import { HOME_ROUTE, site, tldr } from "@/content";
 import styles from "./Gate.module.css";
 
 /* Optical kerning for the display label, and the reason it needs code rather
@@ -225,14 +225,13 @@ export function Gate() {
               spent on hiding its one cost.
 
               The label names the destination rather than making the visitor
-              infer whether this scrolls or navigates. It lands on the first
-              project act, so the way out is also a direct invitation to see the
-              work. The sparkle treatment is decorative; the accessible name is
-              the action. */}
+              infer whether this scrolls or navigates. It opens the portfolio
+              at its top-level introduction. The sparkle treatment is
+              decorative; the accessible name is the action. */}
           <span className={styles.enterBling}>
             <Link
               className={`${styles.enter} ${styles.shimmer}`}
-              href={`${HOME_ROUTE}#${featuredProject.homeAnchorId}`}
+              href={HOME_ROUTE}
             >
               <span className={styles.enterSpark} aria-hidden="true">✦</span>
               <span>View my work</span>
