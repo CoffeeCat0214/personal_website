@@ -173,10 +173,19 @@ export function MailWindow({ email }: { email: string }) {
 
      Without JS the browser submits the form natively: for a `mailto:` action
      with method="get", the HTML spec replaces the URL's query with the
-     serialized form data, so the hidden subject and the textarea both survive.
-     That path is application/x-www-form-urlencoded, which spells a space as
-     "+" -- most clients still read it as a space, and the visitor reviews the
-     draft in their own mail app before sending either way.
+     serialized form data, so both fields survive. Captured from a real browser
+     with scripting off, that path produces
+
+       mailto:…?subject=Hello+from+your+site&body=no+script+here
+
+     because native submission is application/x-www-form-urlencoded, which
+     spells a space as "+". RFC 6068 gives "+" no special meaning in a mailto
+     query, so a strict client renders those plus signs literally -- macOS Mail
+     does. This is a real degradation, not a non-issue, and it is accepted
+     rather than fixed because there is no way to make a native form submission
+     percent-encode: the alternative is dropping the field names so a no-JS
+     visitor gets a blank draft instead of a slightly ugly one. They review it
+     in their own mail app before sending either way.
 
      With JS we build the URL in composeMailto instead, which percent-encodes
      per RFC 6068. Same control, no second button, no dead affordance.

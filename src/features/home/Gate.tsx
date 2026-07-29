@@ -147,12 +147,11 @@ export function Gate() {
           <li key={index} className={styles.item}>
             <div className={styles.itemBar} aria-hidden="true">
               <span className={styles.itemIndex} />
-              <span className={styles.dots}>
-                <span className={styles.dot} />
-                <span className={styles.dot} />
-                <span className={styles.dot} />
-              </span>
             </div>
+            <span className={styles.cardSticker} aria-hidden="true">
+              <span className={styles.cardStickerStar}>✦</span>
+              <span>cat note</span>
+            </span>
             <p className={styles.itemBody}>
               {runs.map((run, runIndex) =>
                 run.emphasis ? (
@@ -168,34 +167,19 @@ export function Gate() {
         ))}
       </ol>
 
-      {/* The one colour cut on the screen, and the site's own doctrine is why it
-          needs no rule above it: when a band paints its own full-bleed ground the
-          colour change IS the boundary. It also does the thing the flat version
-          of this page could not -- the way out stops being the smallest text on
-          the screen and becomes the base the composition stands on.
-
-          tone-forest re-points --paper/--ink for this subtree, so the link and
-          the colophon inherit sage-on-forest without either one declaring a
-          colour of its own. */}
+      {/* The way out returns to the dark green anchor established by TL;DR. The
+          two rounded surfaces stay pink, so the footer still belongs to this
+          page rather than becoming a second button system. */}
       <div className={`${styles.footer} tone-forest`} data-tone="forest">
         {/* A dock on a desktop, which is the whole idea of this band now.
 
-            The forest ground carries a faint sage dot-grid, so it reads as a
-            surface something is sitting on rather than as a stripe of paint with
-            two pieces of text on it; the bar floats on that surface with its own
-            fill, its own hairline and its own footprint. It is the same argument
-            the columns above make, in the one place on this page that could not
-            use the same answer: a displaced ink shadow is invisible on a dark
-            ground, because on forest --ink IS the light colour. The lift here is
-            a fill change and a displacement at hairline strength instead --
-            still zero-blur, just the only weight this ground can carry.
+            The dark ground is intentionally quiet: the large pink oval floats
+            on it with its own hairline and footprint. There is no extra pattern
+            competing with the button or the cat.
 
             The way out is the one saturated object on the screen after the cat --
-            filled sage, forest label -- which is the system's control doctrine
-            (fill = --ink, label = --paper) and inherits the ground's body-text
-            ratio for free. Its shadow is the ginger already declared as this
-            palette's one theme-constant colour, because a sage shadow under a
-            sage button would just make the button taller. */}
+            pink on pink, dark ink label -- with a lilac displacement instead of
+            orange. */}
         <div className={`${styles.rail} ${styles.dock}`}>
           {/* next/link, so the site is prefetched while the visitor is still
               reading. The gate is a page someone sits on for a few seconds,
@@ -203,15 +187,28 @@ export function Gate() {
               ask for it -- the one advantage a separate route has over a scroll,
               spent on hiding its one cost.
 
-              The arrow is decorative; the accessible name is the word. */}
-          <Link className={styles.enter} href={HOME_ROUTE}>
-            See the work
-            <span className={styles.arrow} aria-hidden="true">
-              →
+              The label names the destination rather than making the visitor
+              infer whether this scrolls or navigates. The sparkle treatment is
+              decorative; the accessible name is the action. */}
+          <span className={styles.enterBling}>
+            <Link className={`${styles.enter} ${styles.shimmer}`} href={HOME_ROUTE}>
+              <span className={styles.enterSpark} aria-hidden="true">✦</span>
+              <span>Open the portfolio</span>
+              <span className={styles.arrow} aria-hidden="true">↗</span>
+            </Link>
+            <span
+              className={`${styles.enterFlare} ${styles.enterFlareA}`}
+              aria-hidden="true"
+            >
+              ✦
             </span>
-          </Link>
-
-          <span className={styles.dockRule} aria-hidden="true" />
+            <span
+              className={`${styles.enterFlare} ${styles.enterFlareB}`}
+              aria-hidden="true"
+            >
+              ✦
+            </span>
+          </span>
 
           <p className={styles.closer}>{tldr.closer}</p>
         </div>
