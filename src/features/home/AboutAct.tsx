@@ -17,18 +17,9 @@ export function AboutAct({ section }: { section: AboutSection }) {
       eyebrow={section.eyebrow}
       tone={section.tone}
     >
-      {/* Two blocks, not four.
-
-          This act used to run: a framed intro pair, then a "Working rule"
-          motto, then a "Selected context" index, then a "Capability index" of
-          fourteen skills in four columns. Only the first of those was framed --
-          everything after it was headings and lists sitting on bare purple with
-          hairlines, so the act opened confidently and then dissolved into raw
-          text on the ground.
-
-          The two survivors both carry a surface. The motto folds into the copy
-          panel it was already paraphrasing, and the skills collapse into one
-          strip at the foot of the record. Same claims, two objects. */}
+      {/* Two blocks, both carrying a surface. Headings and lists sitting on the
+          bare ground read as raw text rather than as composition, so everything
+          in this act belongs to either the intro panel or the record panel. */}
       <div className={styles.intro} data-reveal>
         <div className={styles.introCopy}>
           <div className={styles.introHead}>
@@ -39,11 +30,9 @@ export function AboutAct({ section }: { section: AboutSection }) {
             <p>{experience}</p>
             <p>{focus}</p>
           </div>
-          {/* The motto, which had its own full-width section and its own label.
-              It is a closing line, not a chapter -- and the GLAM/GRIND marquee
-              band plus the nav's MODE toggle already state the philosophy as a
-              property of the page. Sitting it at the foot of this panel mirrors
-              the stamp's caption opposite, so both panels close the same way. */}
+          {/* A closing line, not a chapter: the nav's Mode toggle already states
+              the philosophy as a property of the page. Sitting it at the foot of
+              this panel mirrors the stamp's caption opposite. */}
           <p className={styles.creed}>{motto}</p>
         </div>
         <aside className={styles.stamp} aria-label="Studio note">
@@ -57,10 +46,8 @@ export function AboutAct({ section }: { section: AboutSection }) {
           <p className={styles.stampCaption}>{cats}</p>
         </aside>
       </div>
-      {/* The résumé, as one object: heading, the entries, and the working set
-          on the same surface. Previously these were two sections separated by a
-          3px rule, each with its own kicker and its own h3 -- two nameplates for
-          what a reader experiences as one question, "what has she done". */}
+      {/* The résumé as one object: heading, entries and working set on the same
+          surface, because a reader experiences them as one question. */}
       <section className={styles.record} aria-labelledby="background-heading" data-reveal>
         <div className={styles.recordHead}>
           <div>
@@ -70,14 +57,10 @@ export function AboutAct({ section }: { section: AboutSection }) {
           <span className={styles.sectionIndex}>01—02</span>
         </div>
         <IndexList entries={background} />
-        {/* Fourteen keywords, one line, no heading of its own.
-
-            As a four-column grid under a third-level heading and an explanatory
-            sentence, this was three pieces of chrome around a word list -- and
-            the list mostly restated the entry above it, which already names
-            Spark, AWS, microservices, observability and test-driven delivery in
-            prose. The keywords still earn their place for anyone scanning for
-            them; the section around them did not. */}
+        {/* Keywords in one strip, with a kicker rather than a heading of its
+            own. The entry above already names Spark, AWS, microservices and
+            observability in prose; this exists for people scanning for the
+            words, which does not justify a section around it. */}
         <div className={styles.workingSet}>
           <p className={styles.kicker}>Working set</p>
           <ul className={styles.skillLine}>

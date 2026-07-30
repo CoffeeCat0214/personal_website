@@ -9,9 +9,9 @@
     "test": "tsc -p tsconfig.test.json && node --test .test-output/tests/*.js",
     "test:e2e": "npm run build && node --test tests/static-export.test.mjs",
     "lint": "next lint",
+    "verify": "npm run lint && npm run typecheck && npm run test && npm run test:e2e",
     "serve": "npx --yes serve out",
-    "deploy:s3": "./deploy-to-s3.sh",
-    "deploy:gh-pages": "rm -rf out && npm run build && cd out && touch .nojekyll && git init && git add . && git commit -m \"Deploy to GitHub Pages\" && git branch -M gh-pages && git push -f origin gh-pages"
+    "deploy:s3": "./deploy-to-s3.sh"
   },
   "dependencies": {
     "gsap": "^3.15.0",

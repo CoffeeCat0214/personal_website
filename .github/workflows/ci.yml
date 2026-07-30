@@ -1,0 +1,44 @@
+name: CI
+
+# Deployment is handled by Cloudflare Pages' own git integration (see
+# docs/hosting.md). This workflow is the gate in front of it: Pages will happily
+# publish a build that fails typecheck, so the checks have to run here.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      # `npm ci` rather than `npm install`: it installs exactly the lockfile and
+      # fails if package.json and the lock have drifted, which is the whole point
+      # of running this in CI rather than trusting a local install.
+      - run: npm ci
+
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+
+      # Builds the static export, then asserts against the emitted HTML: routes
+      # exist as directory indexes, metadata routes render, anchors resolve.
+      - run: npm run test:e2e
+        env:
+          NEXT_PUBLIC_SITE_URL: https://kyrstinkauchak.com

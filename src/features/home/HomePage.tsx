@@ -19,9 +19,6 @@ function renderSection(section: HomeSection) {
   switch (section.kind) {
     case "hero":
       return <Hero key={section.id} />;
-    case "runner":
-    case "panel":
-      return null;
     case "act":
       switch (section.act) {
         case "flagship":

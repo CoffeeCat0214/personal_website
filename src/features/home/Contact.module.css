@@ -125,15 +125,11 @@
   text-transform: uppercase;
 }
 
-/* --t-small, not --t-post-h3 and not --t-body.
-
-   These handles started at h3, where a LinkedIn slug outsized the address the
-   act exists to hand over. Dropping them to --t-body only tied it: the address
-   clamps between 17px and 20px, so at every width below 1280 the two sat at the
-   same size and the handles won on weight and underline. A secondary value has
-   to be a step *under* the primary one at the primary's floor, not at its
-   ceiling -- otherwise the hierarchy holds on a wide monitor and inverts on a
-   laptop, which is the failure mode nobody catches because nobody resizes. */
+/* --t-small, not --t-body. The address clamps between 17px and 20px, so at
+   --t-body these handles tie it at every width below 1280 and then win on weight
+   and underline. A secondary value has to sit a step under the primary at the
+   primary's *floor*, not at its ceiling -- otherwise the hierarchy holds on a
+   wide monitor and inverts on a laptop. */
 .value {
   min-width: 0;
   margin: 0;
@@ -150,10 +146,22 @@
 }
 
 .value a {
+  position: relative;
   color: inherit;
   text-decoration: none;
   border-bottom: 1px solid var(--rule-strong);
   transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+/* These handles are ~20px tall, which is half the 44px a thumb needs. Padding
+   would work for the target and ruin the underline -- the border would drift a
+   dozen pixels below the word it belongs to. An overlay expands the hit area
+   without touching layout or the rule. The rows are 56px, so ±12px stays inside
+   the band and no two links can overlap. */
+.value a::after {
+  content: "";
+  position: absolute;
+  inset: -12px 0;
 }
 
 .value a:hover {

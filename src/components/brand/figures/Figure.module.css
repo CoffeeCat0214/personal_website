@@ -220,9 +220,26 @@
   30%           { opacity: 1; }
 }
 
+/* The stage gets taller as the viewport gets narrower, which is the opposite of
+   the usual instinct and is what the content requires.
+
+   `.panel` is inset-absolute, so its height is the stage's minus the insets --
+   it never grows to fit. Every pixel the viewport loses in width, the thread and
+   the diff regain in wrapped lines, so a fixed stage that fits at 1280 slices a
+   line in half at 768 and a whole bubble at 320. A figure that is decorative may
+   be cropped; one cut off mid-word just looks broken.
+
+   These floors are measured against the real wrapped content, not guessed. If
+   the thread copy or the diff gains a line, re-measure. */
+@media (max-width: 900px) {
+  .stage {
+    min-height: 460px;
+  }
+}
+
 @media (max-width: 640px) {
   .stage {
-    min-height: 320px;
+    min-height: 470px;
   }
 
   .panel {
@@ -232,6 +249,19 @@
     bottom: var(--s4);
     padding: var(--s4);
     font-size: 12px;
+  }
+
+  /* Wider bubbles at this measure: 78% of a 320px panel is 250px, which wraps
+     a short question onto three lines and is what pushed the thread past the
+     panel in the first place. */
+  .bubble {
+    max-width: 88%;
+  }
+}
+
+@media (max-width: 380px) {
+  .stage {
+    min-height: 530px;
   }
 }
 

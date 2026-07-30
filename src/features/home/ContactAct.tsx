@@ -36,11 +36,10 @@ export function ContactAct({ section }: { section: ContactSection }) {
             <h2 data-split>{contact.heading}</h2>
             <p className={styles.lede}>{contact.body}</p>
           </div>
-          {/* An index inside the panel, not three more framed slabs. The panel
-              is already the frame; re-framing each row made a nineteen-character
-              handle and a two-word city into objects the same size as the thing
-              this act exists for. Hairlines separate them now, which is the
-              weight a list of secondary destinations should carry. */}
+          {/* An index inside the panel, not three more framed slabs: the panel
+              is already the frame, and hairlines are the weight a list of
+              secondary destinations should carry next to the address this act
+              exists to hand over. */}
           <dl className={styles.channels}>
             <div className={styles.row}>
               <dt className={styles.key}>GitHub</dt>

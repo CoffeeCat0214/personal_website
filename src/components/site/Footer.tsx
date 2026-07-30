@@ -6,21 +6,14 @@ export function Footer() {
     <footer className={styles.footer}>
       <div className={`wrap ${styles.inner}`}>
         <span className={styles.mark}>{site.name}</span>
-        {/* The masthead is the person now, so "Built by <name>" here would be
-            the third printing of the same name on one screen -- h1, this mark,
-            and then the line below it. The role carries the attribution
-            instead, and the place and year still do the colophon's job. */}
+        {/* The role, not "Built by <name>": the name is already the h1 and the
+            mark above, and a third printing on one screen is not attribution. */}
         <p className={styles.meta}>
           {site.kind} · {site.location} · {new Date().getFullYear()}
         </p>
-        {/* A colophon that describes the old palette is worse than no colophon:
-            it is the one paragraph on the page claiming the design was
-            deliberate. Five grounds now, not six colours. */}
-        {/* Kept honest as the build changes. This claimed the site had no
-            runtime dependencies at all, which stopped being true the moment the
-            motion layer landed -- and a colophon that describes a build the page
-            no longer has is worse than none, because it is the one paragraph
-            asserting the whole thing was deliberate. */}
+        {/* This paragraph is the one place the page claims its own design was
+            deliberate, so it has to stay true as the build changes. If the type,
+            the palette or the motion layer move, this moves with them. */}
         <small className={styles.colophon}>
           Set in Inter, Courier Prime and Geist Mono, self-hosted — a heavy
           grotesque for the big ideas, a typewriter voice for the build notes,

@@ -8,16 +8,12 @@ import { SystemPulse } from "./SystemPulse";
 import caseStyles from "./Case.module.css";
 import styles from "./Work.module.css";
 
-/* One supporting project, in one act. CoffeeCat is the flagship above; CrèmeAI
-   is the one additional project carried in the public index. CodeHuskAI stays
-   in the catalog for old links but is intentionally not promoted here.
+/* The supporting projects, in one act. CoffeeCat is the flagship above;
+   CodeHuskAI stays in the catalog for old links but is not promoted here.
 
-   Each tool is an <article> because it is independently meaningful; the act's
-   h2 names the group and each tool's h3 sits under it, so the heading order
-   still describes the structure.
-
-   The anchor is the project name so the homepage CTA and case-study return link
-   land on the same place. */
+   Each tool is an <article> because it is independently meaningful: the act's h2
+   names the group and each tool's h3 sits under it, so the heading order
+   describes the structure. */
 type WorkSection = Extract<HomeSection, { kind: "act"; act: "work" }>;
 
 export function WorkAct({ section }: { section: WorkSection }) {

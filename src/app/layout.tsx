@@ -43,15 +43,12 @@ export const metadata: Metadata = {
   },
 };
 
-/* Person, not Organization. This was an Organization with a `founder` because
-   the masthead was a studio; the masthead is a person now, and structured data
-   that disagrees with the page it describes is worse than none -- it is the one
-   claim a crawler takes at face value.
+/* Person, not Organization: the masthead is a person, and structured data that
+   disagrees with the page it describes is worse than none.
 
    `jobTitle` carries site.kind so the role a reader sees in the eyebrow is the
-   same string a crawler reads. If a SoftwareApplication entity for the CoffeeCat
-   extension is ever added, it needs its own node linked from here rather than
-   fields bolted onto this one. */
+   same string a crawler reads. A SoftwareApplication entity for CoffeeCat would
+   need its own node linked from here, not extra fields bolted onto this one. */
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
@@ -97,12 +94,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      {/* No nav, footer, skip link or <main> here any more -- they belong to
-          (site)/layout.tsx, so that "/" can be the gate and nothing else. What
-          stays is what genuinely is global: the document, the tokens and fonts
-          imported above, and the motion layer, which has to be mounted for both
-          routes because the reveal system applies its hidden state at runtime
-          and a route without it would strand any [data-reveal] element it met. */}
+      {/* Nav, footer, skip link and <main> belong to (site)/layout.tsx so that
+          "/" can be the gate and nothing else. What stays here is what is
+          genuinely global: the document, the tokens and fonts above, and the
+          motion layer -- which must mount on both routes, because the reveal
+          system applies its hidden state at runtime and a route without it would
+          strand every [data-reveal] element permanently invisible. */}
       <body>
         {children}
         <Reveal />

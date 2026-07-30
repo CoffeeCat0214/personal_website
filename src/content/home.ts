@@ -1,35 +1,15 @@
 import { featuredProject } from "./projects";
-import type {
-  BackgroundEntry,
-  HeroFact,
-  HomeSection,
-  MarkPanel,
-  RouteNavItem,
-  Runner,
-  Tldr,
-} from "./types";
+import type { BackgroundEntry, HeroFact, HomeSection, RouteNavItem, Tldr } from "./types";
 import { HOME_ROUTE } from "./types";
 
-/* The entry gate's copy. Transcribed verbatim -- punctuation, the curly
-   apostrophe, and the emphasis on "Glam & Grind" are all as written, and this
-   block is not to be paraphrased or tightened without her saying so.
+/* The entry gate's copy, transcribed verbatim: punctuation, the curly
+   apostrophe, and the emphasis on "Glam & Grind" are all as written. Not to be
+   paraphrased or tightened without Kyrstin's say-so.
 
-   `heading` is deliberately the same sentence as `about.heading` below. That
-   duplication is real and currently ships the same line as both the page's <h1>
-   and the About act's <h2>; it is left standing rather than silently resolved,
-   because deciding which of the two slots keeps it is a content call. Worth
-   settling in the next pass over the page flow.
-
-   Note also that item 1 says "into reality beyond the terminal" while
-   site.tagline says "into life beyond the terminal". Both are verbatim from
-   their own sources and the divergence is intentional -- do not "fix" one to
-   match the other.
-
-   Annotated rather than `as const satisfies`, for the same reason heroFacts
-   above is: only one run carries `emphasis`, so under `as const` the run type
-   is a union of shapes and most of them have no such property -- reading
-   `run.emphasis` in the component does not compile. Widening to Tldr makes the
-   optional field optional at the point it is read. */
+   Annotated `Tldr` rather than `as const satisfies`, for the same reason
+   heroFacts below is: only one run carries `emphasis`, so under `as const` the
+   run type becomes a union of shapes and most members have no such property --
+   reading `run.emphasis` in the component then does not compile. */
 export const tldr: Tldr = {
   label: "TL;DR",
   heading: "(Building a meaningful life)",
@@ -50,49 +30,27 @@ export const tldr: Tldr = {
       { text: " is the philosophy behind the work." },
     ],
   ],
-  closer: "I like catalyzing elegant solutions to big-brain problems. Good coffee, too.",
+  closer: "I like catalyzing elegant solutions to big-brain problems. Good coffee, too. ☕",
 };
 
-/* The second line stays whatever else changes around it. Every project carries a
-   required `tests` field that renders as "TESTING ...", and that device only
-   reads as deliberate if something up top establishes the experiment framing;
-   without it, each project page looks like it is hedging about its own value.
-
-   The first line carries the positioning claim, and lands on the same word
-   CodeHuskAI's hypothesis already uses -- trust. That is the actual hard part of
-   agentic work, and naming it is more specific than naming the technology. */
+/* An array because the hero renders each entry as its own display line. One
+   line today; the shape is what lets a second be added without touching Hero. */
 export const hero = {
-  statement: [
-    "Small tools for people who think in systems.",
-  ],
+  statement: ["Small tools for people who think in systems."],
 } as const;
 
-/* Three cells, and this row used to live inline in Hero.tsx -- copy outside the
-   content module, which is the drift this module exists to catch.
-
-   "Built by -> Kyrstin Kauchak" was one of them and is gone: it restated the h1
-   sitting directly above it. The freed cell states the philosophy as a label,
-   which is the whole of what the page needs to say about it. Naming it here and
-   running it as a marquee band is enough; a paragraph explaining it would be
-   the thing to avoid.
-
-   Annotated rather than `as const satisfies`, unlike the other content arrays.
-   Only one cell carries `status`, so under `as const` the array's element type
-   is a union of three shapes and two of them have no such property -- reading
-   `fact.status` in the component would not compile. Widening to HeroFact makes
-   the optional field optional at the point it is read. */
+/* Annotated `readonly HeroFact[]` rather than `as const satisfies`, unlike the
+   other content arrays: only one cell carries `status`, so under `as const` the
+   element type is a union of three shapes and two of them have no such property,
+   which makes `fact.status` in the component a type error. */
 export const heroFacts: readonly HeroFact[] = [
   { key: "Extension", value: "CoffeeCat", status: true },
   { key: "Service", value: "CrèmeAI" },
   { key: "Based in", value: "New York" },
 ];
 
-/* The heading was "Kyrstin Kauchak." -- redundant now that the name is the h1,
-   so her own line takes the slot.
-
-   The cats are here as biography and as the source of the site's artwork. That
-   is deliberately not the same as the story-world branding that was cut: a fact
-   about the person, not an IP to build a media property on. */
+/* AboutAct destructures `body` positionally as [experience, focus, cats, motto].
+   Reordering these four lines reassigns them to different slots in the layout. */
 export const about = {
   heading: "The short version.",
   body: [
@@ -103,7 +61,6 @@ export const about = {
   ],
 } as const;
 
-/* Hardcoded in WorkAct.tsx until now, same drift as the hero fact row. */
 export const work = {
   heading: "One more thing.",
 } as const;
@@ -126,9 +83,8 @@ export const background = [
 ] as const satisfies readonly BackgroundEntry[];
 
 /* Ordered, not alphabetical. The masthead claims agentic systems, so the list
-   has to open on that claim -- it read `Java, Scala` first, which is a different
-   engineer than the one the hero describes. Nothing added: the ordering is the
-   only honest lever here, since the skills themselves have not changed. */
+   opens on that claim; a reader scanning the first three entries should meet the
+   same engineer the hero describes. */
 export const skills = [
   "Agents",
   "LLM Systems",
@@ -146,51 +102,13 @@ export const skills = [
   "Data Systems",
 ] as const;
 
-/* `skillGroups` used to live here -- four editorial groupings that rendered as
-   a four-column capability index in the About act. The act now runs the flat
-   list above as a single strip, so the groupings had no consumer and are gone
-   rather than left as content nothing reads. The ordering in `skills` is what
-   survived and it is still load-bearing: it opens on the claim the masthead
-   makes. */
-
 export const contact = {
   heading: "Say hello.",
   body: "Email is fastest.",
 } as const;
 
-export const markPanels = {
-  extension: { id: "panel-extension", tone: "lilac", line: "It can't read your pages" },
-  work: { id: "panel-work", tone: "orange", line: "Every project is an experiment" },
-} as const satisfies Record<string, MarkPanel>;
-
-export const runners = {
-  landing: {
-    id: "runner-landing",
-    phrases: ["Glam", "Grind"],
-    tone: "forest",
-  },
-  agency: {
-    id: "runner-agency",
-    phrases: ["More capable", "Not more occupied"],
-    tone: "orange",
-  },
-  /* Two single words, alternating: GLAM GRIND GLAM GRIND. The philosophy as a
-     property of the page rather than as a paragraph arguing for it -- same
-     principle as the required `tests` field on every project.
-
-     The id stays `runner-hours` even though the phrases no longer refer to
-     hours. It is not user-visible, and the content invariants test asserts that
-     section ids are unique, not that they are descriptive.
-
-     The displaced "Pipelines by day / Tools at night" moved into about.body,
-     where a fact about her schedule belongs. */
-  about: {
-    id: "runner-hours",
-    phrases: ["Glam", "Grind"],
-    tone: "lilac",
-  },
-} as const satisfies Record<string, Runner>;
-
+/* Order is the page order. `homeNavSections` and `navSections` below are derived
+   from this, so the nav and the document can never disagree about what exists. */
 export const homeSections = [
   { kind: "hero", id: "top" },
   {
@@ -200,9 +118,8 @@ export const homeSections = [
     navLabel: "Extension",
     number: "01",
     eyebrow: featuredProject.eyebrow,
-    /* The hero owns the pink ground; the first project needs to cut to a new
-       ground so the work begins as a distinct chapter instead of extending
-       the masthead. */
+    /* The hero owns pink, so the first act cuts to a new ground and the work
+       reads as a chapter rather than as a continuation of the masthead. */
     tone: "sage",
   },
   {

@@ -21,7 +21,7 @@ export function FlagshipAct({ section }: { section: FlagshipSection }) {
       number={section.number}
       eyebrow={section.eyebrow}
       tone={section.tone}
-      >
+    >
       <div className={styles.projectHead} data-reveal>
         <p className={caseStyles.beatLabel}>{project.eyebrow}</p>
         <h2>{project.title}</h2>

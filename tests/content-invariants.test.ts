@@ -69,7 +69,6 @@ test("tones only appear on legal surfaces", () => {
     if (section.kind === "act") {
       assert.equal(contentTones.has(section.tone), true, `${section.id} uses ${section.tone}`);
     }
-
   }
 
   for (const project of projects) {

@@ -123,14 +123,9 @@
   letter-spacing: -0.025em;
 }
 
-/* The record: heading, entries and working set on one surface.
-
-   This replaces `.motto`, `.indexSection`/`.sectionHeader` and
-   `.capabilities`/`.skillGroups` -- three blocks that between them owned two
-   hairline `border-block` rules, one 3px `border-top`, and no background at
-   all. On a saturated ground an unbacked block does not read as restraint, it
-   reads as content that has not been laid out yet, which is what put raw type
-   directly on the purple for two thirds of this act. */
+/* The record: heading, entries and working set on one surface. On a saturated
+   ground an unbacked block does not read as restraint -- it reads as content
+   that has not been laid out yet, so everything in this act carries a panel. */
 .record {
   display: grid;
   min-width: 0;
@@ -167,9 +162,9 @@
   white-space: nowrap;
 }
 
-/* Same two-column figure the old motto used -- a mono label against a flowing
-   right column. Keeping that rhythm is what lets the strip read as a row of
-   the record above it rather than as a fourth section wearing a disguise. */
+/* A mono label against a flowing right column -- the same two-column figure the
+   record's own rows use, so the strip reads as one more row rather than as a
+   separate section wearing a disguise. */
 .workingSet {
   display: grid;
   grid-template-columns: minmax(120px, 0.2fr) minmax(0, 1fr);
@@ -223,30 +218,6 @@
   }
 }
 
-.group ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.group li {
-  display: flex;
-  align-items: baseline;
-  gap: var(--s3);
-  padding-block: var(--s2);
-  border-bottom: 1px solid var(--rule);
-  color: var(--ink);
-  font-size: var(--t-post-body);
-  line-height: 1.4;
-}
-
-.group li span {
-  flex: 0 0 auto;
-  color: var(--accent-bright);
-  font-family: var(--font-mono);
-  font-weight: 700;
-}
-
 @media (max-width: 900px) {
   .introCopy,
   .stamp {
@@ -259,15 +230,6 @@
 
   .stamp {
     min-height: 420px;
-  }
-
-  .capabilities {
-    grid-template-columns: 1fr;
-    gap: var(--s7);
-  }
-
-  .capabilityIntro > p:last-child {
-    max-width: 42ch;
   }
 }
 
@@ -283,8 +245,7 @@
     padding: var(--s6);
   }
 
-  .story,
-  .motto p {
+  .story {
     max-width: 100%;
   }
 
@@ -299,27 +260,5 @@
 
   .stampArt {
     width: min(160px, 52%);
-  }
-
-  .motto {
-    grid-template-columns: 1fr;
-    gap: var(--s3);
-    padding: var(--s6) var(--s4);
-  }
-
-  .sectionHeader {
-    align-items: start;
-    flex-direction: column;
-    gap: var(--s3);
-    padding-inline: var(--s4);
-  }
-
-  .capabilities {
-    padding-inline: var(--s4);
-  }
-
-  .skillGroups {
-    grid-template-columns: 1fr;
-    gap: var(--s6);
   }
 }

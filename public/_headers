@@ -1,0 +1,37 @@
+# Cloudflare Pages reads this file from the root of the published directory.
+# `public/` is copied to `out/` verbatim, so this lands at out/_headers.
+# Netlify uses the same format. It is inert on S3/CloudFront — see docs/hosting.md.
+
+/*
+  # Clickjacking. frame-ancestors is the modern control; X-Frame-Options is kept
+  # for the browsers that never implemented it.
+  X-Frame-Options: DENY
+  Content-Security-Policy: default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; form-action 'none'
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=()
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+
+# Next writes the generated share card with NO file extension, so every static
+# host serves it as application/octet-stream — and every unfurler (Slack,
+# iMessage, X, LinkedIn) refuses to render a share image that is not an image
+# type. Nothing in the build reports this; the card is just silently blank.
+/opengraph-image
+  Content-Type: image/png
+  Cache-Control: public, max-age=3600
+
+# Hashed filenames. Safe to cache forever precisely because a change produces a
+# new name rather than new bytes at the same name.
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/art/*
+  Cache-Control: public, max-age=604800
+
+# HTML is revalidated every request so a deploy is live immediately. The files
+# are small; the round trip costs less than serving a stale portfolio.
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate

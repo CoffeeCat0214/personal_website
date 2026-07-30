@@ -31,11 +31,9 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# env files. The negation matters: `.env*` matches .env.example too, and that
+# file exists specifically to be committed.
 .env*
-# ...except the example, which exists specifically to be committed. `.env*`
-# matches it too, so without this negation the one env file that documents the
-# required variables is the one nobody ever receives.
 !.env.example
 
 # vercel
@@ -44,3 +42,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local tool state
+.impeccable/hook.cache.json
+.claude/settings.local.json

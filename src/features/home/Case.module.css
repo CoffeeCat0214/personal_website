@@ -1,100 +1,22 @@
-/* Shared act-content styles, used by FlagshipAct and WorkAct.
+/* The shared act label: the small mono eyebrow that sits above each project
+   heading on the homepage. Imported by FlagshipAct and WorkAct so the two acts
+   cannot drift apart on the one piece of type they have in common.
 
-   This was ProjectAct.module.css, when three projects each ran a full
-   Problem/Approach/Result act. The showcase grid, the vertical metric rail and
-   the per-project subtitle went with that structure. What is left is what both
-   acts genuinely share.
+   Fuller case-study styling lives in `features/projects`, which the homepage and
+   the /work/[slug]/ routes share. */
 
-   Project evidence styles live in `features/projects`, where the homepage and
-   project routes can share them. */
-
-.head {
-  display: grid;
-  gap: var(--s4);
-  max-width: 52ch;
-}
-
-/* Beats as numbered rows rather than cards. Bordered cards in a row all compete
-   for the same attention; rows read in order, which is how an Instrument /
-   Method / Output narrative is meant to be taken. */
-.beats {
-  display: grid;
-}
-
-/* A three-column spec row: index, claim, detail. It was two columns with the
-   heading stacked above its own body, which meant the body inherited the
-   heading's column and stopped at its 62ch cap — leaving the right third of
-   every row empty for the length of the act. Reading the claim across from its
-   detail is also simply how a specification is read. */
-.beat {
-  display: grid;
-  grid-template-columns: 7rem minmax(0, 0.85fr) minmax(0, 1.15fr);
-  gap: var(--s6);
-  align-items: start;
-  padding-block: var(--s6);
-  border-top: 1px solid var(--rule);
-}
-
-/* Optical, not mechanical. The mono label is small-caps-sized next to a 21px
-   serif heading, so aligning their boxes leaves the label visibly high; this
-   drops it onto the heading's first baseline. */
-.beatHeading {
+.beatLabel {
   margin: 0;
-}
-
-.beatLabel {
   padding-top: 0.28em;
-}
-
-.beat:last-child {
-  border-bottom: 1px solid var(--rule);
-}
-
-.beatLabel {
   font-family: var(--font-mono);
   font-size: var(--t-label);
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-3);
-  margin: 0;
-}
-
-.beatCopy {
-  display: grid;
-  gap: var(--s3);
-}
-
-.beatCopy p {
-  font-size: var(--t-small);
-  color: var(--ink-3);
-  max-width: 62ch;
-}
-
-@media (max-width: 900px) {
-  /* Two columns, not three: at this width a 0.85fr heading column wraps a short
-     serif line to four words. The label keeps its own column so the rows still
-     scan as an index. */
-  .beat {
-    grid-template-columns: 6rem minmax(0, 1fr);
-    gap: var(--s3) var(--s5);
-  }
-
-  .beatCopy {
-    grid-column: 2;
-  }
 }
 
 @media (max-width: 640px) {
-  .beat {
-    grid-template-columns: 1fr;
-    gap: var(--s2);
-  }
-
-  .beatCopy {
-    grid-column: auto;
-  }
-
   .beatLabel {
     padding-top: 0;
   }

@@ -62,18 +62,6 @@
   gap: clamp(40px, 5vw, 72px);
 }
 
-.head {
-  display: grid;
-  gap: var(--s4);
-  max-width: 52ch;
-}
-
-.lede {
-  font-size: var(--t-post-lede);
-  line-height: 1.5;
-  max-width: 42ch;
-}
-
 @media (max-width: 900px) {
   .act {
     padding-block: 48px;

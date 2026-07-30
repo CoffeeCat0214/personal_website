@@ -16,6 +16,11 @@ function attachSmoothScroll() {
     autoRaf: false,
     smoothWheel: true,
     syncTouch: false,
+    /* Lenis owns the scroll position once it mounts, so the browser's native
+       hash handling stops working: an in-page link updates the URL and Lenis
+       animates back to its own target. Without this, every nav link and every
+       hero CTA silently does nothing. */
+    anchors: true,
   });
 
   lenis.on("scroll", ScrollTrigger.update);
@@ -23,6 +28,21 @@ function attachSmoothScroll() {
   const raf = (time: number) => lenis.raf(time * 1000);
   gsap.ticker.add(raf);
   gsap.ticker.lagSmoothing(0);
+
+  /* The deep-link case, which `anchors` does not cover: the browser performs its
+     native jump before Lenis mounts, and Lenis then initialises at scroll 0 and
+     pulls the page back to the top. Someone sent /home/#cremeai would land on
+     the hero. Re-issuing the jump after mount is what makes a shared link work.
+
+     Deferred a frame because SplitText and the reveal observer are still
+     measuring; scrolling before layout settles lands at the wrong offset. */
+  const hash = window.location.hash;
+  if (hash.length > 1) {
+    requestAnimationFrame(() => {
+      const target = document.querySelector(hash);
+      if (target) lenis.scrollTo(target as HTMLElement, { immediate: true });
+    });
+  }
 
   return () => {
     gsap.ticker.remove(raf);

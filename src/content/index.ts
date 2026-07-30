@@ -16,32 +16,26 @@ export {
   heroFacts,
   homeSections,
   homeNavSections,
-  markPanels,
   navSections,
-  runners,
   skills,
   tldr,
   work,
 } from "./home";
 export type {
   BackgroundEntry,
-  Beat,
   ContentTone,
   FigureName,
   HeroFact,
   HomeSection,
-  MarkPanel,
   Metric,
-  PanelTone,
   Project,
   ProjectCaseStudySection,
   ProjectMetadata,
   ProjectRoute,
   ProjectSlug,
   RouteNavItem,
-  Runner,
   SiteIdentity,
   Tldr,
   TldrRun,
 } from "./types";
-export { CONTENT_TONES, FIGURE_NAMES, HOME_ROUTE, PANEL_TONES, PROJECT_SLUGS } from "./types";
+export { CONTENT_TONES, FIGURE_NAMES, HOME_ROUTE, PROJECT_SLUGS } from "./types";

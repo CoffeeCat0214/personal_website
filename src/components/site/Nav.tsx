@@ -9,15 +9,8 @@ import styles from "./Nav.module.css";
 type Mode = "glam" | "grind";
 const MODE_STORAGE_KEY = "kyrstin-portfolio-mode";
 
-/* The source design hides its nav links below 640px with no alternative, on the
-   grounds that a hamburger for a six-section page is more machinery than the
-   page is worth. That is a defensible call for a marketing page you scroll
-   straight down. It is not defensible here: this page is read by people
-   deciding whether to keep reading, on phones, and "the section numerals carry
-   the structure once you are scrolling" assumes they already committed.
-
-   So this adds a real disclosure menu -- which means owning the three things a
-   disclosure has to do and that hand-rolled menus usually miss: report state to
+/* Below 640px the section links collapse into a real disclosure menu, which
+   means owning the three things hand-rolled menus usually miss: report state to
    assistive tech, close on Escape, and return focus to the trigger when it
    does. */
 

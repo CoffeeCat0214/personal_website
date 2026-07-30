@@ -1,18 +1,11 @@
 /* The canonical origin, in one place.
 
-   Metadata is the one part of the site that cannot use relative URLs. An OG
-   card unfurled by Slack, iMessage or X is being fetched by a machine with no
-   knowledge of where the link came from, so `/opengraph-image.png` resolves
-   against nothing and the card renders blank. Same for canonical tags, the
-   sitemap and JSON-LD.
+   Metadata is the one part of the site that cannot use relative URLs. An OG card
+   unfurled by Slack, iMessage or X is fetched by a machine with no knowledge of
+   where the link came from, so `/opengraph-image` resolves against nothing and
+   the card renders blank. Same for canonical tags, the sitemap and JSON-LD.
 
-   Read from the environment because the deployed origin is a deploy-time fact,
-   and no domain is registered yet. The fallback was https://cremeandmisu.com,
-   which is a dead domain and names a positioning the site no longer has -- it
-   would unfurl as a broken card rather than an obvious placeholder.
-
-   So the fallback is the origin that actually serves the site, from
-   deploy-to-s3.sh. Set NEXT_PUBLIC_SITE_URL the day a domain lands. */
-export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  "http://kyrstin-portfolio-website.s3-website-us-east-1.amazonaws.com";
+   Read from the environment because the origin is a deploy-time fact. The
+   fallback is the production domain, so a build that forgets to set the variable
+   still emits correct absolute URLs rather than pointing at localhost. */
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://kyrstinkauchak.com";

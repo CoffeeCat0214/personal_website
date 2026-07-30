@@ -23,24 +23,15 @@
   color: var(--ink-3);
 }
 
-/* A colophon rather than a credit. "Built with Next.js and ❤️" tells a reader
-   nothing they cannot see from the page source; the type and the palette rule
-   are the two decisions actually worth naming. */
-/* No opacity here, and it is worth saying why it was removed rather than just
-   deleting it.
+/* A colophon rather than a credit: the type and the palette rule are the two
+   decisions worth naming.
 
-   This read `opacity: 0.8` on top of `color: var(--ink-3)`. Every ground's ink
-   ramp in tokens.css carries a measured contrast ratio in a comment, and sage's
-   --ink-3 is documented at 4.54:1 -- accurate for the token, and just over the
-   4.5:1 that 12px text needs. Then opacity composited it against the ground and
-   the rendered colour became #648250 at 3.17:1, a failure.
-
-   The audit was not wrong; it measured the colour system, and opacity is not
-   part of the colour system. Any ratio in tokens.css is a claim about a token,
-   not a guarantee about a pixel, and a component can invalidate it downstream
-   without touching a single colour value. If a step needs to be quieter than
-   --ink-3, it needs another token with its own measurement -- not a multiplier
-   the audit cannot see. */
+   No `opacity` here, ever. Sage's --ink-3 is measured at 4.54:1 in tokens.css,
+   which clears the 4.5:1 that 12px text needs -- but an `opacity: 0.8` on top
+   composites it to #648250 at 3.17:1 and fails. Every ratio in tokens.css is a
+   claim about a token, not a guarantee about a pixel, and opacity is not part
+   of the colour system. Anything that needs to sit quieter than --ink-3 needs
+   its own measured token, not a multiplier the audit cannot see. */
 .colophon {
   flex-basis: 100%;
   margin-top: var(--s5);

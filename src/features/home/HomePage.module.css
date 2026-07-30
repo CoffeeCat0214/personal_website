@@ -122,19 +122,16 @@
 
 /* ---------- Post-hero studio board ----------
 
-   The gate and hero are intentionally outside this wrapper. Their scrapbook
-   treatment is the welcome; everything after it is the workbench. The workbench
-   can carry the research pack's neobrutalist depth without changing the first
-   impression: square ink frames, zero-blur displacement, and controls that feel
-   like things a visitor can actually operate. */
-/* These are declared on the grounds, not on .postHero, and that is the same
-   trap tokens.css documents for --focus. A custom property is substituted where
-   it is *declared*: `--neo-border: 3px solid var(--ink)` sitting on .postHero
-   resolves against the --ink .postHero inherits -- :root's forest #1e2b16 --
-   and then hands that fixed forest green to every act beneath it. The homepage
-   runs a purple ink (#32123f), so every frame and every offset shadow on the
-   workbench was drawing in the old palette's green. Declaring them on the same
-   elements that declare --ink is what makes them re-resolve per ground. */
+   The hero is deliberately outside this wrapper. Its scrapbook treatment is the
+   welcome; everything after it is the workbench, which carries square ink
+   frames, zero-blur displacement, and controls that look operable. */
+
+/* Declared on the grounds, not on .postHero -- the same substitution trap
+   tokens.css documents for --focus. A custom property resolves where it is
+   *declared*, so `--neo-border: 3px solid var(--ink)` on .postHero would bind
+   the forest --ink that .postHero inherits from :root and hand that one fixed
+   green to every act beneath it. Declaring these alongside each ground's own
+   --ink is what makes them re-resolve per act. */
 .postHero :global(.tone-sage),
 .postHero :global(.tone-pink),
 .postHero :global(.tone-forest),
@@ -160,15 +157,8 @@
   line-height: 1.08;
 }
 
-/* The `.section-head` frame that used to live here is gone with its only
-   consumer. Contact was the sole act using it, and the rule gave a two-line
-   heading a 3px frame, a 7px shadow and a 52ch cap -- which in a 1040px measure
-   painted a 555px box with a lonely ✦ in its corner and 485px of ground beside
-   it. Both post-hero acts now put their heading inside the panel that carries
-   their content, which is where a heading earns a surface. */
-
-/* Hairline action links are too quiet against the new workbench. The border is
-   the affordance; the press state is the interaction. */
+/* Hairline action links are too quiet against the workbench. The border is the
+   affordance; the press state is the interaction. */
 .postHero :global(.link) {
   min-height: 48px;
   padding: 0 var(--s4);
