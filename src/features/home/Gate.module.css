@@ -1139,7 +1139,9 @@
 
    The 900px layout is also the tablet layout. This last pass is intentionally
    narrow: it protects the 390px scene from oversized gutters and decorative
-   chrome without touching the display label's size or typewriter geometry. */
+   chrome. The label completes immediately here: Safari can otherwise reflow
+   the custom mono font after the width animation has already measured its
+   clipping edge, which is how the final R loses a slice on an iPhone. */
 @media (max-width: 600px) {
   .gate {
     --gutter: var(--s4);
@@ -1148,6 +1150,13 @@
   .display {
     gap: var(--s4);
     padding-block: var(--s4) var(--s5);
+  }
+
+  .label {
+    width: max-content;
+    overflow: visible;
+    background-image: none;
+    animation: none;
   }
 
   .cat {
