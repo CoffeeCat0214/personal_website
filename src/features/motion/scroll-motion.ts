@@ -35,12 +35,27 @@ function attachSmoothScroll() {
      the hero. Re-issuing the jump after mount is what makes a shared link work.
 
      Deferred a frame because SplitText and the reveal observer are still
-     measuring; scrolling before layout settles lands at the wrong offset. */
-  const hash = window.location.hash;
-  if (hash.length > 1) {
+     measuring; scrolling before layout settles lands at the wrong offset.
+
+     getElementById, not querySelector. A fragment is not a CSS selector: `#123`,
+     `#a.b`, `#a:b` and any percent-encoded hash are all legal fragments and all
+     throw SyntaxError as selectors. Thrown here that is not a no-op -- this runs
+     inside the gsap context, so the exception would abort setup and take the
+     marquees, the split-text reveals and the Lenis teardown with it. Every
+     [data-reveal] element stays at its hidden state and the page renders blank
+     below the fold. decodeURIComponent because the browser percent-encodes
+     non-ASCII fragments, and the ids in the document are not encoded. */
+  const raw = window.location.hash.slice(1);
+  if (raw) {
     requestAnimationFrame(() => {
-      const target = document.querySelector(hash);
-      if (target) lenis.scrollTo(target as HTMLElement, { immediate: true });
+      let id = raw;
+      try {
+        id = decodeURIComponent(raw);
+      } catch {
+        /* Malformed escape sequence; fall back to the raw fragment. */
+      }
+      const target = document.getElementById(id);
+      if (target) lenis.scrollTo(target, { immediate: true });
     });
   }
 

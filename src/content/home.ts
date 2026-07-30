@@ -1,5 +1,13 @@
+import { site } from "./identity";
 import { featuredProject } from "./projects";
-import type { BackgroundEntry, HeroFact, HomeSection, RouteNavItem, Tldr } from "./types";
+import type {
+  BackgroundEntry,
+  HeroCopy,
+  HeroFact,
+  HomeSection,
+  RouteNavItem,
+  Tldr,
+} from "./types";
 import { HOME_ROUTE } from "./types";
 
 /* The entry gate's copy, transcribed verbatim: punctuation, the curly
