@@ -26,7 +26,7 @@ export function WorkAct({ section }: { section: WorkSection }) {
     >
       <div className={styles.projectHead} data-reveal>
         <p className={caseStyles.beatLabel}>{work.heading}</p>
-        <h2>CrèmeAI</h2>
+        <h2>{work.title}</h2>
       </div>
 
       <div className={styles.tools}>
@@ -34,12 +34,8 @@ export function WorkAct({ section }: { section: WorkSection }) {
           <article className={styles.tool} key={tool.slug}>
             <div className={styles.copy} data-reveal>
               <p className={caseStyles.beatLabel}>{tool.eyebrow}</p>
-              <h3>{tool.slug === "cremeai" ? "Serverless Discord assistant." : tool.title}</h3>
-              <p className={styles.subtitle}>
-                {tool.slug === "cremeai"
-                  ? "Lambda, caching, and rate limits in one small service."
-                  : tool.summary}
-              </p>
+              <h3>{tool.preview?.title ?? tool.title}</h3>
+              <p className={styles.subtitle}>{tool.preview?.summary ?? tool.summary}</p>
 
               <ProjectMetrics metrics={tool.metrics} reveal={false} />
               <SystemPulse />

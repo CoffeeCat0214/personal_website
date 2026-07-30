@@ -41,11 +41,31 @@ export const tldr: Tldr = {
   closer: "I like catalyzing elegant solutions to big-brain problems. Good coffee, too. ☕",
 };
 
-/* An array because the hero renders each entry as its own display line. One
-   line today; the shape is what lets a second be added without touching Hero. */
+/* The hero's copy, both modes of it.
+
+   The nav's Mode toggle swaps the whole voice, not a colour: glam and grind are
+   two readings of the same claim and both ship in the HTML, with CSS choosing
+   which is visible. That is why they live together here -- they have to be
+   editable as a pair, and a line changed in one voice but not the other is the
+   failure this shape exists to make obvious.
+
+   `statement` is outside the pair deliberately: it reads in both modes.
+
+   The taglines interpolate identity rather than restating it, so a change to
+   site.kind or site.location cannot leave the hero contradicting the masthead. */
 export const hero = {
+  glam: {
+    headline: "Small tools for deep work.",
+    tagline: `${site.kind} in ${site.location}. Small tools. Clear intent.`,
+  },
+  grind: {
+    headline: "Ship small. Think hard.",
+    tagline: `${site.kind} / ${site.location}. Useful software, kept close to the metal.`,
+  },
+  /* An array because the hero renders each entry as its own display line. One
+     line today; the shape is what lets a second be added without touching Hero. */
   statement: ["Small tools for people who think in systems."],
-} as const;
+} as const satisfies HeroCopy;
 
 /* Annotated `readonly HeroFact[]` rather than `as const satisfies`, unlike the
    other content arrays: only one cell carries `status`, so under `as const` the
@@ -69,8 +89,15 @@ export const about = {
   ],
 } as const;
 
+/* `heading` is the mono label above the act's h2; `title` is the h2 itself.
+
+   `title` names the single supporting project today, which reads correctly while
+   there is one. Add a second to `supportingProjects` and this has to become a
+   group name -- an h2 naming one project above an h3 naming another is a heading
+   order that lies about the structure. */
 export const work = {
   heading: "One more thing.",
+  title: "CrèmeAI",
 } as const;
 
 export const background = [

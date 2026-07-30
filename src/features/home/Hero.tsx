@@ -1,19 +1,11 @@
 import Link from "next/link";
-import { hero, heroFacts, HOME_ROUTE, site } from "@/content";
+import { hero, heroFacts, HOME_ROUTE } from "@/content";
 import styles from "./Hero.module.css";
 
-/*
-THESIS: Cutealism for serious software — a bright, sticker-covered studio wall
-instead of a polite portfolio hero.
-OWN-WORLD: Bubblegum pink, ink-purple, lemon yellow, courier labels, hard outlines,
-and a transparent pixel-cat portrait treated like a physical sticker.
-STORY: Kyrstin makes small, inspectable systems; the visitor sees the flagship tool,
-then chooses a project to inspect.
-FIRST VIEWPORT: Copy and actions left; the cat sticker sits in a compact framed
-stage right, with the primary CoffeeCat action under the thesis.
-FORM: Asymmetric editorial grid, staged as a playful noticeboard; the full-page
-colour cuts and moving type band carry the scroll.
-*/
+/* Both voices render; .glamCopy and .grindCopy show one and hide the other off
+   the [data-mode] attribute the nav writes onto <html>. Shipping both in the HTML
+   is what lets the toggle be instant and CSS-only -- and it means the copy lives
+   in the content module, not here. */
 
 export function Hero() {
   return (
@@ -28,18 +20,13 @@ export function Hero() {
             <div className={styles.name} data-reveal="display">
               <p className={styles.eyebrow}>Kyrstin Kauchak / 2026</p>
               <h1>
-                <span className={styles.glamCopy}>Small tools for deep work.</span>
-                <span className={styles.grindCopy}>Ship small. Think hard.</span>
+                <span className={styles.glamCopy}>{hero.glam.headline}</span>
+                <span className={styles.grindCopy}>{hero.grind.headline}</span>
               </h1>
             </div>
             <p className={styles.tagline} data-reveal>
-              <span className={styles.glamCopy}>
-                {site.kind} in {site.location}. Small tools. Clear intent.
-              </span>
-              <span className={styles.grindCopy}>
-                {site.kind} / {site.location}. Useful software, kept close to the
-                metal.
-              </span>
+              <span className={styles.glamCopy}>{hero.glam.tagline}</span>
+              <span className={styles.grindCopy}>{hero.grind.tagline}</span>
             </p>
             <div className={styles.statement}>
               {hero.statement.map((line) => (

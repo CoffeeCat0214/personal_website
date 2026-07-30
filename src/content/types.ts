@@ -31,6 +31,20 @@ export type SiteIdentity = {
   lastUpdated: string;
 };
 
+/* The two voices of the hero. Both ship in the HTML; the nav's Mode toggle picks
+   which is visible, so neither is optional and a mode missing a line would be a
+   blank headline rather than a fallback. */
+export type HeroVoice = {
+  headline: string;
+  tagline: string;
+};
+
+export type HeroCopy = {
+  glam: HeroVoice;
+  grind: HeroVoice;
+  statement: readonly string[];
+};
+
 /* The hero fact row. `status` renders the value as a pill rather than as plain
    text, which makes it a property of the content rather than of the component. */
 export type HeroFact = {
@@ -53,6 +67,15 @@ export type ProjectMetadata = {
   description: string;
 };
 
+/* Homepage-index copy, for when a project's case-study `title` and `summary` are
+   longer than the work index has room for. Absent means the case-study strings
+   are already the right length and the index uses them directly -- so this is a
+   real override, not a second name for the same thing. */
+export type ProjectPreview = {
+  title: string;
+  summary: string;
+};
+
 export type ProjectRoute = {
   slug: ProjectSlug;
   href: `/work/${ProjectSlug}/`;
@@ -66,6 +89,7 @@ export type Project = {
   eyebrow: string;
   title: string;
   summary: string;
+  preview?: ProjectPreview;
   positioning?: string;
   tests: string;
   caseStudy: ProjectCaseStudySection[];

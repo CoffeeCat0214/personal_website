@@ -30,7 +30,7 @@ export function FlagshipAct({ section }: { section: FlagshipSection }) {
       <div className={styles.showcase}>
         <div className={styles.claim}>
           <p className={styles.positioning} data-split>
-            No backend. No analytics. No host permissions.
+            {project.positioning}
           </p>
           <ProjectMetrics metrics={project.metrics} />
           <FocusTimer />

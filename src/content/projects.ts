@@ -8,7 +8,10 @@ export const projects = [
     eyebrow: "Chrome Extension · Shipped",
     title: "Focus without network access.",
     summary: "A privacy-first focus timer Chrome extension with no backend, no analytics, and no host permissions.",
-    positioning: "No backend. No analytics. No host permissions. Chrome enforces all three.",
+    /* The display line in the flagship act, which is why it is three sentence
+       fragments rather than a sentence: it is set as a split-line reveal and each
+       fragment rises on its own. */
+    positioning: "No backend. No analytics. No host permissions.",
     tests: "whether a tool can be genuinely useful with zero access to your data.",
     caseStudy: [
       {
@@ -104,6 +107,10 @@ export const projects = [
     title: "A Discord bot built like a service.",
     summary:
       "A Discord assistant on Lambda with DynamoDB response caching, rate limiting, and CloudWatch instrumentation.",
+    preview: {
+      title: "Serverless Discord assistant.",
+      summary: "Lambda, caching, and rate limits in one small service.",
+    },
     tests: "how far a small service can degrade before anyone using it notices.",
     caseStudy: [
       {
