@@ -149,14 +149,15 @@
 .label {
   --caret-w: 0.05em;
   --caret-gap: 0.06em;
-  /* Five monospaced cells, less the tracking correction below, less the two
+  /* Five monospaced cells, less the four inter-character tracking gaps below,
+     less the two
      optical pulls on the semicolon in .punct, plus the reserved strip the caret
      sits in. Every term is a real declaration elsewhere in this rule -- if any of
      them changes, this changes with it, or the caret drifts off the last letter.
      box-sizing is border-box globally, so the padding has to be added back here
      or it would eat the R instead of sitting beside it. */
   --label-w: calc(
-    5ch - 0.225em - 0.32em + var(--caret-gap) + var(--caret-w)
+    5ch - 0.18em - 0.32em + var(--caret-gap) + var(--caret-w)
   );
 
   width: var(--label-w);
