@@ -1,4 +1,5 @@
 import styles from "./IndexList.module.css";
+import { ArrowLink } from "./ArrowLink";
 
 export type IndexEntry = {
   role: string;
@@ -6,6 +7,8 @@ export type IndexEntry = {
   period: string;
   context: string;
   body: string;
+  href?: string;
+  linkLabel?: string;
 };
 
 /* A real <dl>: each entry is a term (the role) and its details (the dates and
@@ -28,6 +31,11 @@ export function IndexList({ entries }: { entries: readonly IndexEntry[] }) {
                 {line}
               </dd>
             ))}
+          {entry.href ? (
+            <dd className={styles.linkNote}>
+              <ArrowLink href={entry.href}>{entry.linkLabel ?? "Read case study"}</ArrowLink>
+            </dd>
+          ) : null}
         </div>
       ))}
     </dl>

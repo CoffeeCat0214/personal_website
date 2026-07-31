@@ -24,6 +24,8 @@
 
 .tool {
   display: grid;
+  min-width: 0;
+  scroll-margin-top: calc(var(--nav-h) + var(--s7));
   grid-template-columns: minmax(0, 1.08fr) minmax(240px, 0.92fr);
   gap: clamp(24px, 4vw, 56px);
   align-items: start;
@@ -35,6 +37,7 @@
 
 .copy {
   display: grid;
+  min-width: 0;
   gap: var(--s4);
 }
 

@@ -42,7 +42,7 @@ export function FlagshipAct({ section }: { section: FlagshipSection }) {
 
       <ProjectFooter tech={project.tech}>
         <ArrowLink href={`/work/${project.slug}/`}>Case study</ArrowLink>
-        <ArrowLink href={project.repoHref}>GitHub</ArrowLink>
+        {project.repoHref ? <ArrowLink href={project.repoHref}>GitHub</ArrowLink> : null}
       </ProjectFooter>
     </Act>
   );

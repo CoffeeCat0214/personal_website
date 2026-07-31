@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import { homeSections } from "@/content";
 import type { HomeSection } from "@/content";
 import { FlagshipAct } from "./FlagshipAct";
+import { CremeAIAct } from "./CremeAIAct";
 import { Hero } from "./Hero";
 import { WorkAct } from "./WorkAct";
 import { AboutAct } from "./AboutAct";
@@ -23,6 +24,8 @@ function renderSection(section: HomeSection) {
       switch (section.act) {
         case "flagship":
           return <FlagshipAct key={section.id} section={section} />;
+        case "cremeai":
+          return <CremeAIAct key={section.id} section={section} />;
         case "work":
           return <WorkAct key={section.id} section={section} />;
         case "about":

@@ -9,8 +9,8 @@ import styles from "./Nav.module.css";
 type Mode = "glam" | "grind";
 const MODE_STORAGE_KEY = "kyrstin-portfolio-mode";
 
-/* Below 640px the section links collapse into a real disclosure menu, which
-   means owning the three things hand-rolled menus usually miss: report state to
+/* Below the compact navigation breakpoint the section links collapse into a real
+   disclosure menu, which means owning the three things hand-rolled menus usually miss: report state to
    assistive tech, close on Escape, and return focus to the trigger when it
    does. */
 
@@ -38,6 +38,7 @@ export function Nav() {
     }
 
     const sections = navSections
+      .filter((section) => section.kind === "home-anchor")
       .map((section) => document.getElementById(section.href.split("#")[1]))
       .filter((section): section is HTMLElement => section instanceof HTMLElement);
 
@@ -122,14 +123,19 @@ export function Nav() {
         <nav className={styles.desktopNav} aria-label="Sections">
           <ul className={styles.links}>
             {navSections.map((section) => {
-              const sectionId = section.href.split("#")[1];
+              const sectionId =
+                section.kind === "home-anchor" ? section.href.split("#")[1] : null;
 
               return (
                 <li key={section.href}>
                   <Link
                     href={section.href}
-                    aria-current={activeSection === sectionId ? "location" : undefined}
-                    onClick={() => setActiveSection(sectionId)}
+                    aria-current={
+                      sectionId && activeSection === sectionId ? "location" : undefined
+                    }
+                    onClick={() => {
+                      if (sectionId) setActiveSection(sectionId);
+                    }}
                   >
                     {section.label}
                   </Link>
@@ -166,15 +172,18 @@ export function Nav() {
         <div className="wrap">
           <ul>
             {navSections.map((section) => {
-              const sectionId = section.href.split("#")[1];
+              const sectionId =
+                section.kind === "home-anchor" ? section.href.split("#")[1] : null;
 
               return (
                 <li key={section.href}>
                   <Link
                     href={section.href}
-                    aria-current={activeSection === sectionId ? "location" : undefined}
+                    aria-current={
+                      sectionId && activeSection === sectionId ? "location" : undefined
+                    }
                     onClick={() => {
-                      setActiveSection(sectionId);
+                      if (sectionId) setActiveSection(sectionId);
                       close(false);
                     }}
                   >

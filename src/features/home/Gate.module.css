@@ -82,6 +82,13 @@
   border-bottom: 1px solid var(--rule);
 }
 
+.mastheadMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--s5);
+  min-width: 0;
+}
+
 /* Mono rather than the grotesque. The name is set at label scale, and mono is
    the site's filing voice -- it reads as a masthead stamp rather than as a
    sentence that happens to be short. */
@@ -111,6 +118,35 @@
 
 .sep {
   color: var(--rule-strong);
+}
+
+.mastheadAction {
+  display: none;
+  align-items: center;
+  gap: var(--s2);
+  min-height: 44px;
+  padding-inline: var(--s3);
+  border: 1px solid var(--rule-strong);
+  border-radius: 999px;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: var(--t-label);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition:
+    background-color 160ms var(--ease),
+    border-color 160ms var(--ease),
+    color 160ms var(--ease);
+}
+
+.mastheadAction:hover,
+.mastheadAction:focus-visible {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--paper);
 }
 
 /* ---------- Display band ---------- */
@@ -160,7 +196,7 @@
     5ch - 0.18em - 0.32em + var(--caret-gap) + var(--caret-w)
   );
 
-  width: var(--label-w);
+  width: max-content;
   padding-right: calc(var(--caret-gap) + var(--caret-w));
   margin: 0 0 var(--s3);
   overflow: hidden;
@@ -194,7 +230,7 @@
      rather than a cursor.
 
      A background can do both. `background-position: right` is resolved against
-     the padding box, whose right edge is exactly what the width animation is
+     the padding box, whose right edge is exactly what the clip edge is
      moving, so it tracks the typing edge like a border does -- and its height is
      an independent value, so it can be cut to the cap height the letters
      actually occupy. The 0.71em/0.07em pair is that, and it was measured off a
@@ -202,6 +238,11 @@
      0.78em down the line box at this line-height, so a caret on those numbers
      starts a hair above the cap line and lands on the baseline. Retune it by
      screenshot if the line-height moves. */
+  /* Keep the original stepped typewriter and caret, but reveal a stable
+     max-content box. Animating the width itself could re-measure while the
+     custom mono font loaded and leave only the first character visible on
+     desktop. */
+  clip-path: inset(0 100% 0 0);
   background-image: linear-gradient(var(--gate-accent), var(--gate-accent));
   background-repeat: no-repeat;
   background-size: var(--caret-w) 0.71em;
@@ -211,16 +252,14 @@
     caret 1.05s steps(2, jump-none) 0.35s infinite;
 }
 
-/* Width, not opacity or a clip-path: `steps(5)` across the element's width lands
-   the boundary exactly on a character edge every time, because every character
-   in a monospaced face is the same width. Any other property has to be tuned by
-   eye and drifts the moment the font-size clamp moves. */
+/* A stepped clip over a stable box gives the original typing rhythm without
+   making the final label dependent on a font-load width measurement. */
 @keyframes type {
   from {
-    width: 0;
+    clip-path: inset(0 100% 0 0);
   }
   to {
-    width: var(--label-w);
+    clip-path: inset(0 0 0 0);
   }
 }
 
@@ -411,6 +450,7 @@
   color: inherit;
   font: inherit;
   text-align: left;
+  white-space: normal;
   cursor: var(--cursor-paw-tap);
 }
 
@@ -597,7 +637,9 @@
      pretty targets the widow without evening out the columns against each
      other. */
   text-wrap: pretty;
+  white-space: normal;
   overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 /* Weight, not colour. A second colour on this screen would be the only other
@@ -1043,7 +1085,9 @@
     /* The display band stops taking the slack. At this width the composition is
        taller than the viewport anyway, so a 1fr row there would only push the
        columns and the footer further down a page that already scrolls. */
+    min-height: auto;
     grid-template-rows: auto auto auto auto;
+    align-content: start;
   }
 
   .masthead {
@@ -1053,7 +1097,17 @@
        edge as everything below. */
     flex-direction: column;
     align-items: flex-start;
+    justify-content: flex-start;
     gap: var(--s1);
+  }
+
+  .mastheadMeta {
+    flex-wrap: wrap;
+    gap: var(--s3);
+  }
+
+  .mastheadAction {
+    display: inline-flex;
   }
 
   .meta {
@@ -1064,19 +1118,29 @@
     /* Cat first. It is the one thing on this screen that reads instantly at any
        size, and stacking it under the headline buries the only image on the page
        below the fold. */
-    flex-direction: column-reverse;
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "cat" "copy";
+    align-items: start;
     gap: var(--s5);
     padding-block: var(--s5);
   }
 
+  .displayCopy {
+    grid-area: copy;
+    width: 100%;
+  }
+
   .cat {
-    height: min(200px, 24dvh);
-    align-self: flex-end;
+    grid-area: cat;
+    width: min(44vw, 176px);
+    height: auto;
+    max-width: 100%;
+    justify-self: center;
     /* Keep the full authored cutout visible on touch screens. The desktop
        composition can afford a crop at the edge; on a phone that turns the
        brand mark into an accidental partial image. */
-    margin-right: 0;
+    margin: 0;
   }
 
   .items {
@@ -1094,6 +1158,14 @@
        the gutter -- the effect depends on the cards being side by side. */
     --tilt: 0deg;
     box-shadow: 4px 4px 0 var(--gate-sticker);
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .itemButton,
+  .itemBody {
+    width: 100%;
+    max-width: 100%;
   }
 
   .itemVisited {
@@ -1130,6 +1202,7 @@
   }
 
   .closer {
+    width: 100%;
     max-width: none;
     text-align: center;
   }
@@ -1153,14 +1226,15 @@
   }
 
   .label {
-    width: max-content;
     overflow: visible;
     background-image: none;
+    clip-path: none;
     animation: none;
   }
 
   .cat {
-    height: min(180px, 23dvh);
+    width: min(44vw, 176px);
+    height: auto;
   }
 
   .items {
@@ -1199,8 +1273,10 @@
   }
 
   .label {
-    width: var(--label-w);
+    width: max-content;
+    overflow: visible;
     background-image: none;
+    clip-path: none;
     animation: none;
   }
 

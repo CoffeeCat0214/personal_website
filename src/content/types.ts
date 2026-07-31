@@ -9,7 +9,7 @@ export type Metric = {
   label: string;
 };
 
-export const FIGURE_NAMES = ["coffeecat", "diff", "thread"] as const;
+export const FIGURE_NAMES = ["coffeecat", "diff", "thread", "pipeline"] as const;
 export type FigureName = (typeof FIGURE_NAMES)[number];
 
 /* The grounds an act or a project may claim. Each re-points the whole palette
@@ -53,7 +53,7 @@ export type HeroFact = {
   status?: boolean;
 };
 
-export const PROJECT_SLUGS = ["coffeecat", "codehusk", "cremeai"] as const;
+export const PROJECT_SLUGS = ["coffeecat", "adtech", "cremeai", "codehusk"] as const;
 export type ProjectSlug = (typeof PROJECT_SLUGS)[number];
 
 export type ProjectCaseStudySection = {
@@ -95,7 +95,7 @@ export type Project = {
   caseStudy: ProjectCaseStudySection[];
   tech: string[];
   metrics: Metric[];
-  repoHref: string;
+  repoHref?: string;
   figure: FigureName;
   tone: ContentTone;
   metadata: ProjectMetadata;
@@ -108,9 +108,11 @@ export type BackgroundEntry = {
   period: string;
   context: string;
   body: string;
+  href?: string;
+  linkLabel?: string;
 };
 
-type HomeActName = "flagship" | "work" | "about" | "contact";
+type HomeActName = "flagship" | "cremeai" | "work" | "about" | "contact";
 
 /* Distributed over the act names so `section.act` narrows `section` to exactly
    one variant. A single `{ act: HomeActName }` shape would let any act's props

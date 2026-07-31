@@ -56,11 +56,11 @@ export const tldr: Tldr = {
 export const hero = {
   glam: {
     headline: "Small tools for deep work.",
-    tagline: `${site.kind} in ${site.location}. Small tools. Clear intent.`,
+    tagline: `${site.kind} / systems builder in ${site.location}. Small tools. Clear intent.`,
   },
   grind: {
     headline: "Ship small. Think hard.",
-    tagline: `${site.kind} / ${site.location}. Useful software, kept close to the metal.`,
+    tagline: `${site.kind} / systems builder / ${site.location}. Useful software, kept close to the metal.`,
   },
   /* An array because the hero renders each entry as its own display line. One
      line today; the shape is what lets a second be added without touching Hero. */
@@ -83,21 +83,18 @@ export const about = {
   heading: "The short version.",
   body: [
     "Four years building distributed data systems: Spark ETL, APIs, and observability.",
-    "Now: agentic systems and small tools you can inspect.",
+    "Systems engineer and builder: now making agentic systems and small tools you can inspect.",
     "Two cats. Every illustration here starts there.",
     "Glam & Grind: make it good, then make it work.",
   ],
 } as const;
 
 /* `heading` is the mono label above the act's h2; `title` is the h2 itself.
-
-   `title` names the single supporting project today, which reads correctly while
-   there is one. Add a second to `supportingProjects` and this has to become a
-   group name -- an h2 naming one project above an h3 naming another is a heading
-   order that lies about the structure. */
+   The work act is a group, so its h2 names the shared idea and each project
+   below owns an h3. */
 export const work = {
-  heading: "One more thing.",
-  title: "CrèmeAI",
+  heading: "Selected work",
+  title: "Small systems, fully considered.",
 } as const;
 
 export const background = [
@@ -107,6 +104,8 @@ export const background = [
     period: "2022 — Present",
     context: "Distributed systems",
     body: "Distributed Spark ETL pipelines and performant APIs serving high-traffic adtech workloads. Cloud-native AWS services, microservice architecture, observability instrumentation, and test-driven delivery across infrastructure and application layers.",
+    href: "/work/adtech/",
+    linkLabel: "Read the production case study",
   },
   {
     role: "B.S. Software Engineering",
@@ -142,8 +141,9 @@ export const contact = {
   body: "Email is fastest.",
 } as const;
 
-/* Order is the page order. `homeNavSections` and `navSections` below are derived
-   from this, so the nav and the document can never disagree about what exists. */
+/* Order is the page order, and the menu is derived from the same acts. Keep the
+   named CrèmeAI act before the broader Work act so the navigation follows the
+   page's argument rather than inventing a second order. */
 export const homeSections = [
   { kind: "hero", id: "top" },
   {
@@ -159,11 +159,20 @@ export const homeSections = [
   },
   {
     kind: "act",
-    act: "work",
+    act: "cremeai",
     id: "cremeai",
     navLabel: "CrèmeAI",
     number: "02",
-    eyebrow: "Serverless Discord bot",
+    eyebrow: "Serverless Discord Bot",
+    tone: "sage",
+  },
+  {
+    kind: "act",
+    act: "work",
+    id: "work",
+    navLabel: "Work",
+    number: "03",
+    eyebrow: "Selected work",
     tone: "sage",
   },
   {
@@ -171,7 +180,7 @@ export const homeSections = [
     act: "about",
     id: "about",
     navLabel: "About",
-    number: "03",
+    number: "04",
     eyebrow: "The short version",
     tone: "forest",
   },
@@ -180,7 +189,7 @@ export const homeSections = [
     act: "contact",
     id: "contact",
     navLabel: "Contact",
-    number: "04",
+    number: "05",
     eyebrow: "Open channel",
     tone: "pink",
   },
@@ -192,6 +201,6 @@ export const homeNavSections = homeSections.flatMap((section) =>
 
 export const navSections = homeNavSections.map((section) => ({
   label: section.label,
-  href: `${HOME_ROUTE}#${section.id}`,
-  kind: "home-anchor",
+  href: `${HOME_ROUTE}#${section.id}` as `/${string}`,
+  kind: "home-anchor" as const,
 })) satisfies RouteNavItem[];

@@ -92,13 +92,19 @@ export function Gate() {
     >
       <header className={`${styles.rail} ${styles.masthead}`}>
         <p className={styles.name}>{site.name}</p>
-        <p className={styles.meta}>
-          <span>{site.location}</span>
-          <span aria-hidden="true" className={styles.sep}>
-            /
-          </span>
-          <span>{site.kind}</span>
-        </p>
+        <div className={styles.mastheadMeta}>
+          <p className={styles.meta}>
+            <span>{site.location}</span>
+            <span aria-hidden="true" className={styles.sep}>
+              /
+            </span>
+            <span>{site.kind}</span>
+          </p>
+          <Link className={styles.mastheadAction} href={HOME_ROUTE}>
+            <span>Enter portfolio</span>
+            <span aria-hidden="true">↗</span>
+          </Link>
+        </div>
       </header>
 
       <div className={`${styles.rail} ${styles.display}`}>

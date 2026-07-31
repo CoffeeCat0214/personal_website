@@ -19,9 +19,11 @@ export function ProjectPage({ project }: { project: Project }) {
             <ProjectMetrics metrics={project.metrics} />
             <ProjectQuestion tests={project.tests} />
             <div className={styles.actions} data-reveal>
-              <a className="btn" href={project.repoHref}>
-                View repository
-              </a>
+              {project.repoHref ? (
+                <a className="btn" href={project.repoHref}>
+                  View repository
+                </a>
+              ) : null}
               <Link className="btn secondary" href={`${HOME_ROUTE}#cremeai`}>
                 Back to work
               </Link>
@@ -51,7 +53,9 @@ export function ProjectPage({ project }: { project: Project }) {
               </section>
             ))}
             <ProjectFooter tech={project.tech}>
-              <ArrowLink href={project.repoHref}>{project.name} on GitHub</ArrowLink>
+              {project.repoHref ? (
+                <ArrowLink href={project.repoHref}>{project.name} on GitHub</ArrowLink>
+              ) : null}
             </ProjectFooter>
           </div>
         </div>

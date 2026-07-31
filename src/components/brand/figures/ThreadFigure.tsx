@@ -3,14 +3,14 @@ import styles from "./Figure.module.css";
 
 const messages: { from: "user" | "bot"; text: string }[] = [
   { from: "user", text: "what's the cache hit rate looking like today?" },
-  { from: "bot", text: "94.2% over the last hour — 1,840 hits, 113 misses. Median response 240ms." },
+  { from: "bot", text: "Cache window checked — a cached answer is ready." },
   { from: "user", text: "any throttled requests?" },
 ];
 
 export function ThreadFigure() {
   return (
     <FigureFrame
-      label="A Discord conversation with CremeAI: a question about cache hit rate answered with hit, miss and latency figures."
+      label="An illustrative Discord conversation with CremeAI: a cache question receives a compact answer before the user asks about throttling."
       chrome="cremeai — #general"
     >
       <div className={styles.panel}>

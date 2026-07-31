@@ -3,9 +3,10 @@ import { existsSync, readFileSync } from "node:fs";
 import test from "node:test";
 
 const projects = [
-  { slug: "coffeecat", title: "CoffeeCat", metric: "NETWORK CALLS" },
-  { slug: "codehusk", title: "CodeHuskAI", metric: "ANALYSIS" },
-  { slug: "cremeai", title: "CrèmeAI", metric: "RUNTIME" },
+  { slug: "coffeecat", title: "CoffeeCat", metric: "NETWORK CALLS", repository: true },
+  { slug: "adtech", title: "Adtech data platform", metric: "EVENTS / DAY", repository: false },
+  { slug: "codehusk", title: "CodeHuskAI", metric: "ANALYSIS", repository: true },
+  { slug: "cremeai", title: "CrèmeAI", metric: "RUNTIME", repository: true },
 ];
 
 /* Read out of the content source rather than hardcoded here. This file is .mjs
@@ -34,7 +35,7 @@ test("home page export contains core anchors and assets", () => {
      whatever "/" happened to contain. */
   const html = readFileSync("out/home/index.html", "utf8");
 
-  for (const anchor of ["top", "extension", "cremeai"]) {
+  for (const anchor of ["top", "extension", "cremeai", "work"]) {
     assert.match(html, new RegExp(`id="${anchor}"`));
   }
 
@@ -48,6 +49,7 @@ test("home page export contains core anchors and assets", () => {
   assert.match(html, /data-separator="bubble"/);
   assert.match(html, /EVEN IN THE AGE/);
   assert.match(html, /Focus without network access\./);
+  assert.match(html, /Moving billions of events with predictable throughput\./);
   assert.match(html, /Serverless Discord assistant\./);
   assert.match(html, /Hero_[^\"]+ tone-pink/);
   assert.match(html, /View CoffeeCat/);
@@ -61,6 +63,7 @@ test("home page export contains core anchors and assets", () => {
   assert.doesNotMatch(html, /Testing/);
   assert.doesNotMatch(html, /whether a tool can be genuinely useful/);
   assert.doesNotMatch(html, /CodeHuskAI/);
+  assert.doesNotMatch(html, /94\.2%|1,840 hits|240ms/);
 });
 
 /* The two routes have to stay genuinely different documents. The failure this
@@ -73,7 +76,7 @@ test("the gate and the site are separate documents", () => {
   const home = readFileSync("out/home/index.html", "utf8");
 
   // The gate carries no site chrome and none of the acts.
-  for (const anchor of ["extension", "cremeai"]) {
+  for (const anchor of ["extension", "cremeai", "work"]) {
     assert.doesNotMatch(gate, new RegExp(`id="${anchor}"`), `gate should not contain #${anchor}`);
   }
   assert.doesNotMatch(gate, /Skip to content/, "gate should not render the site chrome");
@@ -82,10 +85,11 @@ test("the gate and the site are separate documents", () => {
   assert.doesNotMatch(home, /TL;DR/, "the TL;DR belongs to the gate alone");
   assert.match(home, /Skip to content/);
 
-  /* Every nav anchor on the site points into /home/, never bare "/#". A bare
-     anchor would land on the gate, which has no acts, and fail silently. */
+  /* Home anchors on the site point into /home/, never bare "/#". A bare anchor
+     would land on the gate, which has no acts, and fail silently. */
   assert.doesNotMatch(home, /href="\/#/, 'site links must not target "/#"');
   assert.match(home, /href="\/home\/#cremeai"/);
+  assert.match(home, /href="\/home\/#work"/);
 
   // And the gate's way forward opens the portfolio at its top-level introduction.
   assert.match(gate, /href="\/home\/?"/);
@@ -145,7 +149,7 @@ test("entry gate ships its copy in the static HTML", () => {
 });
 
 test("project pages export as static directory indexes", () => {
-  for (const { slug, title, metric } of projects) {
+  for (const { slug, title, metric, repository } of projects) {
     const path = `out/work/${slug}/index.html`;
     assert.equal(existsSync(path), true, `${path} was not exported`);
 
@@ -153,7 +157,8 @@ test("project pages export as static directory indexes", () => {
     assert.match(html, new RegExp(`/work/${slug}/`));
     assert.match(html, new RegExp(title));
     assert.match(html, new RegExp(metric));
-    assert.match(html, /View repository/);
+    if (repository) assert.match(html, /View repository/);
+    else assert.doesNotMatch(html, /View repository|on GitHub/);
     assert.match(html, /Back to work/);
   }
 });

@@ -178,6 +178,7 @@
 
 .panel {
   display: none;
+  background: var(--paper);
   border-top: 1px solid var(--rule);
   padding-block: var(--s4) var(--s6);
 }
@@ -189,13 +190,32 @@
 }
 
 .panel a {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s4);
+  min-height: 56px;
   padding-block: var(--s4);
   border-bottom: 1px solid var(--rule);
   color: var(--ink);
   font-size: var(--t-lead);
   letter-spacing: -0.015em;
   text-decoration: none;
+}
+
+.panel a::after {
+  color: var(--ink-3);
+  content: "↗";
+  font-family: var(--font-mono);
+  font-size: var(--t-small);
+}
+
+.panel a[aria-current="location"] {
+  font-weight: 700;
+}
+
+.panel a[aria-current="location"]::after {
+  color: var(--ink);
 }
 
 .panelMode {
@@ -206,7 +226,7 @@
   .inner {
     position: relative;
     gap: 4px;
-    padding-right: 84px;
+    padding-right: 0;
   }
 
   .mark {
@@ -248,10 +268,7 @@
     flex: 0 0 auto;
     padding-inline: 8px;
     font-size: var(--t-label);
-    position: fixed;
-    top: 8px;
-    right: 12px;
-    z-index: 1;
+    position: static;
   }
 
   .panelOpen {
@@ -270,7 +287,7 @@
   }
 
   .panelMode button {
-    min-height: 40px;
+    min-height: 44px;
     padding-inline: var(--s3);
     border: 1px solid var(--rule-strong);
     border-radius: 999px;

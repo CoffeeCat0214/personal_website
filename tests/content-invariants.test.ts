@@ -18,9 +18,7 @@ const contentTones = new Set(CONTENT_TONES);
 const figureNames = new Set(FIGURE_NAMES);
 
 function sectionIds(): Set<string> {
-  return new Set<string>(
-    homeSections.map((section) => section.id)
-  );
+  return new Set<string>(homeSections.map((section) => section.id));
 }
 
 test("home section ids are unique", () => {
@@ -49,18 +47,19 @@ test("navigation targets real homepage sections", () => {
     assert.equal(ids.has(section.id), true, `${section.id} is missing from homeSections`);
   }
 
-  /* Anchors resolve against HOME_ROUTE, not "/". The gate owns "/" and has no
-     acts on it, so a nav href that still pointed at /#cremeai would land on the
-     TL;DR and silently do nothing -- which is exactly the regression this
-     assertion exists to catch. */
+  /* Home anchors resolve against HOME_ROUTE, not "/". The gate owns "/" and has
+     no acts on it, so a nav href that still pointed at /#cremeai would land on
+     the TL;DR and silently do nothing. */
   for (const section of navSections) {
-    const anchor = section.href.replace(`${HOME_ROUTE}#`, "");
-    assert.equal(
-      section.href.startsWith(`${HOME_ROUTE}#`),
-      true,
-      `${section.href} does not point into ${HOME_ROUTE}`
-    );
-    assert.equal(ids.has(anchor), true, `${section.href} is missing from homeSections`);
+    if (section.kind === "home-anchor") {
+      const anchor = section.href.replace(`${HOME_ROUTE}#`, "");
+      assert.equal(
+        section.href.startsWith(`${HOME_ROUTE}#`),
+        true,
+        `${section.href} does not point into ${HOME_ROUTE}`
+      );
+      assert.equal(ids.has(anchor), true, `${section.href} is missing from homeSections`);
+    }
   }
 });
 
@@ -87,7 +86,9 @@ test("project catalog has stable routes and required metadata", () => {
     assert.ok(project.metadata.title, `${project.slug} is missing metadata title`);
     assert.ok(project.metadata.description, `${project.slug} is missing metadata description`);
     assert.ok(project.lastUpdated, `${project.slug} is missing lastUpdated`);
-    assert.ok(project.repoHref, `${project.slug} is missing repoHref`);
+    if (project.slug !== "adtech") {
+      assert.ok(project.repoHref, `${project.slug} is missing repoHref`);
+    }
     assert.notEqual(project.metrics.length, 0, `${project.slug} is missing metrics`);
     assert.notEqual(project.tech.length, 0, `${project.slug} is missing tech`);
     assert.notEqual(project.caseStudy.length, 0, `${project.slug} is missing case study`);
@@ -104,8 +105,8 @@ test("homepage project previews point to catalog projects", () => {
   assert.equal(sectionIds().has(featuredProject.homeAnchorId), true);
   assert.deepEqual(
     supportingProjects.map((project) => project.slug),
-    ["cremeai"],
-    "the public work index keeps CrèmeAI as the only supporting project"
+    ["adtech", "cremeai"],
+    "the public work index keeps production work and CrèmeAI visible"
   );
 
   for (const project of supportingProjects) {

@@ -25,6 +25,7 @@
 
 .claim {
   display: grid;
+  min-width: 0;
   gap: var(--s7);
   padding: clamp(24px, 3vw, 40px);
   border: var(--neo-border);

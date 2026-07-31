@@ -16,9 +16,9 @@ export const site = {
   kind: "Agentic systems engineer",
   location: "New York, NY",
   tagline:
-    "Agentic systems engineer in New York. Maker of CoffeeCat, a privacy-first focus timer.",
+    "Agentic systems engineer and systems builder in New York. Maker of CoffeeCat, a privacy-first focus timer.",
   email: "kauchakmk@gmail.com",
   github: "https://github.com/CoffeeCat0214",
   linkedin: "https://www.linkedin.com/in/kyrstin-mariko-kauchak/",
-  lastUpdated: "2026-07-26",
+  lastUpdated: "2026-07-30",
 } as const satisfies SiteIdentity;

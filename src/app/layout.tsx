@@ -39,7 +39,10 @@ export const metadata: Metadata = {
     description: site.tagline,
   },
   icons: {
-    icon: "/favicon.ico",
+    /* Use Buddy, the gold cat from the entry gate, so the small browser tab
+       carries the same warm mark visitors meet on arrival. */
+    icon: [{ url: "/art/buddy.webp", type: "image/webp" }],
+    apple: "/art/buddy.webp",
   },
 };
 

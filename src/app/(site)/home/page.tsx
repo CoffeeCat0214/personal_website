@@ -4,8 +4,8 @@ import { site } from "@/content";
 
 /* The site itself, at /home/. A real, directly-linkable document rather than a
    fragment of the gate: it carries its own canonical, it is in the sitemap, and
-   every nav anchor resolves against it. Someone sent /home/#cremeai must land on
-   the CrèmeAI act having never seen the gate. */
+   every home anchor resolves against it. Someone sent /home/#cremeai must land
+   on the CrèmeAI work entry having never seen the gate. */
 export const metadata: Metadata = {
   title: `${site.name} — ${site.kind}`,
   description: site.tagline,

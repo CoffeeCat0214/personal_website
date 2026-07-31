@@ -36,6 +36,6 @@
   flex-basis: 100%;
   margin-top: var(--s5);
   color: var(--ink-3);
-  font-size: 0.75rem;
+  font-size: var(--t-post-label);
   max-width: 72ch;
 }
