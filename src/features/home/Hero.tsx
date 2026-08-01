@@ -35,33 +35,9 @@ export function Hero() {
                 </p>
               ))}
             </div>
-            {/* The two CTAs carry a rhinestone treatment: a specular band that
-                crosses the face on a loop, then two ✦ flares that pop just after
-                it passes. The flares live on a wrapper rather than on the control
-                because the shine needs `overflow: hidden` to clip to the rounded
-                rect, and that same clip would eat any flare sitting proud of the
-                edge -- which is the only placement that reads as bling rather
-                than as an icon inside a button.
-
-                Decorative, so aria-hidden: the accessible name stays the words. */}
             <div className={styles.actions} data-reveal>
-              <span className={styles.bling}>
-                <Link className={`btn ${styles.shimmer}`} href={`${HOME_ROUTE}#extension`}>
-                  View CoffeeCat
-                </Link>
-                <span className={`${styles.flare} ${styles.flareA}`} aria-hidden="true">✦</span>
-                <span className={`${styles.flare} ${styles.flareB}`} aria-hidden="true">✦</span>
-              </span>
-              <span className={styles.bling}>
-                <Link
-                  className={`btn secondary ${styles.shimmer}`}
-                  href={`${HOME_ROUTE}#cremeai`}
-                >
-                  View CrèmeAI
-                </Link>
-                <span className={`${styles.flare} ${styles.flareA}`} aria-hidden="true">✦</span>
-                <span className={`${styles.flare} ${styles.flareB}`} aria-hidden="true">✦</span>
-              </span>
+              <Link className="btn" href={`${HOME_ROUTE}#extension`}>View CoffeeCat</Link>
+              <Link className="btn secondary" href={`${HOME_ROUTE}#cremeai`}>View CrèmeAI</Link>
             </div>
           </div>
 

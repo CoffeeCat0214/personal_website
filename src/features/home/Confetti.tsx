@@ -4,8 +4,8 @@ import { useEffect, useRef } from "react";
 import styles from "./Confetti.module.css";
 
 const COLORS = ["#1e2b16", "#e8734a", "#9a95dd", "#b8eb96", "#f4c2da"];
-const PIECE_COUNT = 96;
-const LIFETIME = 2400;
+const PIECE_COUNT = 42;
+const LIFETIME = 1800;
 
 type Piece = {
   x: number;

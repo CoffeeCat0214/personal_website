@@ -3,14 +3,18 @@
 .homeShell {
   --home-purple: #32123f;
   --home-purple-soft: #5a356a;
-  --home-orange: #ff7048;
-  --home-orange-dark: #df4f2c;
-  --home-pink: #ff9bd7;
-  --home-pink-panel: #ffc2e6;
-  --home-green: #c9f5a5;
-  --home-green-panel: #e5f8c9;
-  --home-lilac: #bcaaff;
-  --home-yellow: #fff06d;
+  --home-orange: #ef7a56;
+  --home-orange-dark: #d95d3d;
+  --home-pink: #f6b3d4;
+  --home-pink-panel: #ffe0ed;
+  --home-green: #c4eaa7;
+  --home-green-panel: #e5f6d2;
+  --home-lilac: #c2b5f1;
+  --home-yellow: #ffe97a;
+  --t-home-display: clamp(3.75rem, 6vw, 5.75rem);
+  --t-home-display-mobile: clamp(3.75rem, 16vw, 5.75rem);
+  --t-banner-project: clamp(1.15rem, 2.7vw, 2.1rem);
+  --t-banner-bubble: clamp(1.35rem, 3.4vw, 3rem);
   overflow: clip;
 }
 
@@ -40,8 +44,8 @@
   --ink: var(--home-purple);
   --ink-2: #4d2b59;
   --ink-3: #704c79;
-  --rule: rgba(50, 18, 63, 0.22);
-  --rule-strong: rgba(50, 18, 63, 0.38);
+  --rule: rgba(50, 18, 63, 0.18);
+  --rule-strong: rgba(50, 18, 63, 0.32);
   --accent: var(--home-purple);
   --accent-hover: var(--home-purple-soft);
   --accent-text: var(--home-purple);
@@ -58,8 +62,8 @@
   --ink: var(--home-purple);
   --ink-2: #4d2b59;
   --ink-3: #704c79;
-  --rule: rgba(50, 18, 63, 0.22);
-  --rule-strong: rgba(50, 18, 63, 0.38);
+  --rule: rgba(50, 18, 63, 0.18);
+  --rule-strong: rgba(50, 18, 63, 0.32);
   --accent: var(--home-purple);
   --accent-hover: var(--home-purple-soft);
   --accent-text: var(--home-purple);
@@ -74,8 +78,8 @@
   --ink: var(--home-yellow);
   --ink-2: #f6d99a;
   --ink-3: #d3ae77;
-  --rule: rgba(255, 227, 124, 0.24);
-  --rule-strong: rgba(255, 227, 124, 0.4);
+  --rule: rgba(255, 227, 124, 0.2);
+  --rule-strong: rgba(255, 227, 124, 0.36);
   --accent: var(--home-yellow);
   --accent-hover: #fff0aa;
   --accent-text: var(--home-yellow);
@@ -90,8 +94,8 @@
   --ink: var(--home-purple);
   --ink-2: var(--home-purple);
   --ink-3: var(--home-purple);
-  --rule: rgba(50, 18, 63, 0.26);
-  --rule-strong: rgba(50, 18, 63, 0.42);
+  --rule: rgba(50, 18, 63, 0.2);
+  --rule-strong: rgba(50, 18, 63, 0.34);
   --accent: var(--home-purple);
   --accent-hover: var(--home-purple-soft);
   --accent-text: var(--home-purple);
@@ -105,8 +109,8 @@
   --ink: var(--home-purple);
   --ink-2: var(--home-purple);
   --ink-3: var(--home-purple);
-  --rule: rgba(50, 18, 63, 0.28);
-  --rule-strong: rgba(50, 18, 63, 0.44);
+  --rule: rgba(50, 18, 63, 0.22);
+  --rule-strong: rgba(50, 18, 63, 0.38);
   --accent: var(--home-purple);
   --accent-hover: var(--home-purple-soft);
   --accent-text: var(--home-purple);
@@ -137,9 +141,9 @@
 .postHero :global(.tone-forest),
 .postHero :global(.tone-lilac),
 .postHero :global(.tone-orange) {
-  --neo-border: 3px solid var(--ink);
-  --neo-shadow: 7px 7px 0 var(--ink);
-  --neo-shadow-sm: 4px 4px 0 var(--ink);
+  --neo-border: 1px solid var(--rule-strong);
+  --neo-shadow: none;
+  --neo-shadow-sm: none;
 }
 
 .postHero :global(.wrap) {
@@ -162,11 +166,12 @@
 .postHero :global(.link) {
   min-height: 48px;
   padding: 0 var(--s4);
-  border: var(--neo-border);
+  border: 1px solid var(--rule-strong);
+  border-radius: 999px;
   box-shadow: var(--neo-shadow-sm);
   background: var(--paper);
   font-size: var(--t-post-link);
-  font-weight: 700;
+  font-weight: 600;
   text-decoration: none;
   transition:
     transform 160ms var(--ease),
@@ -180,13 +185,11 @@
   color: var(--ink);
   background: var(--panel);
   border-color: var(--ink);
-  transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0 var(--ink);
+  transform: translateY(-1px);
 }
 
 .postHero :global(.link:active) {
-  transform: translate(4px, 4px);
-  box-shadow: 0 0 0 var(--ink);
+  transform: translateY(0);
 }
 
 @media (max-width: 900px) {
@@ -194,15 +197,14 @@
     width: min(1040px, calc(100vw - 32px));
   }
 
-  /* Must repeat the ground selectors, not .postHero: a declaration on the
-     ancestor can no longer win against the per-ground one above. */
+  /* Keep the same restrained instrument language at smaller sizes. */
   .postHero :global(.tone-sage),
   .postHero :global(.tone-pink),
   .postHero :global(.tone-forest),
   .postHero :global(.tone-lilac),
   .postHero :global(.tone-orange) {
-    --neo-shadow: 5px 5px 0 var(--ink);
-    --neo-shadow-sm: 3px 3px 0 var(--ink);
+    --neo-shadow: none;
+    --neo-shadow-sm: none;
   }
 }
 

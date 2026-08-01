@@ -3,8 +3,6 @@
 import { useState } from "react";
 import styles from "./SectionDivider.module.css";
 
-/* Must stay in sync with the -20% travel in section-drift: the keyframe shifts
-   the track by exactly one unit, which is 1/REPEATS of its width. */
 const REPEATS = 5;
 
 export function SectionDivider() {

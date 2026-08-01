@@ -1,16 +1,13 @@
-/* Matched to BubblePanel: same band thickness, same display face. The two are
-   the page's only moving bands, so reading as one device matters more than each
-   being individually tuned -- they keep their own palettes, nothing else. */
 .divider {
   position: relative;
   z-index: 1;
   overflow: hidden;
-  min-height: clamp(76px, 8vw, 112px);
   display: flex;
   align-items: center;
-  background: var(--home-purple);
-  color: var(--home-pink);
-  border-block: 3px solid color-mix(in srgb, var(--home-pink) 34%, transparent);
+  min-height: clamp(56px, 5vw, 76px);
+  background: var(--home-lilac);
+  color: var(--home-purple);
+  border-block: 1px solid color-mix(in srgb, var(--home-purple) 26%, transparent);
 }
 
 .toggle {
@@ -19,35 +16,29 @@
   top: 50%;
   right: clamp(12px, 2vw, 28px);
   min-height: 44px;
-  padding: 0 12px;
-  border: 2px solid var(--home-purple);
-  border-radius: 2px;
-  background: var(--home-green, #c9f5a5);
+  padding: 0 10px;
+  border: 1px solid var(--home-purple);
+  border-radius: 999px;
+  background: var(--home-green);
   color: var(--home-purple);
-  font: 700 var(--t-post-label) / 1 var(--font-courier);
+  font: 500 var(--t-label) / 1 var(--font-mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: var(--cursor-paw-tap);
   transform: translateY(-50%);
-  box-shadow: 3px 3px 0 var(--home-purple);
-  transition: transform 160ms var(--ease), box-shadow 160ms var(--ease);
+  transition: background-color 160ms var(--ease), color 160ms var(--ease);
 }
 
 .toggle:hover,
 .toggle:focus-visible {
-  transform: translate(2px, calc(-50% + 2px));
-  box-shadow: 1px 1px 0 var(--home-purple);
-}
-
-.toggle:active {
-  transform: translate(3px, calc(-50% + 3px));
-  box-shadow: 0 0 0 var(--home-purple);
+  background: var(--home-purple);
+  color: var(--home-green);
 }
 
 .track {
   display: flex;
   width: max-content;
-  animation: section-drift 24s linear infinite;
+  animation: section-drift 30s linear infinite;
   will-change: transform;
 }
 
@@ -56,49 +47,32 @@
 }
 
 .unit {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: clamp(16px, 2.4vw, 36px);
+  gap: clamp(14px, 2vw, 28px);
   flex: none;
-  padding-inline: clamp(22px, 3vw, 48px);
+  padding-inline: clamp(20px, 3vw, 44px);
   font-family: var(--font);
-  /* 0.95x of BubblePanel's clamp, held at that ratio across the whole range.
-     Not a taste call: CRÈMEAI's grave accent puts 106px of ink above the
-     baseline at 112px Inter Black, and the band's content box is 106px, so the
-     accent lands under the top border. BubblePanel can run the full size only
-     because "EVEN IN THE AGE OF AI." has no accent and no descender. Matching
-     its size exactly here would mean shipping a clipped diacritic. */
-  font-size: var(--t-divider);
-  font-weight: 900;
-  letter-spacing: -0.075em;
-  line-height: 0.82;
+  font-size: var(--t-banner-project);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1;
   white-space: nowrap;
-  -webkit-text-stroke: clamp(2px, 0.2vw, 4px) var(--home-purple);
-  paint-order: stroke fill;
 }
 
 .unit b,
 .unit i {
-  color: var(--home-green);
+  color: var(--home-orange);
   font-style: normal;
-  font-weight: 900;
+  font-weight: 800;
 }
 
-/* The loop is seamless only when the travel is a whole number of units --
-   the track holds REPEATS units, so the shift must be exactly 1/REPEATS.
-   -25% against 6 units moved 1.5 units and snapped back mid-phrase. */
 @keyframes section-drift {
   from { transform: translateX(0); }
   to { transform: translateX(-20%); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .toggle {
-    display: none;
-  }
-
-  .track {
-    animation: none;
-    will-change: auto;
-  }
+  .toggle { display: none; }
+  .track { animation: none; will-change: auto; }
 }

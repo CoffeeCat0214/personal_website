@@ -1,12 +1,12 @@
 .hero {
   position: relative;
-  padding-block: clamp(20px, 2.8vw, 40px) clamp(28px, 3.5vw, 52px);
+  padding-block: clamp(48px, 7vw, 96px) clamp(40px, 5vw, 72px);
 }
 
 .heroGrid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(320px, 0.76fr);
-  gap: clamp(32px, 6vw, 88px);
+  gap: clamp(40px, 7vw, 104px);
   align-items: center;
 }
 
@@ -21,31 +21,31 @@
 
 .heroStamp {
   position: absolute;
-  top: -18px;
+  top: -22px;
   right: 0;
-  z-index: 1;
+  z-index: 2;
   display: flex;
   align-items: center;
-  gap: var(--s3);
+  gap: var(--s2);
   color: var(--home-purple, var(--ink));
-  transform: rotate(6deg);
+  transform: rotate(5deg);
   pointer-events: none;
 }
 
 .spark {
   color: var(--home-orange, var(--accent-bright));
-  font-size: 2.2rem;
+  font-size: var(--t-lead);
   line-height: 1;
 }
 
 .sticker {
   display: inline-block;
-  padding: 10px 14px;
-  border: 3px solid currentColor;
+  padding: 8px 12px;
+  border: 2px solid currentColor;
   border-radius: 999px;
   background: var(--home-yellow, var(--paper));
   font-family: var(--font-courier);
-  font-size: 0.72rem;
+  font-size: var(--t-label);
   font-weight: 700;
   letter-spacing: 0.08em;
   line-height: 1.05;
@@ -58,10 +58,10 @@
   overflow-wrap: break-word;
   color: var(--ink);
   font-family: var(--font-display);
-  font-size: clamp(4rem, 7vw, 6.5rem);
+  font-size: var(--t-home-display);
   font-weight: 600;
-  line-height: 0.88;
-  letter-spacing: -0.03em;
+  line-height: 0.94;
+  letter-spacing: -0.025em;
   text-wrap: balance;
 }
 
@@ -93,15 +93,19 @@
 }
 
 .tagline {
+  display: block;
+  width: 100%;
+  min-width: 0;
   max-width: 38ch;
   color: var(--ink);
-  font-size: clamp(1.05rem, 1.45vw, 1.3rem);
-  font-weight: 600;
-  line-height: 1.3;
-  letter-spacing: -0.025em;
+  font-size: var(--t-lead);
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: -0.015em;
 }
 
 .statement {
+  min-width: 0;
   display: grid;
   gap: var(--s1);
   max-width: 34ch;
@@ -109,10 +113,10 @@
 
 .statement p {
   color: var(--ink);
-  font-size: clamp(1.15rem, 1.8vw, 1.55rem);
-  font-weight: 500;
-  line-height: 1.2;
-  letter-spacing: -0.035em;
+  font-size: var(--t-statement);
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
 }
 
 .actions {
@@ -129,12 +133,12 @@
   min-width: 0;
   margin: 0;
   overflow: hidden;
-  border: 3px solid var(--home-purple, var(--ink));
-  background-color: var(--home-lilac, #c7b7ff);
-  background-image: radial-gradient(var(--home-purple, var(--ink)) 1.5px, transparent 1.5px);
-  background-size: 18px 18px;
-  color: var(--home-yellow, var(--sage, #b8eb96));
-  transform: rotate(1.2deg);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-panel);
+  background-color: var(--home-lilac);
+  background-image: radial-gradient(var(--home-purple, var(--ink)) 1px, transparent 1px);
+  background-size: 24px 24px;
+  color: var(--home-purple, var(--ink));
 }
 
 .art img {
@@ -142,8 +146,8 @@
   z-index: 1;
   display: block;
   width: 100%;
-  height: clamp(340px, 34vw, 450px);
-  padding: 18px 18px 0;
+  height: clamp(360px, 38vw, 500px);
+  padding: 24px 24px 0;
   object-fit: contain;
   object-position: center bottom;
 }
@@ -153,35 +157,29 @@
   top: 18px;
   left: 16px;
   z-index: 2;
-  padding: 7px 10px;
-  border: 2px solid var(--home-purple, var(--ink));
+  padding: 6px 9px;
+  border: 1px solid var(--home-purple, var(--ink));
   background: var(--home-yellow, var(--paper));
   color: var(--home-purple, var(--ink));
   font-family: var(--font-courier);
-  font-size: 0.62rem;
+  font-size: var(--t-label);
   font-weight: 700;
   letter-spacing: 0.05em;
   line-height: 1;
-  transform: rotate(-7deg);
+  transform: rotate(-5deg);
 }
 
-/* The caption carries its own ground rather than sitting on the dot field. The
-   dots are 1.5px at an 18px pitch, which is quiet behind a photograph and very
-   loud behind 11px Courier -- the strokes and the dots are the same weight, so
-   the label reads as texture instead of as words. Covering the pattern under
-   the caption band is what keeps it legible without softening the dots
-   everywhere else. */
 .art figcaption {
   position: relative;
   z-index: 1;
   display: flex;
   justify-content: space-between;
   gap: var(--s3);
-  padding: var(--s3) var(--s4);
-  border-top: 2px solid color-mix(in srgb, var(--home-yellow, #b8eb96) 48%, transparent);
-  background: var(--home-purple, var(--ink));
-  color: var(--home-yellow, #b8eb96);
-  font: 700 var(--t-label) / 1.3 var(--font-courier);
+  padding: var(--s4) var(--s5);
+  border-top: 1px solid var(--rule-strong);
+  background: var(--panel);
+  color: var(--ink-3);
+  font: 500 var(--t-label) / 1.3 var(--font-mono);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -191,7 +189,7 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--s6);
   margin: var(--s5) 0 0;
-  border-top: 2px solid var(--rule);
+  border-top: 1px solid var(--rule);
 }
 
 .factCell {
@@ -215,155 +213,13 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--accent-bright);
+  background: var(--home-orange, var(--accent-bright));
   content: "";
 }
 
 .actions :global(.btn) {
-  min-height: 48px;
-  border: 2px solid var(--home-purple, var(--ink));
-  border-radius: 10px;
-  font-weight: 700;
-}
-
-.actions :global(.btn.secondary) {
-  border-color: var(--home-purple, var(--ink));
-}
-
-/* ---------- CTA bling ----------
-   Scoped to the hero on purpose. `.btn` is a global control used by the case
-   studies and the footer too; putting the shine on the class itself would opt
-   every button on the site into a looping animation to decorate two. */
-
-.bling {
-  position: relative;
-  display: inline-flex;
-}
-
-.shimmer {
-  position: relative;
-  overflow: hidden;
-}
-
-/* The specular sheen. Skewed so the leading edge rakes rather than wipes, and
-   genuinely continuous -- there is a gleam on the control at all times.
-
-   A single travelling band cannot do that. However it is timed, it has to leave
-   the right edge before it can re-enter at the left, which left a ~0.7s dead
-   stretch every cycle. So this is a *repeating* gradient wider than the button,
-   translated by exactly one period: as one gleam exits, the next is already
-   arriving, and at the end of the cycle the image is pixel-identical to the
-   start, so the wrap is invisible.
-
-   The two constants are a pair. The 168px travel must equal the gradient's
-   period (its last stop), or the loop jumps -- the same failure the section
-   divider's marquee had. Change one, change the other.
-
-   90deg, not an angled gradient: a repeating gradient at an angle repeats along
-   *its own* axis, so an X translation of one period would no longer land on an
-   identical image. The rake comes from skewX on the element instead, which is
-   constant and therefore harmless to the seam.
-
-   `linear` is load-bearing. An ease curve decelerates into the end and
-   accelerates out of the start; with no dwell to hide it, the sheen would lurch
-   once per cycle. Constant speed is what makes it read as one continuous drift.
-
-   It paints above the label rather than under it: a positioned child with
-   z-index auto comes after inline content in paint order, and lifting the text
-   over it would mean wrapping the label in another span. At 0.30 alpha the
-   crossing reads as gloss on the words instead of washing them out. */
-.shimmer::before {
-  position: absolute;
-  top: -60%;
-  bottom: -60%;
-  left: -50%;
-  width: 200%;
-  background: repeating-linear-gradient(
-    90deg,
-    transparent 0,
-    transparent 96px,
-    rgba(255, 255, 255, 0.3) 132px,
-    transparent 168px
-  );
-  transform: translateX(0) skewX(-18deg);
-  animation: hero-shine 3s linear infinite;
-  content: "";
-  pointer-events: none;
-}
-
-.flare {
-  position: absolute;
-  z-index: 1;
-  color: #fff;
-  font-size: 1rem;
-  line-height: 1;
-  opacity: 0;
-  text-shadow: 0 0 7px rgba(255, 255, 255, 0.95);
-  pointer-events: none;
-  animation: hero-flare 3s var(--ease, ease-in-out) infinite;
-}
-
-/* Proud of the corners, diagonally opposed -- the poster never centres them.
-
-   Offset by half a cycle so the two never fire together. Deliberately not
-   frame-synced to a particular gleam: the sheen now repeats on a fixed pixel
-   period while the two buttons are different widths, so no single delay can
-   line a flare up with a band on both. Once per cycle there is always a gleam
-   somewhere on the face, which is all the coincidence the effect needs. */
-.flareA {
-  top: -8px;
-  right: 9px;
-  animation-delay: 1.5s;
-}
-
-.flareB {
-  bottom: -7px;
-  left: 13px;
-  font-size: 0.76rem;
-}
-
-/* Must equal the gradient period above. */
-@keyframes hero-shine {
-  from {
-    transform: translateX(0) skewX(-18deg);
-  }
-  to {
-    transform: translateX(168px) skewX(-18deg);
-  }
-}
-
-/* Fires just behind the band, so the flare reads as struck by the light
-   rather than as an independent blinking dot. */
-@keyframes hero-flare {
-  0%,
-  22%,
-  100% {
-    opacity: 0;
-    transform: scale(0.4) rotate(0deg);
-  }
-  30% {
-    opacity: 1;
-    transform: scale(1) rotate(22deg);
-  }
-  44% {
-    opacity: 0;
-    transform: scale(0.5) rotate(44deg);
-  }
-}
-
-/* The flares hold at full opacity rather than inheriting the keyframe's 0%:
-   killing the animation on a decoration whose resting state is invisible would
-   silently delete it for anyone who asked for less motion. */
-@media (prefers-reduced-motion: reduce) {
-  .shimmer::before {
-    display: none;
-  }
-
-  .flare {
-    opacity: 1;
-    transform: none;
-    animation: none;
-  }
+  min-height: 46px;
+  font-weight: 600;
 }
 
 @media (max-width: 900px) {
@@ -381,6 +237,8 @@
 
   .tagline {
     max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: normal;
   }
 
   .art {
@@ -394,19 +252,19 @@
   }
 
   .heroStamp {
-    top: -14px;
-    right: 6px;
+    top: -18px;
+    right: 4px;
   }
 }
 
 @media (max-width: 520px) {
   .name h1 {
-    font-size: clamp(3.75rem, 16vw, 6.5rem);
+    font-size: var(--t-home-display-mobile);
     line-height: 0.84;
   }
 
   .tagline {
-    max-width: 30ch;
+    max-width: 100%;
   }
 
   .facts {
@@ -415,7 +273,7 @@
   }
 
   .art img {
-    min-height: 360px;
+    min-height: 340px;
     padding: 14px 14px 0;
   }
 
@@ -424,10 +282,13 @@
   }
 
   .heroStamp {
-    top: -18px;
-    right: 42px;
-    transform: rotate(5deg) scale(0.88);
-    transform-origin: top right;
+    position: relative;
+    top: auto;
+    right: auto;
+    justify-self: start;
+    margin: -8px 0 -4px 8px;
+    transform: rotate(5deg) scale(0.9);
+    transform-origin: top left;
   }
 
   .actions {
@@ -435,14 +296,6 @@
     flex-direction: column;
     width: 100%;
     max-width: 100%;
-  }
-
-  /* The bling wrapper is the flex item now, so the full-width rule below acts
-     on the control inside it rather than on the row. Stated rather than left to
-     `align-items: stretch`, so the buttons do not silently collapse to content
-     width if that ever changes. */
-  .bling {
-    width: 100%;
   }
 
   .actions :global(.btn) {

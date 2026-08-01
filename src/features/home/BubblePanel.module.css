@@ -1,13 +1,13 @@
 .panel {
   position: relative;
   z-index: 1;
+  overflow: hidden;
   display: flex;
   align-items: center;
-  min-height: clamp(76px, 8vw, 112px);
-  overflow: hidden;
-  background: color-mix(in srgb, var(--home-purple) 78%, var(--home-lilac));
-  color: var(--home-yellow);
-  border-block: 3px solid var(--home-purple);
+  min-height: clamp(56px, 5vw, 76px);
+  background: var(--home-purple);
+  color: var(--home-pink);
+  border-block: 1px solid color-mix(in srgb, var(--home-pink) 34%, transparent);
 }
 
 .toggle {
@@ -16,35 +16,29 @@
   top: 50%;
   right: clamp(12px, 2vw, 28px);
   min-height: 44px;
-  padding: 0 12px;
-  border: 2px solid var(--home-purple);
-  border-radius: 2px;
+  padding: 0 10px;
+  border: 1px solid var(--home-purple);
+  border-radius: 999px;
   background: var(--home-yellow);
   color: var(--home-purple);
-  font: 700 var(--t-post-label) / 1 var(--font-courier);
+  font: 500 var(--t-label) / 1 var(--font-mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: var(--cursor-paw-tap);
   transform: translateY(-50%);
-  box-shadow: 3px 3px 0 var(--home-purple);
-  transition: transform 160ms var(--ease), box-shadow 160ms var(--ease);
+  transition: background-color 160ms var(--ease), color 160ms var(--ease);
 }
 
 .toggle:hover,
 .toggle:focus-visible {
-  transform: translate(2px, calc(-50% + 2px));
-  box-shadow: 1px 1px 0 var(--home-purple);
-}
-
-.toggle:active {
-  transform: translate(3px, calc(-50% + 3px));
-  box-shadow: 0 0 0 var(--home-purple);
+  background: var(--home-pink);
+  color: var(--home-purple);
 }
 
 .track {
   display: flex;
   width: max-content;
-  animation: bubble-drift 26s linear infinite;
+  animation: bubble-drift 34s linear infinite;
   will-change: transform;
 }
 
@@ -54,21 +48,19 @@
 
 .unit {
   flex: none;
-  padding-inline: clamp(22px, 3vw, 48px);
+  padding-inline: clamp(20px, 3vw, 44px);
   color: var(--home-yellow);
   font-family: var(--font);
-  font-size: var(--t-runner);
-  font-weight: 900;
-  letter-spacing: -0.075em;
-  line-height: 0.82;
+  font-size: var(--t-banner-bubble);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1;
   white-space: nowrap;
-  -webkit-text-stroke: clamp(2px, 0.2vw, 4px) var(--home-purple);
-  paint-order: stroke fill;
 }
 
 .unit b {
   color: var(--home-lilac);
-  font-weight: 900;
+  font-weight: 800;
 }
 
 @keyframes bubble-drift {
@@ -77,12 +69,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .toggle {
-    display: none;
-  }
-
-  .track {
-    animation: none;
-    will-change: auto;
-  }
+  .toggle { display: none; }
+  .track { animation: none; will-change: auto; }
 }
